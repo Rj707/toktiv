@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'toktiv' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for toktiv
+  pod 'TwilioVoice', '~> 6.0.2'
+pod 'IQKeyboardManagerSwift'
+pod 'NotificationBannerSwift', '~> 3.0.0'
+pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Messaging'
+pod 'Firebase/Crashlytics'
+pod 'Alamofire', '~> 5.2'
+pod 'FTPopOverMenu_Swift'
+pod 'MBProgressHUD', '~> 1.2.0'
+end

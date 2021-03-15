@@ -1,0 +1,713 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */; };
+		A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564B1256BF4A7009CFAED /* FromCell.swift */; };
+		A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8392578DF58001A9EB0 /* TasksCell.swift */; };
+		A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F99255E39B100ACE57C /* LoginUserModel.swift */; };
+		A1D52B4625E42AE3003A9A3F /* CallSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8332578B39A001A9EB0 /* CallSessionManager.swift */; };
+		A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F8A255DA16700ACE57C /* BaseService.swift */; };
+		A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8CF255F788700B37EE1 /* UserHistoryViewModel.swift */; };
+		A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564BC256C238F009CFAED /* NewMessageViewController.swift */; };
+		A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0ABB255CC242009E86B3 /* ViewController.swift */; };
+		A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E156502256ECBA5009CFAED /* JWTDecoder.swift */; };
+		A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF7D625769290001A9EB0 /* SettingsViewController.swift */; };
+		A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8072577AF2F001A9EB0 /* PatientsViewController.swift */; };
+		A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8CC255EFF0D00B37EE1 /* StateManager.swift */; };
+		A1D52B4F25E42AE3003A9A3F /* WorkerStatusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1567332571546A009CFAED /* WorkerStatusModel.swift */; };
+		A1D52B5025E42AE3003A9A3F /* CallConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7DC2102581ECB8006AA8B4 /* CallConnectivityManager.swift */; };
+		A1D52B5125E42AE3003A9A3F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F96255E398D00ACE57C /* LoginViewModel.swift */; };
+		A1D52B5225E42AE3003A9A3F /* AppBrowserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */; };
+		A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564A1256BE8D4009CFAED /* ConvesationViewController.swift */; };
+		A1D52B5425E42AE3003A9A3F /* ToCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564AC256BF490009CFAED /* ToCell.swift */; };
+		A1D52B5525E42AE3003A9A3F /* CallHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F6E255D948800ACE57C /* CallHistoryViewController.swift */; };
+		A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */; };
+		A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E95EBF92583B8300052D328 /* KGCopyableLabel.swift */; };
+		A1D52B5825E42AE3003A9A3F /* NetworkURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F90255DA44200ACE57C /* NetworkURLs.swift */; };
+		A1D52B5925E42AE3003A9A3F /* PatientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8022577AC10001A9EB0 /* PatientCell.swift */; };
+		A1D52B5A25E42AE3003A9A3F /* SMSHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8DC255F91A100B37EE1 /* SMSHistoryViewController.swift */; };
+		A1D52B5B25E42AE3003A9A3F /* DialerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F73255D949C00ACE57C /* DialerViewController.swift */; };
+		A1D52B5C25E42AE3003A9A3F /* DashbaordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0ACC255CECF5009E86B3 /* DashbaordViewController.swift */; };
+		A1D52B5D25E42AE3003A9A3F /* HistotyTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F81255D99C400ACE57C /* HistotyTableCell.swift */; };
+		A1D52B5E25E42AE3003A9A3F /* LoginTokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F93255DA50100ACE57C /* LoginTokenModel.swift */; };
+		A1D52B5F25E42AE3003A9A3F /* HistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F9D255E3A6F00ACE57C /* HistoryResponse.swift */; };
+		A1D52B6025E42AE3003A9A3F /* ActiveTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8362578DC58001A9EB0 /* ActiveTasksViewController.swift */; };
+		A1D52B6125E42AE3003A9A3F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E95EBF32583B4D90052D328 /* Extensions.swift */; };
+		A1D52B6225E42AE3003A9A3F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF7BE25754DE1001A9EB0 /* SceneDelegate.swift */; };
+		A1D52B6425E42AE3003A9A3F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E45A92D2562212100B37EE1 /* AudioToolbox.framework */; };
+		A1D52B6725E42AE3003A9A3F /* Lauch_2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3A16A6259719D40056077C /* Lauch_2.storyboard */; };
+		A1D52B6825E42AE3003A9A3F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E2D0AC2255CC245009E86B3 /* LaunchScreen.storyboard */; };
+		A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBBF8032577AC10001A9EB0 /* PatientCell.xib */; };
+		A1D52B6A25E42AE3003A9A3F /* TasksCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EBBF83A2578DF58001A9EB0 /* TasksCell.xib */; };
+		A1D52B6B25E42AE3003A9A3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0E1565642570D0A2009CFAED /* GoogleService-Info.plist */; };
+		A1D52B6C25E42AE3003A9A3F /* HistotyTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E094F82255D99C400ACE57C /* HistotyTableCell.xib */; };
+		A1D52B6D25E42AE3003A9A3F /* splash.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0E3A16BE25971D7C0056077C /* splash.jpeg */; };
+		A1D52B6E25E42AE3003A9A3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E2D0AC0255CC245009E86B3 /* Assets.xcassets */; };
+		A1D52B6F25E42AE3003A9A3F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E2D0ABD255CC242009E86B3 /* Main.storyboard */; };
+		A1D52B7025E42AE3003A9A3F /* FromCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1564B2256BF4A7009CFAED /* FromCell.xib */; };
+		A1D52B7125E42AE3003A9A3F /* ToCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1564AD256BF490009CFAED /* ToCell.xib */; };
+		A1D52B7225E42AE3003A9A3F /* SMSHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E45A8E2255F92B400B37EE1 /* SMSHistoryCell.xib */; };
+		BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0E094F6E255D948800ACE57C /* CallHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHistoryViewController.swift; sourceTree = "<group>"; };
+		0E094F73255D949C00ACE57C /* DialerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DialerViewController.swift; sourceTree = "<group>"; };
+		0E094F81255D99C400ACE57C /* HistotyTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistotyTableCell.swift; sourceTree = "<group>"; };
+		0E094F82255D99C400ACE57C /* HistotyTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HistotyTableCell.xib; sourceTree = "<group>"; };
+		0E094F8A255DA16700ACE57C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		0E094F90255DA44200ACE57C /* NetworkURLs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkURLs.swift; sourceTree = "<group>"; };
+		0E094F93255DA50100ACE57C /* LoginTokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTokenModel.swift; sourceTree = "<group>"; };
+		0E094F96255E398D00ACE57C /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		0E094F99255E39B100ACE57C /* LoginUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserModel.swift; sourceTree = "<group>"; };
+		0E094F9D255E3A6F00ACE57C /* HistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryResponse.swift; sourceTree = "<group>"; };
+		0E1564A1256BE8D4009CFAED /* ConvesationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvesationViewController.swift; sourceTree = "<group>"; };
+		0E1564AC256BF490009CFAED /* ToCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToCell.swift; sourceTree = "<group>"; };
+		0E1564AD256BF490009CFAED /* ToCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToCell.xib; sourceTree = "<group>"; };
+		0E1564B1256BF4A7009CFAED /* FromCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromCell.swift; sourceTree = "<group>"; };
+		0E1564B2256BF4A7009CFAED /* FromCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FromCell.xib; sourceTree = "<group>"; };
+		0E1564BC256C238F009CFAED /* NewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewController.swift; sourceTree = "<group>"; };
+		0E156502256ECBA5009CFAED /* JWTDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTDecoder.swift; sourceTree = "<group>"; };
+		0E1565642570D0A2009CFAED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0E1567332571546A009CFAED /* WorkerStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerStatusModel.swift; sourceTree = "<group>"; };
+		0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		0E2D0ABB255CC242009E86B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0E2D0ABE255CC242009E86B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0E2D0AC0255CC245009E86B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0E2D0AC3255CC245009E86B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0E2D0AC5255CC245009E86B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0E2D0ACC255CECF5009E86B3 /* DashbaordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashbaordViewController.swift; sourceTree = "<group>"; };
+		0E3A16A6259719D40056077C /* Lauch_2.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Lauch_2.storyboard; sourceTree = "<group>"; };
+		0E3A16BE25971D7C0056077C /* splash.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = splash.jpeg; sourceTree = "<group>"; };
+		0E45A8CC255EFF0D00B37EE1 /* StateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateManager.swift; sourceTree = "<group>"; };
+		0E45A8CF255F788700B37EE1 /* UserHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryViewModel.swift; sourceTree = "<group>"; };
+		0E45A8DC255F91A100B37EE1 /* SMSHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSHistoryViewController.swift; sourceTree = "<group>"; };
+		0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSHistoryCell.swift; sourceTree = "<group>"; };
+		0E45A8E2255F92B400B37EE1 /* SMSHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SMSHistoryCell.xib; sourceTree = "<group>"; };
+		0E45A92C2562212100B37EE1 /* toktiv.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = toktiv.entitlements; sourceTree = "<group>"; };
+		0E45A92D2562212100B37EE1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		0E7DC2102581ECB8006AA8B4 /* CallConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallConnectivityManager.swift; sourceTree = "<group>"; };
+		0E95EBF32583B4D90052D328 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0E95EBF92583B8300052D328 /* KGCopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KGCopyableLabel.swift; sourceTree = "<group>"; };
+		0EBBF7BE25754DE1001A9EB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		0EBBF7D625769290001A9EB0 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		0EBBF8022577AC10001A9EB0 /* PatientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientCell.swift; sourceTree = "<group>"; };
+		0EBBF8032577AC10001A9EB0 /* PatientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PatientCell.xib; sourceTree = "<group>"; };
+		0EBBF8072577AF2F001A9EB0 /* PatientsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientsViewController.swift; sourceTree = "<group>"; };
+		0EBBF8332578B39A001A9EB0 /* CallSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallSessionManager.swift; sourceTree = "<group>"; };
+		0EBBF8362578DC58001A9EB0 /* ActiveTasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTasksViewController.swift; sourceTree = "<group>"; };
+		0EBBF8392578DF58001A9EB0 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
+		0EBBF83A2578DF58001A9EB0 /* TasksCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksCell.xib; sourceTree = "<group>"; };
+		0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBrowserController.swift; sourceTree = "<group>"; };
+		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
+		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1D52B7825E42AE3003A9A3F /* toktiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toktiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1D52B6325E42AE3003A9A3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D52B6425E42AE3003A9A3F /* AudioToolbox.framework in Frameworks */,
+				BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0E094F77255D97B800ACE57C /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				0E2D0ACC255CECF5009E86B3 /* DashbaordViewController.swift */,
+				0EBBF7D625769290001A9EB0 /* SettingsViewController.swift */,
+				0EBBF8072577AF2F001A9EB0 /* PatientsViewController.swift */,
+				0EBBF8362578DC58001A9EB0 /* ActiveTasksViewController.swift */,
+				0E95EBFC2583B98D0052D328 /* Cells */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		0E094F78255D97C400ACE57C /* Dialer */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F73255D949C00ACE57C /* DialerViewController.swift */,
+			);
+			path = Dialer;
+			sourceTree = "<group>";
+		};
+		0E094F79255D97CB00ACE57C /* Call History */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F6E255D948800ACE57C /* CallHistoryViewController.swift */,
+				0E094F81255D99C400ACE57C /* HistotyTableCell.swift */,
+				0E094F82255D99C400ACE57C /* HistotyTableCell.xib */,
+			);
+			path = "Call History";
+			sourceTree = "<group>";
+		};
+		0E094F7A255D97E100ACE57C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F93255DA50100ACE57C /* LoginTokenModel.swift */,
+				0E1567332571546A009CFAED /* WorkerStatusModel.swift */,
+				0E094F99255E39B100ACE57C /* LoginUserModel.swift */,
+				0E094F9D255E3A6F00ACE57C /* HistoryResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0E094F7B255D97E600ACE57C /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F96255E398D00ACE57C /* LoginViewModel.swift */,
+				0E45A8CF255F788700B37EE1 /* UserHistoryViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		0E094F7C255D97EF00ACE57C /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F8A255DA16700ACE57C /* BaseService.swift */,
+				0E094F90255DA44200ACE57C /* NetworkURLs.swift */,
+				0E45A8CC255EFF0D00B37EE1 /* StateManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		0E094F7D255D980100ACE57C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0E094F7F255D981B00ACE57C /* Login */,
+				0E094F77255D97B800ACE57C /* Dashboard */,
+				0EEA256F257FD655007FEC90 /* Browser */,
+				0E45A8DB255F918E00B37EE1 /* SMS */,
+				0E094F79255D97CB00ACE57C /* Call History */,
+				0E094F78255D97C400ACE57C /* Dialer */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0E094F7F255D981B00ACE57C /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				0E2D0ABB255CC242009E86B3 /* ViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		0E2D0AAB255CC242009E86B3 = {
+			isa = PBXGroup;
+			children = (
+				0E2D0AB6255CC242009E86B3 /* toktiv */,
+				0E2D0AB5255CC242009E86B3 /* Products */,
+				B656BB9B4C00F0D501EFB1E6 /* Frameworks */,
+				3B5CD38540C3DD59FE8C3956 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		0E2D0AB5255CC242009E86B3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1D52B7825E42AE3003A9A3F /* toktiv.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0E2D0AB6255CC242009E86B3 /* toktiv */ = {
+			isa = PBXGroup;
+			children = (
+				0E45A92C2562212100B37EE1 /* toktiv.entitlements */,
+				0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */,
+				0EBBF7BE25754DE1001A9EB0 /* SceneDelegate.swift */,
+				0E094F7D255D980100ACE57C /* Views */,
+				0E094F7B255D97E600ACE57C /* View Models */,
+				0E094F7A255D97E100ACE57C /* Models */,
+				0E094F7C255D97EF00ACE57C /* Network */,
+				0E95EBF72583B5D80052D328 /* Managers */,
+				0E95EBF22583B4C90052D328 /* Extras */,
+				0E2D0ABD255CC242009E86B3 /* Main.storyboard */,
+				0E2D0AC0255CC245009E86B3 /* Assets.xcassets */,
+				0E2D0AC2255CC245009E86B3 /* LaunchScreen.storyboard */,
+				0E2D0AC5255CC245009E86B3 /* Info.plist */,
+				0E1565642570D0A2009CFAED /* GoogleService-Info.plist */,
+			);
+			path = toktiv;
+			sourceTree = "<group>";
+		};
+		0E45A8DB255F918E00B37EE1 /* SMS */ = {
+			isa = PBXGroup;
+			children = (
+				0E45A8DC255F91A100B37EE1 /* SMSHistoryViewController.swift */,
+				0E1564A1256BE8D4009CFAED /* ConvesationViewController.swift */,
+				0E1564BC256C238F009CFAED /* NewMessageViewController.swift */,
+				0E95EBFF2583BAAE0052D328 /* Cells */,
+			);
+			path = SMS;
+			sourceTree = "<group>";
+		};
+		0E95EBF22583B4C90052D328 /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				0E156502256ECBA5009CFAED /* JWTDecoder.swift */,
+				0E3A16BE25971D7C0056077C /* splash.jpeg */,
+				0E95EBF32583B4D90052D328 /* Extensions.swift */,
+				0E95EBF92583B8300052D328 /* KGCopyableLabel.swift */,
+				0E3A16A6259719D40056077C /* Lauch_2.storyboard */,
+			);
+			path = Extras;
+			sourceTree = "<group>";
+		};
+		0E95EBF72583B5D80052D328 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0EBBF8332578B39A001A9EB0 /* CallSessionManager.swift */,
+				0E7DC2102581ECB8006AA8B4 /* CallConnectivityManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		0E95EBFC2583B98D0052D328 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0EBBF8022577AC10001A9EB0 /* PatientCell.swift */,
+				0EBBF8032577AC10001A9EB0 /* PatientCell.xib */,
+				0EBBF8392578DF58001A9EB0 /* TasksCell.swift */,
+				0EBBF83A2578DF58001A9EB0 /* TasksCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		0E95EBFF2583BAAE0052D328 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */,
+				0E45A8E2255F92B400B37EE1 /* SMSHistoryCell.xib */,
+				0E1564AC256BF490009CFAED /* ToCell.swift */,
+				0E1564AD256BF490009CFAED /* ToCell.xib */,
+				0E1564B1256BF4A7009CFAED /* FromCell.swift */,
+				0E1564B2256BF4A7009CFAED /* FromCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		0EEA256F257FD655007FEC90 /* Browser */ = {
+			isa = PBXGroup;
+			children = (
+				0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */,
+			);
+			path = Browser;
+			sourceTree = "<group>";
+		};
+		3B5CD38540C3DD59FE8C3956 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */,
+				DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B656BB9B4C00F0D501EFB1E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E45A92D2562212100B37EE1 /* AudioToolbox.framework */,
+				66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1D52B3F25E42AE3003A9A3F /* toktiv */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1D52B7525E42AE3003A9A3F /* Build configuration list for PBXNativeTarget "toktiv" */;
+			buildPhases = (
+				A1D52B4025E42AE3003A9A3F /* [CP] Check Pods Manifest.lock */,
+				A1D52B4125E42AE3003A9A3F /* Sources */,
+				A1D52B6325E42AE3003A9A3F /* Frameworks */,
+				A1D52B6625E42AE3003A9A3F /* Resources */,
+				A1D52B7325E42AE3003A9A3F /* [CP] Embed Pods Frameworks */,
+				A1D52B7425E42AE3003A9A3F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = toktiv;
+			productName = toktiv;
+			productReference = A1D52B7825E42AE3003A9A3F /* toktiv.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0E2D0AAC255CC242009E86B3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1210;
+				LastUpgradeCheck = 1210;
+			};
+			buildConfigurationList = 0E2D0AAF255CC242009E86B3 /* Build configuration list for PBXProject "toktiv" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0E2D0AAB255CC242009E86B3;
+			productRefGroup = 0E2D0AB5255CC242009E86B3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1D52B3F25E42AE3003A9A3F /* toktiv */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1D52B6625E42AE3003A9A3F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D52B6725E42AE3003A9A3F /* Lauch_2.storyboard in Resources */,
+				A1D52B6825E42AE3003A9A3F /* LaunchScreen.storyboard in Resources */,
+				A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */,
+				A1D52B6A25E42AE3003A9A3F /* TasksCell.xib in Resources */,
+				A1D52B6B25E42AE3003A9A3F /* GoogleService-Info.plist in Resources */,
+				A1D52B6C25E42AE3003A9A3F /* HistotyTableCell.xib in Resources */,
+				A1D52B6D25E42AE3003A9A3F /* splash.jpeg in Resources */,
+				A1D52B6E25E42AE3003A9A3F /* Assets.xcassets in Resources */,
+				A1D52B6F25E42AE3003A9A3F /* Main.storyboard in Resources */,
+				A1D52B7025E42AE3003A9A3F /* FromCell.xib in Resources */,
+				A1D52B7125E42AE3003A9A3F /* ToCell.xib in Resources */,
+				A1D52B7225E42AE3003A9A3F /* SMSHistoryCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A1D52B4025E42AE3003A9A3F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-toktiv-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1D52B7325E42AE3003A9A3F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-toktiv/Pods-toktiv-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-toktiv/Pods-toktiv-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-toktiv/Pods-toktiv-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1D52B7425E42AE3003A9A3F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/FirebaseCrashlytics/run -gsp ${PROJECT_DIR}/toktiv/GoogleService-Info.plist\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1D52B4125E42AE3003A9A3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */,
+				A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */,
+				A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */,
+				A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */,
+				A1D52B4625E42AE3003A9A3F /* CallSessionManager.swift in Sources */,
+				A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */,
+				A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */,
+				A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */,
+				A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */,
+				A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */,
+				A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */,
+				A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */,
+				A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */,
+				A1D52B4F25E42AE3003A9A3F /* WorkerStatusModel.swift in Sources */,
+				A1D52B5025E42AE3003A9A3F /* CallConnectivityManager.swift in Sources */,
+				A1D52B5125E42AE3003A9A3F /* LoginViewModel.swift in Sources */,
+				A1D52B5225E42AE3003A9A3F /* AppBrowserController.swift in Sources */,
+				A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */,
+				A1D52B5425E42AE3003A9A3F /* ToCell.swift in Sources */,
+				A1D52B5525E42AE3003A9A3F /* CallHistoryViewController.swift in Sources */,
+				A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */,
+				A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */,
+				A1D52B5825E42AE3003A9A3F /* NetworkURLs.swift in Sources */,
+				A1D52B5925E42AE3003A9A3F /* PatientCell.swift in Sources */,
+				A1D52B5A25E42AE3003A9A3F /* SMSHistoryViewController.swift in Sources */,
+				A1D52B5B25E42AE3003A9A3F /* DialerViewController.swift in Sources */,
+				A1D52B5C25E42AE3003A9A3F /* DashbaordViewController.swift in Sources */,
+				A1D52B5D25E42AE3003A9A3F /* HistotyTableCell.swift in Sources */,
+				A1D52B5E25E42AE3003A9A3F /* LoginTokenModel.swift in Sources */,
+				A1D52B5F25E42AE3003A9A3F /* HistoryResponse.swift in Sources */,
+				A1D52B6025E42AE3003A9A3F /* ActiveTasksViewController.swift in Sources */,
+				A1D52B6125E42AE3003A9A3F /* Extensions.swift in Sources */,
+				A1D52B6225E42AE3003A9A3F /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0E2D0ABD255CC242009E86B3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E2D0ABE255CC242009E86B3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0E2D0AC2255CC245009E86B3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E2D0AC3255CC245009E86B3 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0E2D0AC6255CC245009E86B3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0E2D0AC7255CC245009E86B3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A1D52B7625E42AE3003A9A3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
+				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drcurves.toktiv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A1D52B7725E42AE3003A9A3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 19;
+				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drcurves.toktiv;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E2D0AAF255CC242009E86B3 /* Build configuration list for PBXProject "toktiv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E2D0AC6255CC245009E86B3 /* Debug */,
+				0E2D0AC7255CC245009E86B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1D52B7525E42AE3003A9A3F /* Build configuration list for PBXNativeTarget "toktiv" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1D52B7625E42AE3003A9A3F /* Debug */,
+				A1D52B7725E42AE3003A9A3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0E2D0AAC255CC242009E86B3 /* Project object */;
+}
