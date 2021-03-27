@@ -4,7 +4,6 @@
 //
 //  Created by Developer on 10/12/2020.
 //
-
 import Foundation
 import PushKit
 import CallKit
@@ -112,7 +111,6 @@ class CallConnectivityManager: NSObject {
 }
 
 // MARK: - PushKitEventDelegate
-
 extension CallConnectivityManager: PushKitEventDelegate {
     func credentialsUpdated(credentials: PKPushCredentials) {
         guard
@@ -170,7 +168,6 @@ extension CallConnectivityManager: PushKitEventDelegate {
 
 
 // MARK: - TVONotificaitonDelegate
-
 extension CallConnectivityManager: NotificationDelegate {
     func callInviteReceived(callInvite: CallInvite) {
         NSLog("callInviteReceived:")
@@ -392,7 +389,6 @@ extension CallConnectivityManager: CallDelegate {
 }
 
 // MARK: - CXProviderDelegate
-
 extension CallConnectivityManager: CXProviderDelegate {
     func providerDidReset(_ provider: CXProvider) {
         NSLog("providerDidReset:")
@@ -611,7 +607,6 @@ extension CallConnectivityManager: CXProviderDelegate {
 
 
 // MARK: - AVAudioPlayerDelegate
-
 extension CallConnectivityManager: AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         if flag {

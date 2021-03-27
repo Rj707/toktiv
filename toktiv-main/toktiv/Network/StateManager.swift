@@ -16,7 +16,17 @@ enum AvailableStatus: String {
 class StateManager: NSObject {
     static let shared = StateManager()
     
-    var currentStatus:AvailableStatus = .online
+    var currentStatus:AvailableStatus
+    {
+        get
+        {
+            return AvailableStatus(rawValue: UserDefaults.standard.value(forKey: "currentStatus") as! String)!
+        }
+        set
+        {
+            UserDefaults.standard.set(newValue.rawValue , forKey: "currentStatus")
+        }
+    }
     var inCall:Bool = false
     
     var loginViewModel = LoginViewModel()

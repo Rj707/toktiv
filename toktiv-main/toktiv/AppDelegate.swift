@@ -179,7 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                                 NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
                             } else {
                                 NSLog("LOGIN: Successfully registered for VoIP push notifications.")
-                                self.expiryDate = Date().addingTimeInterval(60*5)
+                                self.expiryDate = Date().addingTimeInterval(60*60*24)
                             }
                         }
                     }
@@ -234,6 +234,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         let tonumber:String = userInfo["tonumber"] as? String ?? ""
         let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
         let module:String = userInfo["module"] as? String ?? "ch"
+        print(module)
+
+        
+        if module == "su"
+        {
+//            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
+//            if status in payload is 'Offline' or 'Unavailable' then status will be Online or whatever word you are using for Offline
+//            if status in payload is 'Busy' or 'WrapUp' then status will be Online or whatever word you are using for Busy
+            
+            switch userInfo["status"] as? String
+            {
+            case "Offline":
+                print("Offline")
+                StateManager.shared.currentStatus = .offline
+            case "Unavailable":
+                print("Unavailable")
+                StateManager.shared.currentStatus = .offline
+
+            case "Available":
+                print("Available")
+                StateManager.shared.currentStatus = .online
+
+            case "Idle":
+                print("Idle")
+                StateManager.shared.currentStatus = .online
+
+            case "Busy":
+                print("Busy")
+                StateManager.shared.currentStatus = .busy
+
+            case "WrapUp":
+                print("WrapUp")
+                StateManager.shared.currentStatus = .busy
+
+            default:
+                print("default")
+            }
+        }
         
         guard module == "c" else {
             return
@@ -366,6 +404,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         if let delegate = self.pushKitEventDelegate {
             delegate.incomingPushReceived(payload: payload, completion: completion)
         }
+        
+//        NotificationBanner(title: nil, subtitle: "You can't change status during call.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+
         
         if let version = Float(UIDevice.current.systemVersion), version >= 13.0 {
             /**

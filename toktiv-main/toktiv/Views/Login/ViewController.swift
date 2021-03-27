@@ -125,8 +125,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
         if let exp = jwtDictionary["exp"] as? Double {
             if let delegate = UIApplication.shared.delegate as? AppDelegate {
-//                delegate.expiryDate = Date(timeIntervalSince1970: exp)
-                 delegate.expiryDate =  Date().addingTimeInterval(60*5)
+                delegate.expiryDate = Date(timeIntervalSince1970: exp)
+//                 delegate.expiryDate =  Date().addingTimeInterval(60*5)
             }
         }
     }
