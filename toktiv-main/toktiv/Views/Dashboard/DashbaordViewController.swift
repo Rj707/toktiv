@@ -380,6 +380,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
 //                    } else {
                         UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
                         UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
+                        UserDefaults.standard.removeObject(forKey: "currentStatus")
                         UserDefaults.standard.synchronize()
                         self.navigationController?.popToRootViewController(animated: true)
                         NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")

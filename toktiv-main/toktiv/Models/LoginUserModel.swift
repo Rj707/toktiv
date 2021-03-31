@@ -22,7 +22,7 @@ struct LoginUserModel: Codable {
 //    let signature: String?
     let twilioNum: String?
     let fullName: String?
-    let twillioToken:String?
+    var twillioToken:String?
     let workerSid:String?
     let twilioClientStatus:String?
 

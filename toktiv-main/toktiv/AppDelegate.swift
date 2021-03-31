@@ -40,6 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     var callManager = CallSessionManager.shared
     var callConManager = CallConnectivityManager.shared
+    var backgroundTaskID : UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+
     
     var expiryDate:Date? {
         didSet {
@@ -159,6 +161,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
     }
     
+    func handleAccessTokenExpiry(_ accessToken:String) {
+            let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
+            if let exp = jwtDictionary["exp"] as? Double {
+                if let delegate = UIApplication.shared.delegate as? AppDelegate {
+                    delegate.expiryDate = Date(timeIntervalSince1970: exp)
+    //                 delegate.expiryDate =  Date().addingTimeInterval(60*5)
+                }
+            }
+        }
+    
     @objc func getAcesstokenRefreshed() {
         print("getAcesstokenRefreshed")
         if let validExpDate = self.expiryDate {
@@ -173,18 +185,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken) {
                         print("Valid Refresh Token: \(validAccessToken)")
                         TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData) { (error) in
-                            
+                            StateManager.shared.accessToken =  validAccessToken
+
                             self.handleProgressView(false)
                             if let error = error {
                                 NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
                             } else {
                                 NSLog("LOGIN: Successfully registered for VoIP push notifications.")
                                 self.expiryDate = Date().addingTimeInterval(60*60*24)
+                                StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
                             }
                         }
                     }
                     
                 }
+            }
+        }
+    }
+    
+    func test()
+    {
+        DispatchQueue.main.async
+        {
+            self.handleProgressView(true)
+        }
+        
+        TwilioVoice.unregister(accessToken: StateManager.shared.accessToken, deviceToken: UserDefaults.standard.data(forKey: kCachedDeviceToken)!)
+        { (error) in
+            
+            let providerCode = self.stateManager.loginViewModel.userProfile?.providerCode ?? ""
+            self.stateManager.loginViewModel.getTwilioAccessToken(providerCode)
+            { (respose, error) in
+                if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
+                {
+                    print("Valid Refresh Token: \(validAccessToken)")
+                    
+                    TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
+                    { (error) in
+                        // End the task assertion.
+                        
+                        StateManager.shared.accessToken =  validAccessToken
+                        
+                        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                        self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                        
+                        DispatchQueue.main.async
+                        {
+                                self.handleProgressView(false)
+                        }
+                        if let error = error
+                        {
+                            NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
+                        }
+                        else
+                        {
+                            NSLog("LOGIN: Successfully registered for VoIP push notifications.")
+                            self.expiryDate = Date().addingTimeInterval(60*60*24)
+                            StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                        }
+                    }
+                }
+                
             }
         }
     }
@@ -270,6 +331,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
             default:
                 print("default")
+            }
+        }
+        
+        if module == "TU" || module == "tu"
+        {
+            DispatchQueue.global().async
+            {
+                // Request the task assertion and save the ID.
+                self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks")
+                {
+                    // End the task if time expires.
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                    self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                }
+                self.test()
             }
         }
         
@@ -404,8 +480,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         if let delegate = self.pushKitEventDelegate {
             delegate.incomingPushReceived(payload: payload, completion: completion)
         }
-        
-//        NotificationBanner(title: nil, subtitle: "You can't change status during call.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
 
         
         if let version = Float(UIDevice.current.systemVersion), version >= 13.0 {

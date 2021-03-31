@@ -40,7 +40,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
-            self.stateManager.setupWorkerStatus(userProfileModel.twilioClientStatus ?? "")
+//            self.stateManager.setupWorkerStatus(userProfileModel.twilioClientStatus ?? "")
             self.stateManager.loginViewModel.userProfile = userProfileModel
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
             self.moveToDashbnoard(animated: false)
@@ -95,6 +95,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                         NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
                                     } else {
                                         NSLog("LOGIN: Successfully registered for VoIP push notifications.")
+                                        StateManager.shared.accessToken = validAccessToken
                                     }
                                 }
                             }

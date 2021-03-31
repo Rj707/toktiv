@@ -31,7 +31,19 @@ class StateManager: NSObject {
     
     var loginViewModel = LoginViewModel()
     var userHistoryViewModel = UserHistoryViewModel()
-    
+    var accessToken:String
+    {
+        set
+        {
+            UserDefaults.standard.set(newValue , forKey: "accessToken")
+        }
+        get
+        {
+            return UserDefaults.standard.value(forKey: "accessToken") as! String
+
+        }
+    }
+
     func setupWorkerStatus(_ status:String) {
         if status.lowercased().contains("idle") {
             self.currentStatus = .online
