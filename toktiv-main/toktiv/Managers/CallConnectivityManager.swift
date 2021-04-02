@@ -107,6 +107,20 @@ class CallConnectivityManager: NSObject {
         
         TwilioVoice.audioDevice = audioDevice
     }
+    
+    func refreshAccessTokenWithCompletionBlock (completionHandler: @escaping () -> Void) {
+        let providerCode = self.observer.loginViewModel.userProfile?.providerCode ?? ""
+        self.observer.loginViewModel.getTwilioAccessToken(providerCode) { (respose, error) in
+            if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken) {
+                print("Valid Refresh Token: \(validAccessToken)")
+                TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData) { (error) in
+                    StateManager.shared.accessToken =  validAccessToken
+                    StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                    completionHandler()
+                }
+            }
+        }
+    }
 
 }
 
@@ -553,32 +567,76 @@ extension CallConnectivityManager: CXProviderDelegate {
         }
     }
     
+    func isTokenExpired(accessToken:String) -> Bool
+    {
+        let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
+        if let exp = jwtDictionary["exp"] as? Double
+        {
+            if Date() < Date(timeIntervalSince1970: exp)
+            {
+                return true
+            }
+        }
+        return false
+    }
+    
     func performVoiceCall(uuid: UUID, client: String?, completionHandler: @escaping (Bool) -> Void) {
-        guard let accessToken = fetchAccessToken() else {
+        guard var accessToken = fetchAccessToken() else {
             completionHandler(false)
             return
         }
         
-
-        let validInput = self.callNumber
-        
-        let fromNumber = self.observer.loginViewModel.defaultPhoneNumber
-        let twimlParamCallerAgentValue = self.observer.loginViewModel.userProfile?.providerCode ?? ""
-        
-        print("\n\n******************\n\(twimlParamTo):\(validInput)\n\(twimlParamFrom):\(fromNumber)\n\(twimlParamCallerAgent):\(twimlParamCallerAgentValue)\n******************\n\n")
-        let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
-            builder.params = [
-                twimlParamTo: validInput,
-                twimlParamFrom: fromNumber,
-                twimlParamCallerAgent: twimlParamCallerAgentValue
-            ]
-            builder.uuid = uuid
+        if isTokenExpired(accessToken: accessToken)
+        {
+            refreshAccessTokenWithCompletionBlock
+            {
+                accessToken = self.fetchAccessToken()!
+                
+                let validInput = self.callNumber
+                
+                let fromNumber = self.observer.loginViewModel.defaultPhoneNumber
+                let twimlParamCallerAgentValue = self.observer.loginViewModel.userProfile?.providerCode ?? ""
+                
+                print("\n\n******************\n\(twimlParamTo):\(validInput)\n\(twimlParamFrom):\(fromNumber)\n\(twimlParamCallerAgent):\(twimlParamCallerAgentValue)\n******************\n\n")
+                let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
+                    builder.params = [
+                        twimlParamTo: validInput,
+                        twimlParamFrom: fromNumber,
+                        twimlParamCallerAgent: twimlParamCallerAgentValue
+                    ]
+                    builder.uuid = uuid
+                }
+                
+                let call = TwilioVoice.connect(options: connectOptions, delegate: self)
+                self.activeCall = call
+                self.activeCalls[call.uuid!.uuidString] = call
+                self.callKitCompletionCallback = completionHandler
+            }
         }
+        else
+        {
+            let validInput = self.callNumber
+            
+            let fromNumber = self.observer.loginViewModel.defaultPhoneNumber
+            let twimlParamCallerAgentValue = self.observer.loginViewModel.userProfile?.providerCode ?? ""
+            
+            print("\n\n******************\n\(twimlParamTo):\(validInput)\n\(twimlParamFrom):\(fromNumber)\n\(twimlParamCallerAgent):\(twimlParamCallerAgentValue)\n******************\n\n")
+            let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
+                builder.params = [
+                    twimlParamTo: validInput,
+                    twimlParamFrom: fromNumber,
+                    twimlParamCallerAgent: twimlParamCallerAgentValue
+                ]
+                builder.uuid = uuid
+            }
+            
+            let call = TwilioVoice.connect(options: connectOptions, delegate: self)
+            activeCall = call
+            activeCalls[call.uuid!.uuidString] = call
+            callKitCompletionCallback = completionHandler
+        }
+
         
-        let call = TwilioVoice.connect(options: connectOptions, delegate: self)
-        activeCall = call
-        activeCalls[call.uuid!.uuidString] = call
-        callKitCompletionCallback = completionHandler
     }
     
     func performAnswerVoiceCall(uuid: UUID, completionHandler: @escaping (Bool) -> Void) {
