@@ -43,6 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     var backgroundTaskID : UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
 
     
+    //creating the notification content
+    var content = UNMutableNotificationContent()
+    
+    //getting the notification trigger
+    //it will be called after 5 seconds
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+    //getting the notification request
+    var localNotificationRequest : UNNotificationRequest?
+    
     var expiryDate:Date? {
         didSet {
             if let endDate = self.expiryDate {
@@ -83,6 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 return
             }
         }
+        
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler:
+        {didAllow, error in
+            
+        })
         
         Messaging.messaging().delegate = self
         
@@ -203,7 +218,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    func test()
+    func refreshAccessTokenOnSilentPush()
     {
         DispatchQueue.main.async
         {
@@ -226,12 +241,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         
                         StateManager.shared.accessToken =  validAccessToken
                         
-                        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
-                        self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-                        
                         DispatchQueue.main.async
                         {
-                                self.handleProgressView(false)
+                            self.handleProgressView(false)
                         }
                         if let error = error
                         {
@@ -242,7 +254,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                             NSLog("LOGIN: Successfully registered for VoIP push notifications.")
                             self.expiryDate = Date().addingTimeInterval(60*60*24)
                             StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                            
+                            
+                            //adding title, subtitle, body and badge
+                            self.content.title = "Token Update"
+                            self.content.subtitle = "On Silent Push"
+                            
+                            let jwtDictionary = JWTDecoder.decode(jwtToken: validAccessToken)
+                            if let exp = jwtDictionary["exp"] as? Double
+                            {
+                                self.content.body = "Expiry Time: \(self.getCurrentDate(date: Date(timeIntervalSince1970: exp)))"
+                            }
+                            
+                            self.content.badge = 0
+
+                            //getting the notification request
+                            self.localNotificationRequest = UNNotificationRequest(identifier: self.content.body, content: self.content, trigger: self.trigger)
+
+                            //adding the notification to notification center
+                            UNUserNotificationCenter.current().add(self.localNotificationRequest!)
+                            { (error) in
+                                
+                            }
                         }
+                        
+                        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                        self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                        
                     }
                 }
                 
@@ -269,6 +307,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     func applicationDidBecomeActive(_ application: UIApplication) {
        
+    }
+    
+    func getCurrentDate(date:Date) -> String
+    {
+        let df = DateFormatter()
+        df.dateFormat = "E, d MMM yyyy HH:mm:ss"
+        let dateString = df.string(from: date)
+        return dateString
     }
     
     // MARK: UISceneSession Lifecycle
@@ -345,8 +391,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
                     self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                 }
-                self.test()
+                self.refreshAccessTokenOnSilentPush()
             }
+            
+        
+            //adding title, subtitle, body and badge
+            content.title = "Silent PUSH"
+            content.subtitle = "On Time"
+            content.body = getCurrentDate(date: Date())
+            content.badge = 0
+
+            //getting the notification request
+            localNotificationRequest = UNNotificationRequest(identifier: content.body, content: content, trigger: trigger)
+
+            //adding the notification to notification center
+            UNUserNotificationCenter.current().add(localNotificationRequest!)
+            { (error) in
+                
+                
+                
+            }
+            
         }
         
         guard module == "c" else {
@@ -375,6 +440,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         else if state == .inactive || state == .background {
             print("state == .inactive || state == .background")
         }
+        
+//        completionHandler(UIBackgroundFetchResult.newData)
+
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
