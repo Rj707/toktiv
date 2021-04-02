@@ -271,11 +271,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                             //getting the notification request
                             self.localNotificationRequest = UNNotificationRequest(identifier: self.content.body, content: self.content, trigger: self.trigger)
 
+                            print("IMPORTANT:\(self.content.body)")
+                            
                             //adding the notification to notification center
-                            UNUserNotificationCenter.current().add(self.localNotificationRequest!)
-                            { (error) in
-                                
-                            }
+//                            UNUserNotificationCenter.current().add(self.localNotificationRequest!)
+//                            { (error) in
+//
+//                            }
                         }
                         
                         UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
@@ -403,14 +405,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
             //getting the notification request
             localNotificationRequest = UNNotificationRequest(identifier: content.body, content: content, trigger: trigger)
+            print("IMPORTANT:\(self.content.body)")
 
             //adding the notification to notification center
-            UNUserNotificationCenter.current().add(localNotificationRequest!)
-            { (error) in
-                
-                
-                
-            }
+//            UNUserNotificationCenter.current().add(localNotificationRequest!)
+//            { (error) in
+//
+//
+//
+//            }
             
         }
         
