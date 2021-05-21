@@ -453,7 +453,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/FirebaseCrashlytics/run -gsp ${PROJECT_DIR}/toktiv/GoogleService-Info.plist\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#${PODS_ROOT}/FirebaseCrashlytics/run -gsp ${PROJECT_DIR}/toktiv/GoogleService-Info.plist\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -645,7 +645,8 @@
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -670,7 +671,7 @@
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
