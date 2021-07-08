@@ -28,6 +28,8 @@ class NetworkURLs: NSObject {
     
     static let HOLD_IN_PROGRESS_CALL = "https://provider.drcurves.com/api/IOSHoldCall/HoldCall"
     static let RESUME_IN_PROGRESS_CALL = "https://provider.drcurves.com/api/IOSResumeCall/ResumeCall"
+    
+    static let GET_CHAT_USER_LIST = "https://provider.drcurves.com/api/ChatUserApi/GetProviderHistory"
 }
 
 class AppConstants: NSObject {

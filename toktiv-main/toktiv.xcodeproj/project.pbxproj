@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
+		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */; };
 		A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564B1256BF4A7009CFAED /* FromCell.swift */; };
 		A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8392578DF58001A9EB0 /* TasksCell.swift */; };
@@ -107,6 +109,8 @@
 		0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBrowserController.swift; sourceTree = "<group>"; };
 		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
 		A1D52B7825E42AE3003A9A3F /* toktiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toktiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,6 +161,7 @@
 		0E094F7A255D97E100ACE57C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */,
 				0E094F93255DA50100ACE57C /* LoginTokenModel.swift */,
 				0E1567332571546A009CFAED /* WorkerStatusModel.swift */,
 				0E094F99255E39B100ACE57C /* LoginUserModel.swift */,
@@ -170,6 +175,7 @@
 			children = (
 				0E094F96255E398D00ACE57C /* LoginViewModel.swift */,
 				0E45A8CF255F788700B37EE1 /* UserHistoryViewModel.swift */,
+				A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -468,6 +474,7 @@
 				A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */,
 				A1D52B4625E42AE3003A9A3F /* CallSessionManager.swift in Sources */,
 				A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */,
+				A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */,
 				A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */,
 				A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */,
 				A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */,
@@ -486,6 +493,7 @@
 				A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */,
 				A1D52B5825E42AE3003A9A3F /* NetworkURLs.swift in Sources */,
 				A1D52B5925E42AE3003A9A3F /* PatientCell.swift in Sources */,
+				A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */,
 				A1D52B5A25E42AE3003A9A3F /* SMSHistoryViewController.swift in Sources */,
 				A1D52B5B25E42AE3003A9A3F /* DialerViewController.swift in Sources */,
 				A1D52B5C25E42AE3003A9A3F /* DashbaordViewController.swift in Sources */,
@@ -648,6 +656,7 @@
 				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -673,6 +682,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
