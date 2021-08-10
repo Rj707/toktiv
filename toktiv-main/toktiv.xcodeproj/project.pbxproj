@@ -13,6 +13,10 @@
 		A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */; };
 		A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */; };
 		A1B2ED4226C2CB26004AE32B /* TokenRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ED4126C2CB26004AE32B /* TokenRequestHandler.swift */; };
+		A1B2EDDA26C2DC2B004AE32B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2EDD526C2DC2B004AE32B /* ChatViewController.swift */; };
+		A1B2EDDB26C2DC2B004AE32B /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2EDD626C2DC2B004AE32B /* ContactListViewController.swift */; };
+		A1B2EDDC26C2DC2B004AE32B /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */; };
+		A1B2EDDD26C2DC2B004AE32B /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */; };
 		A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */; };
 		A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564B1256BF4A7009CFAED /* FromCell.swift */; };
 		A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8392578DF58001A9EB0 /* TasksCell.swift */; };
@@ -119,6 +123,10 @@
 		A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingManager.swift; sourceTree = "<group>"; };
 		A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		A1B2ED4126C2CB26004AE32B /* TokenRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRequestHandler.swift; sourceTree = "<group>"; };
+		A1B2EDD526C2DC2B004AE32B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		A1B2EDD626C2DC2B004AE32B /* ContactListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactListViewController.swift; sourceTree = "<group>"; };
+		A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
+		A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		A1D52B7825E42AE3003A9A3F /* toktiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toktiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -244,6 +252,7 @@
 				0E45A92C2562212100B37EE1 /* toktiv.entitlements */,
 				0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */,
 				0EBBF7BE25754DE1001A9EB0 /* SceneDelegate.swift */,
+				A1B2EDD426C2DC2B004AE32B /* Chat */,
 				0E094F7D255D980100ACE57C /* Views */,
 				0E094F7B255D97E600ACE57C /* View Models */,
 				0E094F7A255D97E100ACE57C /* Models */,
@@ -335,6 +344,26 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		A1B2EDD426C2DC2B004AE32B /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2EDD526C2DC2B004AE32B /* ChatViewController.swift */,
+				A1B2EDD626C2DC2B004AE32B /* ContactListViewController.swift */,
+				A1B2EDD726C2DC2B004AE32B /* Cell */,
+			);
+			name = Chat;
+			path = Views/Chat;
+			sourceTree = "<group>";
+		};
+		A1B2EDD726C2DC2B004AE32B /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */,
+				A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		B656BB9B4C00F0D501EFB1E6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,6 +433,7 @@
 				A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */,
 				A1D52B6A25E42AE3003A9A3F /* TasksCell.xib in Resources */,
 				A1D52B6B25E42AE3003A9A3F /* GoogleService-Info.plist in Resources */,
+				A1B2EDDC26C2DC2B004AE32B /* ContactTableViewCell.xib in Resources */,
 				A1D52B6C25E42AE3003A9A3F /* HistotyTableCell.xib in Resources */,
 				A1D52B6D25E42AE3003A9A3F /* splash.jpeg in Resources */,
 				A1D52B6E25E42AE3003A9A3F /* Assets.xcassets in Resources */,
@@ -486,6 +516,7 @@
 				A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */,
 				A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */,
 				A1D52B4625E42AE3003A9A3F /* CallSessionManager.swift in Sources */,
+				A1B2EDDB26C2DC2B004AE32B /* ContactListViewController.swift in Sources */,
 				A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */,
 				A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */,
 				A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */,
@@ -497,7 +528,9 @@
 				A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */,
 				A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */,
 				A1D52B4F25E42AE3003A9A3F /* WorkerStatusModel.swift in Sources */,
+				A1B2EDDD26C2DC2B004AE32B /* ContactTableViewCell.swift in Sources */,
 				A1D52B5025E42AE3003A9A3F /* CallConnectivityManager.swift in Sources */,
+				A1B2EDDA26C2DC2B004AE32B /* ChatViewController.swift in Sources */,
 				A1D52B5125E42AE3003A9A3F /* LoginViewModel.swift in Sources */,
 				A1D52B5225E42AE3003A9A3F /* AppBrowserController.swift in Sources */,
 				A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */,
