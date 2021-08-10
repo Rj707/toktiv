@@ -268,7 +268,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
         configuration.backgoundTintColor = UIColor.darkGray
         
         let statusTitle = self.observer.currentStatus.rawValue
-        FTPopOverMenu.showForSender(sender: sender, with: [statusTitle, "Dashboard", "Dialer", "Call History", "SMS", "Settings", "Logout"], menuImageArray: [statusTitle, "home","dial-pad", "callhistory", "sms", "settings","logout"], config:configuration, done: { (selectedIndex) -> () in
+        FTPopOverMenu.showForSender(sender: sender, with: [statusTitle, "Dashboard", "Dialer", "Call History", "SMS", "Chat", "Settings", "Logout"], menuImageArray: [statusTitle, "home","dial-pad", "callhistory", "sms", "chat", "settings","logout"], config:configuration, done: { (selectedIndex) -> () in
                                         
                 if selectedIndex == 0 {
                     self.showStatusActionSheet()
@@ -290,9 +290,12 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                     self.showSMSHistoryView()
                 }
                 else if selectedIndex == 5 {
-                    self.gotoSettings()
+                    self.showContactListView()
                 }
                 else if selectedIndex == 6 {
+                    self.gotoSettings()
+                }
+                else if selectedIndex == 7 {
                     self.showLogoutAlert()
                 }
         }) {
@@ -395,6 +398,12 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     
     func showSMSHistoryView() {
         if let controller = self.storyboard?.instantiateViewController(withIdentifier: "SMSHistoryViewController") as? SMSHistoryViewController {
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    func showContactListView() {
+        if let controller = self.storyboard?.instantiateViewController(withIdentifier: "ContactListViewController") as? ContactListViewController {
             self.navigationController?.pushViewController(controller, animated: true)
         }
     }

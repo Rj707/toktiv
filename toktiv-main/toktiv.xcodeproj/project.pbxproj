@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2114FECE26C2AD8E00EE1A78 /* ContactListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2114FECD26C2AD8E00EE1A78 /* ContactListViewController.swift */; };
+		2114FED326C2AEF000EE1A78 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2114FED126C2AEF000EE1A78 /* ContactTableViewCell.swift */; };
+		2114FED426C2AEF000EE1A78 /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2114FED226C2AEF000EE1A78 /* ContactTableViewCell.xib */; };
+		2114FEF126C2C80400EE1A78 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2114FEF026C2C80400EE1A78 /* ChatViewController.swift */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */; };
@@ -107,6 +111,10 @@
 		0EBBF8392578DF58001A9EB0 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
 		0EBBF83A2578DF58001A9EB0 /* TasksCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksCell.xib; sourceTree = "<group>"; };
 		0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBrowserController.swift; sourceTree = "<group>"; };
+		2114FECD26C2AD8E00EE1A78 /* ContactListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewController.swift; sourceTree = "<group>"; };
+		2114FED126C2AEF000EE1A78 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		2114FED226C2AEF000EE1A78 /* ContactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
+		2114FEF026C2C80400EE1A78 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -193,6 +201,7 @@
 		0E094F7D255D980100ACE57C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2114FECC26C2AD6A00EE1A78 /* Chat */,
 				0E094F7F255D981B00ACE57C /* Login */,
 				0E094F77255D97B800ACE57C /* Dashboard */,
 				0EEA256F257FD655007FEC90 /* Browser */,
@@ -314,6 +323,25 @@
 			path = Browser;
 			sourceTree = "<group>";
 		};
+		2114FECC26C2AD6A00EE1A78 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				2114FECD26C2AD8E00EE1A78 /* ContactListViewController.swift */,
+				2114FEF026C2C80400EE1A78 /* ChatViewController.swift */,
+				2114FED726C2AF7100EE1A78 /* Cell */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		2114FED726C2AF7100EE1A78 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2114FED126C2AEF000EE1A78 /* ContactTableViewCell.swift */,
+				2114FED226C2AEF000EE1A78 /* ContactTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		3B5CD38540C3DD59FE8C3956 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,6 +420,7 @@
 				A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */,
 				A1D52B6A25E42AE3003A9A3F /* TasksCell.xib in Resources */,
 				A1D52B6B25E42AE3003A9A3F /* GoogleService-Info.plist in Resources */,
+				2114FED426C2AEF000EE1A78 /* ContactTableViewCell.xib in Resources */,
 				A1D52B6C25E42AE3003A9A3F /* HistotyTableCell.xib in Resources */,
 				A1D52B6D25E42AE3003A9A3F /* splash.jpeg in Resources */,
 				A1D52B6E25E42AE3003A9A3F /* Assets.xcassets in Resources */,
@@ -469,12 +498,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */,
+				2114FED326C2AEF000EE1A78 /* ContactTableViewCell.swift in Sources */,
 				A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */,
 				A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */,
 				A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */,
 				A1D52B4625E42AE3003A9A3F /* CallSessionManager.swift in Sources */,
 				A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */,
 				A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */,
+				2114FECE26C2AD8E00EE1A78 /* ContactListViewController.swift in Sources */,
 				A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */,
 				A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */,
 				A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */,
@@ -496,6 +527,7 @@
 				A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */,
 				A1D52B5A25E42AE3003A9A3F /* SMSHistoryViewController.swift in Sources */,
 				A1D52B5B25E42AE3003A9A3F /* DialerViewController.swift in Sources */,
+				2114FEF126C2C80400EE1A78 /* ChatViewController.swift in Sources */,
 				A1D52B5C25E42AE3003A9A3F /* DashbaordViewController.swift in Sources */,
 				A1D52B5D25E42AE3003A9A3F /* HistotyTableCell.swift in Sources */,
 				A1D52B5E25E42AE3003A9A3F /* LoginTokenModel.swift in Sources */,
@@ -652,11 +684,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = TY8XLVW5UP;
-				EXCLUDED_ARCHS = "";
+				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -679,10 +711,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 28;
-				DEVELOPMENT_TEAM = TY8XLVW5UP;
-				EXCLUDED_ARCHS = "";
+				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = arm64;
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
