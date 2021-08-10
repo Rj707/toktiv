@@ -17,4 +17,6 @@ pod 'Firebase/Crashlytics'
 pod 'Alamofire', '~> 5.2'
 pod 'FTPopOverMenu_Swift'
 pod 'MBProgressHUD', '~> 1.2.0'
+pod 'TwilioChatClient', '~> 4.0'
+
 end

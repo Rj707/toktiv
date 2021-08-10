@@ -17,3 +17,4 @@ ${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${PODS_ROOT}/TwilioVoice/Build/iOS/TwilioVoice.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TwilioChatClient/TwilioChatClient.framework/TwilioChatClient

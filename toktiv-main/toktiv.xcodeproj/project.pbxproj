@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
+		A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */; };
+		A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */; };
+		A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */; };
+		A1B2ED4226C2CB26004AE32B /* TokenRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ED4126C2CB26004AE32B /* TokenRequestHandler.swift */; };
 		A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8E1255F92B400B37EE1 /* SMSHistoryCell.swift */; };
 		A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564B1256BF4A7009CFAED /* FromCell.swift */; };
 		A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8392578DF58001A9EB0 /* TasksCell.swift */; };
@@ -111,6 +115,10 @@
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
+		A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
+		A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingManager.swift; sourceTree = "<group>"; };
+		A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		A1B2ED4126C2CB26004AE32B /* TokenRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRequestHandler.swift; sourceTree = "<group>"; };
 		A1D52B7825E42AE3003A9A3F /* toktiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toktiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +191,7 @@
 		0E094F7C255D97EF00ACE57C /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2ED4126C2CB26004AE32B /* TokenRequestHandler.swift */,
 				0E094F8A255DA16700ACE57C /* BaseService.swift */,
 				0E094F90255DA44200ACE57C /* NetworkURLs.swift */,
 				0E45A8CC255EFF0D00B37EE1 /* StateManager.swift */,
@@ -276,6 +285,9 @@
 		0E95EBF72583B5D80052D328 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */,
+				A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */,
+				A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */,
 				0EBBF8332578B39A001A9EB0 /* CallSessionManager.swift */,
 				0E7DC2102581ECB8006AA8B4 /* CallConnectivityManager.swift */,
 			);
@@ -469,6 +481,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D52B4225E42AE3003A9A3F /* SMSHistoryCell.swift in Sources */,
+				A1B2ED4226C2CB26004AE32B /* TokenRequestHandler.swift in Sources */,
 				A1D52B4325E42AE3003A9A3F /* FromCell.swift in Sources */,
 				A1D52B4425E42AE3003A9A3F /* TasksCell.swift in Sources */,
 				A1D52B4525E42AE3003A9A3F /* LoginUserModel.swift in Sources */,
@@ -481,6 +494,7 @@
 				A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */,
 				A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */,
 				A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */,
+				A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */,
 				A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */,
 				A1D52B4F25E42AE3003A9A3F /* WorkerStatusModel.swift in Sources */,
 				A1D52B5025E42AE3003A9A3F /* CallConnectivityManager.swift in Sources */,
@@ -489,6 +503,7 @@
 				A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */,
 				A1D52B5425E42AE3003A9A3F /* ToCell.swift in Sources */,
 				A1D52B5525E42AE3003A9A3F /* CallHistoryViewController.swift in Sources */,
+				A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */,
 				A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */,
 				A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */,
 				A1D52B5825E42AE3003A9A3F /* NetworkURLs.swift in Sources */,
@@ -503,6 +518,7 @@
 				A1D52B6025E42AE3003A9A3F /* ActiveTasksViewController.swift in Sources */,
 				A1D52B6125E42AE3003A9A3F /* Extensions.swift in Sources */,
 				A1D52B6225E42AE3003A9A3F /* SceneDelegate.swift in Sources */,
+				A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

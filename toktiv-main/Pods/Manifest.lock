@@ -95,6 +95,7 @@ PODS:
     - SnapKit (~> 5.0.0)
   - PromisesObjC (1.2.11)
   - SnapKit (5.0.1)
+  - TwilioChatClient (4.2.0)
   - TwilioVoice (6.0.2)
 
 DEPENDENCIES:
@@ -107,6 +108,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - MBProgressHUD (~> 1.2.0)
   - NotificationBannerSwift (~> 3.0.0)
+  - TwilioChatClient (~> 4.0)
   - TwilioVoice (~> 6.0.2)
 
 SPEC REPOS:
@@ -131,6 +133,7 @@ SPEC REPOS:
     - NotificationBannerSwift
     - PromisesObjC
     - SnapKit
+    - TwilioChatClient
     - TwilioVoice
 
 SPEC CHECKSUMS:
@@ -154,8 +157,9 @@ SPEC CHECKSUMS:
   NotificationBannerSwift: 713e20f21b6105f4a36a00e5d9fa414a930d3d8e
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  TwilioChatClient: bd1f553293c32dd5f04b74ef265eb179d9f0d983
   TwilioVoice: 89efb8621aa14860ec4282d2d04e987058eb0b7a
 
-PODFILE CHECKSUM: 5d51f2f37a7a202b5091353efc9276885a070426
+PODFILE CHECKSUM: 6fc1510da33e2753470d2ae48b7ff514c40ed602
 
 COCOAPODS: 1.10.1
