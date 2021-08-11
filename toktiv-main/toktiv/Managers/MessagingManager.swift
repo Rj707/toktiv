@@ -26,51 +26,7 @@ class MessagingManager: NSObject {
         return _sharedManager
     }
     
-    func presentRootViewController() {
-        if (!hasIdentity) {
-            presentViewControllerByName(viewController: "LoginViewController")
-            return
-        }
-        
-        if (!connected) {
-            connectClientWithCompletion { success, error in
-                print("Delegate method will load views when sync is complete")
-                if (!success || error != nil) {
-                    DispatchQueue.main.async {
-                        self.presentViewControllerByName(viewController: "LoginViewController")
-                    }
-                }
-            }
-            return
-        }
-        
-        presentViewControllerByName(viewController: "RevealViewController")
-    }
-    
-    func presentViewControllerByName(viewController: String) {
-        presentViewController(controller: storyBoardWithName(name: "Main").instantiateViewController(withIdentifier: viewController))
-    }
-    
-    func presentLaunchScreen() {
-        presentViewController(controller: storyBoardWithName(name: "LaunchScreen").instantiateInitialViewController()!)
-    }
-    
-    func presentViewController(controller: UIViewController) {
-        let window = UIApplication.shared.delegate!.window!!
-        window.rootViewController = controller
-    }
-    
-    func storyBoardWithName(name:String) -> UIStoryboard {
-        return UIStoryboard(name:name, bundle: Bundle.main)
-    }
-    
     // MARK: User and session management
-    
-    func loginWithUsername(username: String,
-                           completion: @escaping (Bool, NSError?) -> Void) {
-        SessionManager.loginWithUsername(username: username)
-        connectClientWithCompletion(completion: completion)
-    }
     
     func logout() {
         SessionManager.logout()
@@ -82,18 +38,6 @@ class MessagingManager: NSObject {
     }
     
     // MARK: Twilio Client
-    
-    func loadGeneralChatRoomWithCompletion(completion:@escaping (Bool, NSError?) -> Void) {
-        ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
-            if succeeded {
-                completion(succeeded, nil)
-            }
-            else {
-                let error = self.errorWithDescription(description: "Could not join General channel", code: 300)
-                completion(succeeded, error)
-            }
-        }
-    }
     
     func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void) {
         if (client != nil) {
@@ -126,13 +70,15 @@ class MessagingManager: NSObject {
     }
     
     func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void) {
-        if let device = UIDevice.current.identifierForVendor?.uuidString {
-            TokenRequestHandler.fetchToken(params: ["device": device, "identity":SessionManager.getUsername()]) {response,error in
-                var token: String?
-                token = response["token"] as? String
-                completion(token != nil, token)
-            }
+        
+        ChatViewModel.shared.generateTwilioChatToken { (chatTokenModle, errorMessage) in
+            
+            var token: String?
+            token = chatTokenModle?.token
+            completion(token != nil, token)
+            
         }
+        
     }
     
     func errorWithDescription(description: String, code: Int) -> NSError {
@@ -156,15 +102,13 @@ extension MessagingManager : TwilioChatClientDelegate {
     }
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
+        
         if status == TCHClientSynchronizationStatus.completed {
+            
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
-            loadGeneralChatRoomWithCompletion { success, error in
-                if success {
-                    self.presentRootViewController()
-                }
-            }
+            
         }
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }

@@ -19,7 +19,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     
     var toName = ""
     
+    var channelID = ""
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
@@ -28,6 +31,25 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         
         self.addObservers()
         
+        configuration()
+    }
+    
+    func configuration()
+    {
+        if let toEmployeeID = Int(toEmpID), let employeeIDStr = StateManager.shared.loginViewModel.userProfile?.employeeID, let employeeID = Int(employeeIDStr)
+        {
+            channelID = toEmployeeID > employeeID ? "\(employeeID)\(toEmployeeID)" : "\(toEmployeeID)\(employeeID)"
+            ChannelManager.sharedManager.joinChatRoomWith(name: channelID) { (success) in
+                if success
+                {
+                    if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all {
+                        ChannelManager.sharedManager.currentChannel.messages?.getLastWithCount(100) { (result, items) in
+                            
+                        }
+                    }
+                }
+            }
+        }
     }
     
 

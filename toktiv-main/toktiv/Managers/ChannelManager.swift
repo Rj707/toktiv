@@ -2,20 +2,22 @@ import UIKit
 import TwilioChatClient
 
 protocol ChannelManagerDelegate {
+    
     func reloadChannelDescriptorList()
 }
 
 class ChannelManager: NSObject {
+    
     static let sharedManager = ChannelManager()
     
-    static let defaultChannelUniqueName = "general"
-    static let defaultChannelName = "General Channel"
+//    static let defaultChannelUniqueName = "general"
+//    static let defaultChannelName = "General Channel"
     
     var delegate:ChannelManagerDelegate?
     
     var channelsList:TCHChannels?
     var channelDescriptors:NSOrderedSet?
-    var generalChannel:TCHChannel!
+    var currentChannel:TCHChannel!
     
     override init() {
         super.init()
@@ -24,19 +26,23 @@ class ChannelManager: NSObject {
     
     // MARK: - General channel
     
-    func joinGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
+    func joinChatRoomWith(name: String, completion: @escaping (Bool) -> Void) {
         
-        let uniqueName = ChannelManager.defaultChannelUniqueName
+        let uniqueName = name
         if let channelsList = self.channelsList {
+            
             channelsList.channel(withSidOrUniqueName: uniqueName) { result, channel in
-                self.generalChannel = channel
+                self.currentChannel = channel
                 
-                if self.generalChannel != nil {
-                    self.joinGeneralChatRoomWithUniqueName(name: nil, completion: completion)
+                if self.currentChannel != nil {
+                    
+                    self.joinChatRoomWithUniqueName(name: nil, completion: completion)
+                    
                 } else {
-                    self.createGeneralChatRoomWithCompletion { succeeded in
+                    
+                    self.createChatRoomWithUniqueName(name: uniqueName) { succeeded in
                         if (succeeded) {
-                            self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
+                            self.joinChatRoomWithUniqueName(name: uniqueName, completion: completion)
                             return
                         }
                         
@@ -47,32 +53,35 @@ class ChannelManager: NSObject {
         }
     }
     
-    func joinGeneralChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
-        generalChannel.join { result in
+    func joinChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
+        currentChannel.join { result in
             if ((result.isSuccessful()) && name != nil) {
-                self.setGeneralChatRoomUniqueNameWithCompletion(completion: completion)
+                self.setGeneralChatRoomUniqueNameWithCompletion(name: name!, completion: completion)
                 return
             }
             completion((result.isSuccessful()))
         }
     }
     
-    func createGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
-        let channelName = ChannelManager.defaultChannelName
+    func createChatRoomWithUniqueName(name: String, completion: @escaping (Bool) -> Void) {
+        
+        let channelName = name
+        
         let options = [
             TCHChannelOptionFriendlyName: channelName,
-            TCHChannelOptionType: TCHChannelType.public.rawValue
+            TCHChannelOptionType: TCHChannelType.private.rawValue
             ] as [String : Any]
+        
         channelsList!.createChannel(options: options) { result, channel in
             if (result.isSuccessful()) {
-                self.generalChannel = channel
+                self.currentChannel = channel
             }
             completion((result.isSuccessful()))
         }
     }
     
-    func setGeneralChatRoomUniqueNameWithCompletion(completion:@escaping (Bool) -> Void) {
-        generalChannel.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
+    func setGeneralChatRoomUniqueNameWithCompletion(name: String, completion:@escaping (Bool) -> Void) {
+        currentChannel.setUniqueName(name) { result in
             completion((result.isSuccessful()))
         }
     }
@@ -130,16 +139,14 @@ class ChannelManager: NSObject {
     // MARK: - Create channel
     
     func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void) {
-        if (name == ChannelManager.defaultChannelName) {
-            completion(false, nil)
-            return
-        }
         
         let channelOptions = [
             TCHChannelOptionFriendlyName: name,
-            TCHChannelOptionType: TCHChannelType.public.rawValue
+            TCHChannelOptionType: TCHChannelType.private.rawValue
         ] as [String : Any]
+        
         UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+        
         self.channelsList?.createChannel(options: channelOptions) { result, channel in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             completion((result.isSuccessful()), channel)
