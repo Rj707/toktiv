@@ -8,6 +8,7 @@
 import UIKit
 
 typealias GetChatUserList = ([ChatUserModel]?, String?) -> Void
+typealias GetChatToken = (ChatTokenModel?, String?) -> Void
 
 class ChatViewModel: NSObject {
     
@@ -30,6 +31,26 @@ class ChatViewModel: NSObject {
             }
         }
     }
-
+    
+    func generateTwilioChatToken(completion: @escaping GetChatToken) {
+        
+        let bodyParams = ["identity":StateManager.init().loginViewModel.userProfile?.providerCode]
+        let bodyData = try? JSONSerialization.data(withJSONObject: bodyParams, options: .fragmentsAllowed)
+        
+        BaseService.post(NetworkURLs.GET_CHAT_TOKEN, query: nil, headers: nil, body: bodyData) { (dictionary, error, data) in
+            guard let responseData = data else {
+                completion(nil, "Received empty data in response.")
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            do {
+                let responseObject = try decoder.decode(ChatTokenModel.self, from: responseData)
+                completion(responseObject, nil)
+            } catch {
+                completion(nil, "Unable to decode data successfully.")
+            }
+        }
+    }
 
 }

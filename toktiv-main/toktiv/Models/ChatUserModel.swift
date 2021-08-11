@@ -40,3 +40,23 @@ struct ChatUserModel : Codable {
 
 
 }
+
+struct ChatTokenModel : Codable {
+    
+    let identity : String?
+    let token : String?
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case identity = "identity"
+        case token = "token"
+    }
+    
+    init(from decoder: Decoder) throws {
+        
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        identity = try values.decodeIfPresent(String.self, forKey: .identity)
+        token = try values.decodeIfPresent(String.self, forKey: .token)
+    }
+    
+}
