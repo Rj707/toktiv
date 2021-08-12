@@ -24,9 +24,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - View Lifecycle
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         if let dataToken = UserDefaults.standard.data(forKey: AppConstants.USER_ACCESS_TOKEN), let _ = try? JSONDecoder().decode(LoginTokenModel.self, from: dataToken),  let dataProfile = UserDefaults.standard.data(forKey: AppConstants.USER_PROFILE_MODEL), let userProfileModel = try? JSONDecoder().decode(LoginUserModel.self, from: dataProfile) {
+            
             if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = userProfileModel.twillioToken {
                 
                 self.handleAccessTokenExpiry(validAccessToken)
@@ -43,11 +45,16 @@ class ViewController: UIViewController, UITextFieldDelegate {
 //            self.stateManager.setupWorkerStatus(userProfileModel.twilioClientStatus ?? "")
             self.stateManager.loginViewModel.userProfile = userProfileModel
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
+            
+            // Navigate to Dashboard
             self.moveToDashbnoard(animated: false)
+            MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
+                
+            }
         }
         
-        //        usernameTextField.text = "zeeqa"
-        //        passwordTextField.text = "Apss2020"
+        usernameTextField.text = "zeeqa"
+        passwordTextField.text = "apss20202021"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

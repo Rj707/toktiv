@@ -63,6 +63,9 @@
 		A1D52B7025E42AE3003A9A3F /* FromCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1564B2256BF4A7009CFAED /* FromCell.xib */; };
 		A1D52B7125E42AE3003A9A3F /* ToCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E1564AD256BF490009CFAED /* ToCell.xib */; };
 		A1D52B7225E42AE3003A9A3F /* SMSHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E45A8E2255F92B400B37EE1 /* SMSHistoryCell.xib */; };
+		A1DB834C26C4F312008AC959 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834A26C4F312008AC959 /* ChatTableCell.swift */; };
+		A1DB834D26C4F312008AC959 /* ChatTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1DB834B26C4F312008AC959 /* ChatTableCell.xib */; };
+		A1DB835026C4F419008AC959 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */; };
 		BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */; };
 /* End PBXBuildFile section */
 
@@ -128,6 +131,9 @@
 		A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
 		A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		A1D52B7825E42AE3003A9A3F /* toktiv.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = toktiv.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1DB834A26C4F312008AC959 /* ChatTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableCell.swift; sourceTree = "<group>"; };
+		A1DB834B26C4F312008AC959 /* ChatTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTableCell.xib; sourceTree = "<group>"; };
+		A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
 		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -282,6 +288,7 @@
 		0E95EBF22583B4C90052D328 /* Extras */ = {
 			isa = PBXGroup;
 			children = (
+				A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */,
 				0E156502256ECBA5009CFAED /* JWTDecoder.swift */,
 				0E3A16BE25971D7C0056077C /* splash.jpeg */,
 				0E95EBF32583B4D90052D328 /* Extensions.swift */,
@@ -358,6 +365,8 @@
 		A1B2EDD726C2DC2B004AE32B /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				A1DB834A26C4F312008AC959 /* ChatTableCell.swift */,
+				A1DB834B26C4F312008AC959 /* ChatTableCell.xib */,
 				A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */,
 				A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */,
 			);
@@ -428,6 +437,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1DB834D26C4F312008AC959 /* ChatTableCell.xib in Resources */,
 				A1D52B6725E42AE3003A9A3F /* Lauch_2.storyboard in Resources */,
 				A1D52B6825E42AE3003A9A3F /* LaunchScreen.storyboard in Resources */,
 				A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */,
@@ -525,6 +535,7 @@
 				A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */,
 				A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */,
 				A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */,
+				A1DB834C26C4F312008AC959 /* ChatTableCell.swift in Sources */,
 				A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */,
 				A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */,
 				A1D52B4F25E42AE3003A9A3F /* WorkerStatusModel.swift in Sources */,
@@ -535,6 +546,7 @@
 				A1D52B5225E42AE3003A9A3F /* AppBrowserController.swift in Sources */,
 				A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */,
 				A1D52B5425E42AE3003A9A3F /* ToCell.swift in Sources */,
+				A1DB835026C4F419008AC959 /* DateTodayFormatter.swift in Sources */,
 				A1D52B5525E42AE3003A9A3F /* CallHistoryViewController.swift in Sources */,
 				A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */,
 				A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */,

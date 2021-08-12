@@ -35,7 +35,11 @@ class ChannelManager: NSObject {
                 self.currentChannel = channel
                 
                 if self.currentChannel != nil {
-                    
+                    if self.currentChannel.status == .joined
+                    {
+                        completion(true)
+                        return
+                    }
                     self.joinChatRoomWithUniqueName(name: nil, completion: completion)
                     
                 } else {
@@ -56,7 +60,7 @@ class ChannelManager: NSObject {
     func joinChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
         currentChannel.join { result in
             if ((result.isSuccessful()) && name != nil) {
-                self.setGeneralChatRoomUniqueNameWithCompletion(name: name!, completion: completion)
+                self.setChatRoomUniqueNameWithCompletion(name: name!, completion: completion)
                 return
             }
             completion((result.isSuccessful()))
@@ -69,7 +73,7 @@ class ChannelManager: NSObject {
         
         let options = [
             TCHChannelOptionFriendlyName: channelName,
-            TCHChannelOptionType: TCHChannelType.private.rawValue
+            TCHChannelOptionType: TCHChannelType.public.rawValue
             ] as [String : Any]
         
         channelsList!.createChannel(options: options) { result, channel in
@@ -80,7 +84,7 @@ class ChannelManager: NSObject {
         }
     }
     
-    func setGeneralChatRoomUniqueNameWithCompletion(name: String, completion:@escaping (Bool) -> Void) {
+    func setChatRoomUniqueNameWithCompletion(name: String, completion:@escaping (Bool) -> Void) {
         currentChannel.setUniqueName(name) { result in
             completion((result.isSuccessful()))
         }
@@ -142,7 +146,7 @@ class ChannelManager: NSObject {
         
         let channelOptions = [
             TCHChannelOptionFriendlyName: name,
-            TCHChannelOptionType: TCHChannelType.private.rawValue
+            TCHChannelOptionType: TCHChannelType.public.rawValue
         ] as [String : Any]
         
         UIApplication.shared.isNetworkActivityIndicatorVisible = true;
