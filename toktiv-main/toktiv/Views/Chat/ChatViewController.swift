@@ -55,12 +55,19 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         tableView.register(UINib(nibName: "ToCell", bundle: nil), forCellReuseIdentifier: "ToCell")
 
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+        tableView.addGestureRecognizer(tapGestureRecognizer)
 
         self.topLabel.text = toName
         
         self.addObservers()
         
         joinOrCreateChannel()
+    }
+    
+    @objc func closeKeyboard() {
+        inputTextField.endEditing(true)
     }
     
     func joinOrCreateChannel()
@@ -99,8 +106,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     //MARK: - IBActions
     @IBAction func popThisController() {
         
-            self.navigationController?.popViewController(animated: true)
-        }
+        self.navigationController?.popViewController(animated: true)
+    }
     
     @IBAction func sendMessage(_ sender:UIButton) {
         if let message = self.inputTextField.text {

@@ -30,7 +30,7 @@ class NetworkURLs: NSObject {
     static let RESUME_IN_PROGRESS_CALL = "https://provider.drcurves.com/api/IOSResumeCall/ResumeCall"
     
     static let GET_CHAT_USER_LIST = "https://provider.drcurves.com/api/ChatUserApi/GetProviderHistory"
-    static let GET_CHAT_TOKEN = "https://provider.drcurves.com/chattoken/Generate?identity=ZQ207"
+    static let GET_CHAT_TOKEN = "https://provider.drcurves.com/chattoken/Generate" //?identity=ZQ207"
 }
 
 class AppConstants: NSObject {

@@ -34,10 +34,10 @@ class ChatViewModel: NSObject {
     
     func generateTwilioChatToken(completion: @escaping GetChatToken) {
         
-        let bodyParams = ["identity":StateManager.shared.loginViewModel.userProfile?.providerCode]
-        let bodyData = try? JSONSerialization.data(withJSONObject: bodyParams, options: .fragmentsAllowed)
+        let bodyParams = ["identity":StateManager.shared.loginViewModel.userProfile?.providerCode ?? ""]
+//        let bodyData = try? JSONSerialization.data(withJSONObject: bodyParams, options: .fragmentsAllowed)
         
-        BaseService.post(NetworkURLs.GET_CHAT_TOKEN, query: nil, headers: nil, body: bodyData) { (dictionary, error, data) in
+        BaseService.post(NetworkURLs.GET_CHAT_TOKEN, query: bodyParams, headers: nil, body: nil) { (dictionary, error, data) in
             guard let responseData = data else {
                 completion(nil, "Received empty data in response.")
                 return
