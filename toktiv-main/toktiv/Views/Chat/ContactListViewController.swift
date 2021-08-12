@@ -33,6 +33,7 @@ class ContactListViewController: UIViewController {
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
             MBProgressHUD.hide(for: self.view, animated: true)
             self.contactsList = response ?? []
+            self.contactsList = self.contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode }
             self.tableView.reloadData()
         })
     }
