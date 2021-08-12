@@ -162,6 +162,14 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+         self.channel?.typing()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.channel?.typing()
+    }
     
     func joinChannel() {
         setViewOnHold(onHold: true)
