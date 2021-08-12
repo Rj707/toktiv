@@ -47,9 +47,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         tableView!.allowsSelection = false
-        tableView!.estimatedRowHeight = 70
-        tableView!.rowHeight = UITableView.automaticDimension
         tableView!.separatorStyle = .none
+        
+        tableView.register(UINib(nibName: "FromCell", bundle: nil), forCellReuseIdentifier: "FromCell")
+        tableView.register(UINib(nibName: "ToCell", bundle: nil), forCellReuseIdentifier: "ToCell")
 
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
 
@@ -182,7 +183,8 @@ extension ChatViewController
     func sendMessage(inputMessage: String) {
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
         channel.messages?.sendMessage(with: messageOptions, completion: { (result, message) in
-            
+            self.inputTextField.text = ""
+            self.inputTextField.resignFirstResponder()
         })
     }
     
@@ -199,7 +201,7 @@ extension ChatViewController
     
     func sortMessages() {
         sortedMessages = messages.sorted { (a, b) -> Bool in
-            (a.dateCreated ?? "") > (b.dateCreated ?? "")
+            (a.dateCreated ?? "") < (b.dateCreated ?? "")
         }
     }
     
@@ -214,7 +216,7 @@ extension ChatViewController
     
     func scrollToBottom() {
         if messages.count > 0 {
-            let indexPath = IndexPath(row: 0, section: 0)
+            let indexPath = IndexPath(row: messages.count > 0 ? messages.count-1 : 0, section: 0)
             tableView!.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
@@ -236,30 +238,34 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        var cell:UITableViewCell
         let message = sortedMessages[indexPath.row]
 
-        cell = getChatCellForTableView(tableView: tableView, forIndexPath:indexPath, message:message)
-        cell.backgroundColor = UIColor.white
-        if message.author == StateManager.shared.loginViewModel.userProfile?.providerCode
-        {
-            cell.backgroundColor = UIColor.lightGray
-        }
-        cell.transform = tableView.transform
-        return cell
-    }
-    
-    func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
-        let cell = ChatTableCell.cellForTableView(tableView, atIndexPath: indexPath)
-        
-        let chatCell: ChatTableCell = cell
         let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
-        chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
+        if message.author == StateManager.shared.loginViewModel.userProfile?.providerCode
+        {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToCell") as? ToCell {
+                cell.messageLabel.text = message.body ?? ""
+                cell.timeLabel.text = timestamp
+                return cell
+            }
+        }
+        else {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromCell") as? FromCell {
+                cell.messageLabel.text = message.body ?? ""
+                cell.timeLabel.text = timestamp
+                return cell
+            }
+        }
         
-        return chatCell
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let string = sortedMessages[indexPath.row].body ?? ""
+        let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
+        return height + 50 + 21
     }
     
 }

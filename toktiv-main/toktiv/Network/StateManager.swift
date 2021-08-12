@@ -20,7 +20,7 @@ class StateManager: NSObject {
     {
         get
         {
-            return AvailableStatus(rawValue: UserDefaults.standard.value(forKey: "currentStatus") as? String ?? "")!
+            return AvailableStatus(rawValue: UserDefaults.standard.value(forKey: "currentStatus") as? String ?? "") ?? .offline
         }
         set
         {

@@ -222,6 +222,7 @@
 				0E45A8DB255F918E00B37EE1 /* SMS */,
 				0E094F79255D97CB00ACE57C /* Call History */,
 				0E094F78255D97C400ACE57C /* Dialer */,
+				A1B2EDD426C2DC2B004AE32B /* Chat */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -258,7 +259,6 @@
 				0E45A92C2562212100B37EE1 /* toktiv.entitlements */,
 				0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */,
 				0EBBF7BE25754DE1001A9EB0 /* SceneDelegate.swift */,
-				A1B2EDD426C2DC2B004AE32B /* Chat */,
 				0E094F7D255D980100ACE57C /* Views */,
 				0E094F7B255D97E600ACE57C /* View Models */,
 				0E094F7A255D97E100ACE57C /* Models */,
@@ -358,8 +358,7 @@
 				A1B2EDD626C2DC2B004AE32B /* ContactListViewController.swift */,
 				A1B2EDD726C2DC2B004AE32B /* Cell */,
 			);
-			name = Chat;
-			path = Views/Chat;
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		A1B2EDD726C2DC2B004AE32B /* Cell */ = {

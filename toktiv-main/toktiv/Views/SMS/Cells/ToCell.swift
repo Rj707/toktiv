@@ -27,7 +27,9 @@ class ToCell: UITableViewCell {
     override func layoutSubviews() {
         superview?.layoutSubviews()
         
-        self.messageLabel.text = smsRecord?.content ?? ""
-        timeLabel.text = "\(smsRecord?.date ?? " ") \(smsRecord?.time ?? " ")"
+        if smsRecord != nil {
+            self.messageLabel.text = smsRecord?.content ?? ""
+            timeLabel.text = "\(smsRecord?.date ?? " ") \(smsRecord?.time ?? " ")"
+        }
     }
 }

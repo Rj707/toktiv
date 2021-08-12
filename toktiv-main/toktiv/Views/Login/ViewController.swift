@@ -46,11 +46,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.stateManager.loginViewModel.userProfile = userProfileModel
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
             
-            // Navigate to Dashboard
-            self.moveToDashbnoard(animated: false)
             MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
                 
             }
+            
+            // Navigate to Dashboard
+            self.moveToDashbnoard(animated: false)
+
         }
         
         usernameTextField.text = "zeeqa"
@@ -105,6 +107,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
                                         StateManager.shared.accessToken = validAccessToken
                                     }
                                 }
+                            }
+                            
+                            
+                            MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
+                                
                             }
                             
                             self.stateManager.setupWorkerStatus(validResponse.twilioClientStatus ?? "")
