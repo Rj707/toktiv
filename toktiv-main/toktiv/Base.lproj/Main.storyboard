@@ -2766,6 +2766,7 @@
                     <connections>
                         <outlet property="IQLayoutGuideConstraint" destination="raZ-bS-Cvo" id="qic-5A-hqP"/>
                         <outlet property="bottomMarginConstraint" destination="TSX-TK-mKc" id="lUt-BB-bQn"/>
+                        <outlet property="chatInputView" destination="i3N-Yp-Q3r" id="mCP-LG-dmE"/>
                         <outlet property="inputTextField" destination="jG4-Mc-mtF" id="Wpm-7I-2v7"/>
                         <outlet property="sendButton" destination="ej0-vV-ZsO" id="I0O-qJ-2gu"/>
                         <outlet property="tableView" destination="ocn-gK-Jc5" id="fmY-we-hbj"/>

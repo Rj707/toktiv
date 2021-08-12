@@ -7,6 +7,7 @@
 
 import UIKit
 import TwilioChatClient
+import MBProgressHUD
 
 class ChatViewController: UIViewController, UITextFieldDelegate {
     
@@ -15,7 +16,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tableView:UITableView!
     @IBOutlet weak var inputTextField:UITextField!
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
-    
+    @IBOutlet weak var chatInputView:UIView!
+
     var toEmpID = ""
     
     var toName = ""
@@ -45,7 +47,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         tableView!.allowsSelection = false
         tableView!.separatorStyle = .none
         
@@ -58,10 +60,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         
         self.addObservers()
         
-        configuration()
+        joinOrCreateChannel()
     }
     
-    func configuration()
+    func joinOrCreateChannel()
     {
         setViewOnHold(onHold: true)
 
@@ -74,16 +76,21 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
                 if success
                 {
                     self.channel = ChannelManager.sharedManager.currentChannel
+                    self.channel.delegate = self
                     if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
                     {
                         self.loadMessages()
-                        self.setViewOnHold(onHold: true)
+                        DispatchQueue.main.async {
+                            self.tableView?.reloadData()
+                            self.setViewOnHold(onHold: false)
+                        }
                     }
                     else
                     {
                         
                     }
                 }
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
     }
@@ -148,6 +155,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         let haveText = textField.text?.count ?? 0 > 0
         self.sendButton.isSelected = haveText
         self.sendButton.isUserInteractionEnabled = haveText
+        
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -171,7 +179,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     
     // Disable user input and show activity indicator
     func setViewOnHold(onHold: Bool) {
-        self.inputTextField.isHidden = onHold;
+        self.chatInputView.isHidden = onHold;
         UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
     }
 }
@@ -305,5 +313,13 @@ extension ChatViewController : TCHChannelDelegate {
                 self.setViewOnHold(onHold: false)
             }
         }
+    }
+    
+    func chatClient(_ client: TwilioChatClient, typingStartedOn channel: TCHChannel, member: TCHMember) {
+        self.topLabel.text = "\(toName) is typing...."
+    }
+    
+    func chatClient(_ client: TwilioChatClient, typingEndedOn channel: TCHChannel, member: TCHMember) {
+        self.topLabel.text = toName
     }
 }
