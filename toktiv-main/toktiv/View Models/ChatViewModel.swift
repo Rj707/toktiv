@@ -34,7 +34,7 @@ class ChatViewModel: NSObject {
     
     func generateTwilioChatToken(completion: @escaping GetChatToken) {
         
-        let bodyParams = ["identity":StateManager.init().loginViewModel.userProfile?.providerCode]
+        let bodyParams = ["identity":StateManager.shared.loginViewModel.userProfile?.providerCode]
         let bodyData = try? JSONSerialization.data(withJSONObject: bodyParams, options: .fragmentsAllowed)
         
         BaseService.post(NetworkURLs.GET_CHAT_TOKEN, query: nil, headers: nil, body: bodyData) { (dictionary, error, data) in
