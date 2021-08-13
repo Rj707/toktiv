@@ -713,7 +713,7 @@
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				EXCLUDED_ARCHS = "";
@@ -740,7 +740,7 @@
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29.1;
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";

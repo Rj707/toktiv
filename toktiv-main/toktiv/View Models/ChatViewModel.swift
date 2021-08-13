@@ -9,7 +9,7 @@ import UIKit
 
 typealias GetChatUserList = ([ChatUserModel]?, String?) -> Void
 typealias GetChatToken = (ChatTokenModel?, String?) -> Void
-
+typealias DownloadChatAttachment = (UIImage?, String?) -> Void
 class ChatViewModel: NSObject {
     
     static let shared = ChatViewModel()
@@ -52,5 +52,26 @@ class ChatViewModel: NSObject {
             }
         }
     }
+    
+    func downloadImageWithURL(url:String, completion: @escaping DownloadChatAttachment)
+    {
+        
+        BaseService.getWithoutQueryParameters(url, query: nil, headers: nil, body: nil) { (dictionary, error, data) in
+            guard let responseData = data else {
+                return
+            }
+            
+            if let image = UIImage(data: responseData, scale:1)
+            {
+                completion(image,nil)
+            }
+            else
+            {
+                completion(nil,"")
+            }
+        }
+    }
+    
+    
 
 }

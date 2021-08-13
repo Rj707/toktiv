@@ -13,6 +13,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
+    @IBOutlet weak var attachmentButton:UIButton!
     @IBOutlet weak var tableView:UITableView!
     @IBOutlet weak var inputTextField:UITextField!
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
@@ -114,6 +115,48 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
             inputTextField.resignFirstResponder()
             sendMessage(inputMessage: message)
         }
+    }
+    
+    @IBAction func addAttachment(_ sender:UIButton) {
+        
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        let image = UIImage.init(named: "patient")
+        // The data for the image you would like to send
+        let data = image!.pngData()
+        // Prepare the upload stream and parameters
+        let messageOptions = TCHMessageOptions()
+        let inputStream = InputStream(data: data!)
+        
+        messageOptions.withMediaStream(inputStream,
+                                       contentType: "image/jpeg",
+                                       defaultFilename: "image.jpg",
+                                       onStarted: {
+                                        // Called when upload of media begins.
+                                        print("Media upload started")
+        },
+                                       onProgress: { (bytes) in
+                                        // Called as upload progresses, with the current byte count.
+                                        print("Media upload progress: \(bytes)")
+        }) { (mediaSid) in
+            // Called when upload is completed, with the new mediaSid if successful.
+            // Full failure details will be provided through sendMessage's completion.
+            print("Media upload completed")
+        }
+
+        // Trigger the sending of the message.
+        self.channel.messages?.sendMessage(with: messageOptions,
+                                           completion: { (result, message) in
+                                            
+                                            MBProgressHUD.hide(for: self.view, animated: true)
+
+                                            if !result.isSuccessful() {
+                                                print("Creation failed: \(String(describing: result.error))")
+                                            } else {
+                                                print("Creation successful")
+                                            }
+        })
+
+        
     }
     
     //MARK: - Helpers
@@ -263,6 +306,20 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = sortedMessages[indexPath.row]
 
+        if message.hasMedia() {
+            message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
+                guard let mediaContentUrl = mediaContentUrl else {
+                    return
+                }
+                // Use the url to download an image or other media
+                print(mediaContentUrl)
+                ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
+                    
+                }
+            }
+        }
+
+        
         let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
