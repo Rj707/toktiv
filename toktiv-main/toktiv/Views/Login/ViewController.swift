@@ -46,7 +46,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.stateManager.loginViewModel.userProfile = userProfileModel
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
             
-            MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
+            MessagingManager.sharedManager().connectClientWithCompletion
+            { (success, error) in
+                
+                if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+                {
+                    chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                    { (result) in
+                        if (!result.isSuccessful())
+                        {
+                            // try registration again or verify token
+                        }
+                        else
+                        {
+                            
+                        }
+                    }
+                }
+                else
+                {
+                    print("")
+                }
                 
             }
             
@@ -111,6 +131,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             
                             
                             MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
+                                
+                                if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil {
+                                    chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!) { (result) in
+                                        if (!result.isSuccessful()) {
+                                            // try registration again or verify token
+                                        }
+                                        else
+                                        {
+                                            
+                                        }
+                                    }
+                                } else {
+                                }
                                 
                             }
                             

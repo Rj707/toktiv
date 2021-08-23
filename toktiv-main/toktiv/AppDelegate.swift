@@ -18,6 +18,7 @@ import FirebaseMessaging
 import FirebaseCore
 import FirebaseInstanceID
 import NotificationBannerSwift
+import TwilioChatClient
 
 
 protocol PushKitEventDelegate: AnyObject {
@@ -41,7 +42,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     var callManager = CallSessionManager.shared
     var callConManager = CallConnectivityManager.shared
     var backgroundTaskID : UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
-
+    var updatedPushToken: Data? = Data.init()
+    var receivedNotification =  [AnyHashable : Any]()
     
     //creating the notification content
     var content = UNMutableNotificationContent()
@@ -450,12 +452,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
+        updatedPushToken = nil
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let tokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         print("deviceToken: \(tokenString)")
         Messaging.messaging().apnsToken = deviceToken
+        
+        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil {
+            chatClient.register(withNotificationToken: deviceToken) { (result) in
+                if (!result.isSuccessful()) {
+                    // try registration again or verify token
+                }
+            }
+        } else {
+            updatedPushToken = deviceToken
+        }
+
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -561,5 +575,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             completion()
         }
     }
+    
+//    // For iOS 10 and later; do not forget to set up a delegate for UNUserNotificationCenter
+//    func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler:
+//                                    @escaping () -> Void)
+//    {
+//        let userInfo = response.notification.request.content.userInfo
+//
+//        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+//        {
+//            // If your reference to the Chat client exists and is initialized, send the notification to it
+//            chatClient.handleNotification(userInfo)
+//            { (result) in
+//
+//                if (!result.isSuccessful())
+//                {
+//                    // Handling of notification was not successful, retry?
+//                }
+//            }
+//        }
+//        else
+//        {
+//            // Store the notification for later handling
+//            receivedNotification = userInfo
+//        }
+//    }
+//
+//    // For iOS versions before 10
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+//    {
+//        // If your application supports multiple types of push notifications, you may wish to limit which ones you send to the TwilioChatClient here
+//
+//        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+//        {
+//            // If your reference to the Chat client exists and is initialized, send the notification to it
+//            chatClient.handleNotification(userInfo)
+//            { (result) in
+//                if (!result.isSuccessful())
+//                {
+//                    // Handling of notification was not successful, retry?
+//                }
+//            }
+//        }
+//        else
+//        {
+//            // Store the notification for later handling
+//            receivedNotification = userInfo
+//        }
+//    }
     
 }

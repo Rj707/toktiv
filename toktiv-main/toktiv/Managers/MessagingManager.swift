@@ -66,6 +66,25 @@ class MessagingManager: NSObject {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             self?.connected = true
             self?.client = chatClient
+            
+            if let chatClient = self?.client, chatClient.user != nil
+            {
+                chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                { (result) in
+                    if (!result.isSuccessful())
+                    {
+                        // try registration again or verify token
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+            }
+            else
+            {
+                print("")
+            }
         }
     }
     
