@@ -8,6 +8,8 @@
 import UIKit
 import TwilioChatClient
 import MBProgressHUD
+import MobileCoreServices
+
 
 class ChatViewController: UIViewController, UITextFieldDelegate {
     
@@ -44,6 +46,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     
     var messages:Set<TCHMessage> = Set<TCHMessage>()
     var sortedMessages:[TCHMessage]!
+    
+    var attachmentName = ""
+    var attachmentType = ""
+    var attachmentData:Data!
     
     override func viewDidLoad() {
         
@@ -118,49 +124,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addAttachment(_ sender:UIButton) {
-        
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-        let image = UIImage.init(named: "patient")
-        // The data for the image you would like to send
-        let data = image!.pngData()
-        // Prepare the upload stream and parameters
-        let messageOptions = TCHMessageOptions()
-        let inputStream = InputStream(data: data!)
-        
-        messageOptions.withMediaStream(inputStream,
-                                       contentType: "image/jpeg",
-                                       defaultFilename: "image.jpg",
-                                       onStarted: {
-                                        // Called when upload of media begins.
-                                        print("Media upload started")
-        },
-                                       onProgress: { (bytes) in
-                                        // Called as upload progresses, with the current byte count.
-                                        print("Media upload progress: \(bytes)")
-        }) { (mediaSid) in
-            // Called when upload is completed, with the new mediaSid if successful.
-            // Full failure details will be provided through sendMessage's completion.
-            print("Media upload completed")
-        }
-
-        // Trigger the sending of the message.
-        self.channel.messages?.sendMessage(with: messageOptions,
-                                           completion: { (result, message) in
-                                            
-                                            MBProgressHUD.hide(for: self.view, animated: true)
-
-                                            if !result.isSuccessful() {
-                                                print("Creation failed: \(String(describing: result.error))")
-                                            } else {
-                                                print("Creation successful")
-                                            }
-        })
-
-        
+        chooseImageMethod()
     }
     
     //MARK: - Helpers
-    
 
     func addObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -393,5 +360,191 @@ extension ChatViewController : TCHChannelDelegate {
     
     func chatClient(_ client: TwilioChatClient, typingEndedOn channel: TCHChannel, member: TCHMember) {
         self.topLabel.text = toName
+    }
+}
+
+
+
+
+// MARK: - UIImagePicker Delegate / UINavigation Delegate
+extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    func sendAttachment() {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        // The data for the image you would like to send
+        let data = attachmentData
+        // Prepare the upload stream and parameters
+        let messageOptions = TCHMessageOptions()
+        let inputStream = InputStream(data: data!)
+        
+        messageOptions.withMediaStream(inputStream,
+                                       contentType: attachmentType,
+                                       defaultFilename: attachmentName,
+                                       onStarted: {
+                                        // Called when upload of media begins.
+                                        print("Media upload started")
+        },
+                                       onProgress: { (bytes) in
+                                        // Called as upload progresses, with the current byte count.
+                                        print("Media upload progress: \(bytes)")
+        }) { (mediaSid) in
+            // Called when upload is completed, with the new mediaSid if successful.
+            // Full failure details will be provided through sendMessage's completion.
+            print("Media upload completed")
+        }
+
+        // Trigger the sending of the message.
+        self.channel.messages?.sendMessage(with: messageOptions,
+                                           completion: { (result, message) in
+                                            
+                                            MBProgressHUD.hide(for: self.view, animated: true)
+
+                                            if !result.isSuccessful() {
+                                                print("Creation failed: \(String(describing: result.error))")
+                                            } else {
+                                                print("Creation successful")
+                                            }
+        })
+
+        
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
+    {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        var image : UIImage?
+        if let pickedImage = info[.editedImage] as? UIImage {
+            image   =   pickedImage
+        }
+        else if let pickedImage = info[.originalImage] as? UIImage {
+            image   =   pickedImage
+        }
+        
+        DispatchQueue.main.async {
+            if image != nil{
+                if let imageData = image!.pngData()
+                {
+                    self.attachmentName = "file.jpeg"
+                    self.attachmentType = "image/jpeg"
+                    
+                    self.attachmentData = imageData
+                    self.sendAttachment()
+                }
+            }
+        }
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func openCamera()
+    {
+        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.allowsEditing = false
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallery () {
+        let imagePicker = UIImagePickerController()
+        imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func openFileManager() {
+        let documentPicker: UIDocumentPickerViewController = UIDocumentPickerViewController(documentTypes: [String(kUTTypePDF),"com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document",String(kUTTypeJPEG),String(kUTTypePNG),String(kUTTypeImage),String(kUTTypeJPEG2000)], in: UIDocumentPickerMode.import)
+        documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        self.present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func chooseImageMethod() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
+        if let popoverPresentationController = alert.popoverPresentationController {
+            popoverPresentationController.sourceView = self.view
+            popoverPresentationController.sourceRect =  CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY / 2.5, width: 0, height: 0)
+        }
+        let GalleryAction: UIAlertAction = UIAlertAction(title: "Choose from Library", style: .default) { action -> Void in
+            self.openGallery()
+        }
+        let CameraAction: UIAlertAction = UIAlertAction(title: "Take photo", style: .default ) { action -> Void in
+            self.openCamera()
+        }
+        let FileAction: UIAlertAction = UIAlertAction(title: "Choose File", style: .default ) { action -> Void in
+            self.openFileManager()
+        }
+        let CancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel ) { action -> Void in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(GalleryAction)
+        alert.addAction(CameraAction)
+        alert.addAction(FileAction)
+        alert.addAction(CancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+
+extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
+    
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let myURL = urls.first else {
+            return
+        }
+        
+        do {
+            let data = try Data.init(contentsOf: myURL)
+            
+            let fileExt: String = myURL.pathExtension
+            
+            if fileExt.contains("pdf", options: .caseInsensitive){
+                self.attachmentName = "file.pdf"
+                self.attachmentType = "application/pdf"
+            }else if fileExt.contains("doc", options: .caseInsensitive){
+                self.attachmentName = "file.doc"
+                self.attachmentType = "application/msword"
+            }else if fileExt.contains("docx", options: .caseInsensitive){
+                self.attachmentName = "file.docx"
+                self.attachmentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            }else if fileExt.contains("png", options: .caseInsensitive){
+                self.attachmentName = "file.png"
+                self.attachmentType = "image/png"
+            }else if fileExt.contains("jpeg", options: .caseInsensitive){
+                self.attachmentName = "file.jpeg"
+                self.attachmentType = "image/jpeg"
+            }else if fileExt.contains("jpg", options: .caseInsensitive){
+                self.attachmentName = "file.jpeg"
+                self.attachmentType = "image/jpeg"
+            }
+            
+            self.attachmentData = data
+            
+            self.sendAttachment()
+            
+        } catch {
+            print("Unable to load data: \(error)")
+        }
+    }
+    
+    
+    public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("view was cancelled")
+        dismiss(animated: true, completion: nil)
     }
 }
