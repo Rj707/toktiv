@@ -69,7 +69,7 @@ class MessagingManager: NSObject {
             
             if let chatClient = self?.client, chatClient.user != nil
             {
-                chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
                 { (result) in
                     if (!result.isSuccessful())
                     {
