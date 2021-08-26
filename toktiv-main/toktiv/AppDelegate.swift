@@ -66,6 +66,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
+    // MARK:- Implementation
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         let message = url.host?.removingPercentEncoding
@@ -177,6 +179,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         voipRegistry.delegate = self
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
     }
+    
+    func handleProgressView(_ value:Bool) {
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+        if var topController = keyWindow?.rootViewController {
+            while let presentedViewController = topController.presentedViewController {
+                topController = presentedViewController
+            }
+
+            if value {
+                MBProgressHUD.showAdded(to: topController.view, animated: true)
+            }
+            else {
+                MBProgressHUD.hide(for: topController.view, animated: true)
+            }
+        }
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+       
+    }
+    
+    func getCurrentDate(date:Date) -> String
+    {
+        let df = DateFormatter()
+        df.dateFormat = "E, d MMM yyyy HH:mm:ss"
+        let dateString = df.string(from: date)
+        return dateString
+    }
+    
+    // MARK:- Access Token
     
     func handleAccessTokenExpiry(_ accessToken:String) {
             let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
@@ -292,36 +325,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    func handleProgressView(_ value:Bool) {
-        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-
-        if var topController = keyWindow?.rootViewController {
-            while let presentedViewController = topController.presentedViewController {
-                topController = presentedViewController
-            }
-
-            if value {
-                MBProgressHUD.showAdded(to: topController.view, animated: true)
-            }
-            else {
-                MBProgressHUD.hide(for: topController.view, animated: true)
-            }
-        }
-    }
-    
-    func applicationDidBecomeActive(_ application: UIApplication) {
-       
-    }
-    
-    func getCurrentDate(date:Date) -> String
-    {
-        let df = DateFormatter()
-        df.dateFormat = "E, d MMM yyyy HH:mm:ss"
-        let dateString = df.string(from: date)
-        return dateString
-    }
-    
-    // MARK: UISceneSession Lifecycle
+    // MARK:- UISceneSession Lifecycle
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -334,6 +338,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    // MARK:- RemoteNotification
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if let messageID = userInfo[gcmMessageIDKey] {
@@ -521,7 +527,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     }
     
     
-    // MARK: PKPushRegistryDelegate
+    // MARK:- PKPushRegistryDelegate
+    
     func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, for type: PKPushType) {
         NSLog("pushRegistry:didUpdatePushCredentials:forType:")
         UserDefaults.standard.set(credentials.token, forKey: kCachedDeviceToken)
