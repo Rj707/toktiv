@@ -58,8 +58,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         tableView!.allowsSelection = false
         tableView!.separatorStyle = .none
         
-        tableView.register(UINib(nibName: "FromCell", bundle: nil), forCellReuseIdentifier: "FromCell")
-        tableView.register(UINib(nibName: "ToCell", bundle: nil), forCellReuseIdentifier: "ToCell")
+        tableView.register(UINib(nibName: "FromChatTableViewCell", bundle: nil), forCellReuseIdentifier: "FromChatTableViewCell")
+        tableView.register(UINib(nibName: "ToChatTableViewCell", bundle: nil), forCellReuseIdentifier: "ToChatTableViewCell")
 
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
         
@@ -273,35 +273,64 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = sortedMessages[indexPath.row]
 
-        if message.hasMedia() {
-            message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
-                guard let mediaContentUrl = mediaContentUrl else {
-                    return
-                }
-                // Use the url to download an image or other media
-                print(mediaContentUrl)
-                ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
-                    
-                }
-            }
-        }
-
         
         let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         if message.author == StateManager.shared.loginViewModel.userProfile?.providerCode
         {
-            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToCell") as? ToCell {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell {
                 cell.messageLabel.text = message.body ?? ""
                 cell.timeLabel.text = timestamp
+                
+                if message.hasMedia() {
+                    cell.mediaImageView.isHidden = false
+                    cell.messageLabel.isHidden = true
+                    
+                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
+                        guard let mediaContentUrl = mediaContentUrl else {
+                            return
+                        }
+                        // Use the url to download an image or other media
+                        print(mediaContentUrl)
+                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
+                            cell.mediaImageView.image = image
+                        }
+                    }
+                }
+                else {
+                    cell.messageLabel.isHidden = false
+                    cell.mediaImageView.isHidden = true
+                }
+
                 return cell
             }
         }
         else {
-            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromCell") as? FromCell {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromChatTableViewCell") as? FromChatTableViewCell {
                 cell.messageLabel.text = message.body ?? ""
                 cell.timeLabel.text = timestamp
+                
+                if message.hasMedia() {
+                    cell.mediaImageView.isHidden = false
+                    cell.messageLabel.isHidden = true
+                    
+                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
+                        guard let mediaContentUrl = mediaContentUrl else {
+                            return
+                        }
+                        // Use the url to download an image or other media
+                        print(mediaContentUrl)
+                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
+                            cell.mediaImageView.image = image
+                        }
+                    }
+                }
+                else {
+                    cell.messageLabel.isHidden = false
+                    cell.mediaImageView.isHidden = true
+                }
+
                 return cell
             }
         }
@@ -310,9 +339,15 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let string = sortedMessages[indexPath.row].body ?? ""
-        let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
-        return height + 50 + 21
+        
+        if sortedMessages[indexPath.row].hasMedia() {
+            return 171 + 50 + 21
+        }
+        else {
+            let string = sortedMessages[indexPath.row].body ?? ""
+            let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
+            return height + 50 + 21
+        }
     }
     
 }
@@ -507,23 +542,23 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
             
             let fileExt: String = myURL.pathExtension
             
-            if fileExt.contains("pdf", options: .caseInsensitive){
+            if fileExt.contains("pdf"){
                 self.attachmentName = "file.pdf"
                 self.attachmentType = "application/pdf"
-            }else if fileExt.contains("doc", options: .caseInsensitive){
+            }else if fileExt.contains("doc"){
                 self.attachmentName = "file.doc"
                 self.attachmentType = "application/msword"
-            }else if fileExt.contains("docx", options: .caseInsensitive){
+            }else if fileExt.contains("docx"){
                 self.attachmentName = "file.docx"
                 self.attachmentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            }else if fileExt.contains("png", options: .caseInsensitive){
-                self.attachmentName = "file.png"
+            }else if fileExt.contains("png"){
+                self.attachmentName = "image.png"
                 self.attachmentType = "image/png"
-            }else if fileExt.contains("jpeg", options: .caseInsensitive){
-                self.attachmentName = "file.jpeg"
+            }else if fileExt.contains("jpeg"){
+                self.attachmentName = "image.jpeg"
                 self.attachmentType = "image/jpeg"
-            }else if fileExt.contains("jpg", options: .caseInsensitive){
-                self.attachmentName = "file.jpeg"
+            }else if fileExt.contains("jpg"){
+                self.attachmentName = "image.jpeg"
                 self.attachmentType = "image/jpeg"
             }
             

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		218F7EBA26D66EC9008AB97A /* ToChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218F7EB826D66EC9008AB97A /* ToChatTableViewCell.swift */; };
+		218F7EBB26D66EC9008AB97A /* ToChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7EB926D66EC9008AB97A /* ToChatTableViewCell.xib */; };
+		218F7EDA26D6AB90008AB97A /* FromChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218F7ED826D6AB90008AB97A /* FromChatTableViewCell.swift */; };
+		218F7EDB26D6AB90008AB97A /* FromChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */; };
@@ -118,6 +122,10 @@
 		0EBBF8392578DF58001A9EB0 /* TasksCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksCell.swift; sourceTree = "<group>"; };
 		0EBBF83A2578DF58001A9EB0 /* TasksCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TasksCell.xib; sourceTree = "<group>"; };
 		0EEA2570257FD6C3007FEC90 /* AppBrowserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBrowserController.swift; sourceTree = "<group>"; };
+		218F7EB826D66EC9008AB97A /* ToChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToChatTableViewCell.swift; sourceTree = "<group>"; };
+		218F7EB926D66EC9008AB97A /* ToChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ToChatTableViewCell.xib; sourceTree = "<group>"; };
+		218F7ED826D6AB90008AB97A /* FromChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FromChatTableViewCell.swift; sourceTree = "<group>"; };
+		218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FromChatTableViewCell.xib; sourceTree = "<group>"; };
 		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -366,8 +374,12 @@
 			children = (
 				A1DB834A26C4F312008AC959 /* ChatTableCell.swift */,
 				A1DB834B26C4F312008AC959 /* ChatTableCell.xib */,
-				A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */,
 				A1B2EDD926C2DC2B004AE32B /* ContactTableViewCell.swift */,
+				A1B2EDD826C2DC2B004AE32B /* ContactTableViewCell.xib */,
+				218F7EB826D66EC9008AB97A /* ToChatTableViewCell.swift */,
+				218F7EB926D66EC9008AB97A /* ToChatTableViewCell.xib */,
+				218F7ED826D6AB90008AB97A /* FromChatTableViewCell.swift */,
+				218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -437,10 +449,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1DB834D26C4F312008AC959 /* ChatTableCell.xib in Resources */,
+				218F7EDB26D6AB90008AB97A /* FromChatTableViewCell.xib in Resources */,
 				A1D52B6725E42AE3003A9A3F /* Lauch_2.storyboard in Resources */,
 				A1D52B6825E42AE3003A9A3F /* LaunchScreen.storyboard in Resources */,
 				A1D52B6925E42AE3003A9A3F /* PatientCell.xib in Resources */,
 				A1D52B6A25E42AE3003A9A3F /* TasksCell.xib in Resources */,
+				218F7EBB26D66EC9008AB97A /* ToChatTableViewCell.xib in Resources */,
 				A1D52B6B25E42AE3003A9A3F /* GoogleService-Info.plist in Resources */,
 				A1B2EDDC26C2DC2B004AE32B /* ContactTableViewCell.xib in Resources */,
 				A1D52B6C25E42AE3003A9A3F /* HistotyTableCell.xib in Resources */,
@@ -544,9 +558,11 @@
 				A1D52B5125E42AE3003A9A3F /* LoginViewModel.swift in Sources */,
 				A1D52B5225E42AE3003A9A3F /* AppBrowserController.swift in Sources */,
 				A1D52B5325E42AE3003A9A3F /* ConvesationViewController.swift in Sources */,
+				218F7EDA26D6AB90008AB97A /* FromChatTableViewCell.swift in Sources */,
 				A1D52B5425E42AE3003A9A3F /* ToCell.swift in Sources */,
 				A1DB835026C4F419008AC959 /* DateTodayFormatter.swift in Sources */,
 				A1D52B5525E42AE3003A9A3F /* CallHistoryViewController.swift in Sources */,
+				218F7EBA26D66EC9008AB97A /* ToChatTableViewCell.swift in Sources */,
 				A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */,
 				A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */,
 				A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */,
