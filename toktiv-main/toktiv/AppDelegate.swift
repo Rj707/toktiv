@@ -72,18 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     // MARK:- Implementation
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool
-    {
-        let message = url.host?.removingPercentEncoding
-        let alertController = UIAlertController(title: "Incoming Message", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-        alertController.addAction(okAction)
-        
-        window?.rootViewController?.present(alertController, animated: true, completion: nil)
-        
-        return true
-    }
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
         
@@ -91,24 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         initializePushKit()
         
-        UNUserNotificationCenter.current().delegate = self
-        
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: authOptions)
-        { (_, error) in
-            
-            guard error == nil else
-            {
-                print(error!.localizedDescription)
-                return
-            }
-        }
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler:
-                                                                    {didAllow, error in
-                                                                        
-                                                                    })
+        registerForPUSHNotifications()
         
         Messaging.messaging().delegate = self
         
@@ -138,24 +109,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         if remoteNotif != nil
         {
-            let alertController = UIAlertController(title: "messageTitle", message: "messageBody", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Open", style: UIAlertAction.Style.default, handler:
-            { _ in
-                
-            })
-            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler:nil))
-            alertController.addAction(okAction)
-            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-            
-            if var topController = keyWindow?.rootViewController
+            showAlertControllerWith(messageTitle: "messageTitle", messageBody: "messageBody")
             {
-                while let presentedViewController = topController.presentedViewController
-                {
-                    topController = presentedViewController
-                }
                 
-                // topController should now be your topmost view controller
-                topController.present(alertController, animated: true, completion: nil)
             }
         }
         else
@@ -169,26 +125,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         return true
     }
     
-    func openMessageView(_ fromparam:String, toparam:String)
+    func applicationDidBecomeActive(_ application: UIApplication)
     {
-        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ConvesationViewController") as? ConvesationViewController
-        {
-            let directionparam = "Inbound"
-            controller.selectedChat = HistoryResponseElement(with: toparam, from: fromparam, direction: directionparam)
-            controller.isFromPushNotificationPresent = true
-            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-            
-            if var topController = keyWindow?.rootViewController
-            {
-                while let presentedViewController = topController.presentedViewController
-                {
-                    topController = presentedViewController
-                }
-                
-                // topController should now be your topmost view controller
-                topController.present(controller, animated: true, completion: nil)
-            }
-        }
+        
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool
+    {
+        let message = url.host?.removingPercentEncoding
+        let alertController = UIAlertController(title: "Incoming Message", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+        alertController.addAction(okAction)
+        
+        window?.rootViewController?.present(alertController, animated: true, completion: nil)
+        
+        return true
     }
     
     override init()
@@ -225,17 +176,105 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    func applicationDidBecomeActive(_ application: UIApplication)
+    func openConversationView(_ fromparam:String, toparam:String)
     {
-        
+        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ConvesationViewController") as? ConvesationViewController
+        {
+            let directionparam = "Inbound"
+            controller.selectedChat = HistoryResponseElement(with: toparam, from: fromparam, direction: directionparam)
+            controller.isFromPushNotificationPresent = true
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            
+            if var topController = keyWindow?.rootViewController
+            {
+                while let presentedViewController = topController.presentedViewController
+                {
+                    topController = presentedViewController
+                }
+                
+                // topController should now be your topmost view controller
+                topController.present(controller, animated: true, completion: nil)
+            }
+        }
     }
     
-    func getCurrentDate(date:Date) -> String
+    func showAlertControllerWith(messageTitle:String, messageBody:String, completionHandler: @escaping () -> ())
     {
-        let df = DateFormatter()
-        df.dateFormat = "E, d MMM yyyy HH:mm:ss"
-        let dateString = df.string(from: date)
-        return dateString
+        let alertController = UIAlertController(title: messageTitle, message: messageBody, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Open", style: UIAlertAction.Style.default, handler:
+        { _ in
+            
+            completionHandler()
+        })
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler:nil))
+        alertController.addAction(okAction)
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        
+        if var topController = keyWindow?.rootViewController
+        {
+            while let presentedViewController = topController.presentedViewController
+            {
+                topController = presentedViewController
+            }
+            
+            // topController should now be your topmost view controller
+            topController.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func showAlertOfNewMessage(_ userInfo:[AnyHashable: Any])
+    {
+        //        let messageTitle:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String) ?? ""
+        //        let messageBody:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["body"] as? String) ?? ""
+        
+        let tonumber:String = userInfo["tonumber"] as? String ?? ""
+        let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
+        let module:String = userInfo["module"] as? String ?? "ch"
+        
+        guard module == "c" else
+        {
+            return
+        }
+        
+        self.openConversationView(fromnumber, toparam: tonumber)
+    }
+    
+    func syncUserStatusWithWebLoggedInUser(staus:String)
+    {
+        //            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
+        //            if status in payload is 'Offline' or 'Unavailable' then status will be Online or whatever word you are using for Offline
+        //            if status in payload is 'Busy' or 'WrapUp' then status will be Online or whatever word you are using for Busy
+        
+        switch staus
+        {
+        case "Offline":
+            print("Offline")
+            StateManager.shared.currentStatus = .offline
+        case "Unavailable":
+            print("Unavailable")
+            StateManager.shared.currentStatus = .offline
+            
+        case "Available":
+            print("Available")
+            StateManager.shared.currentStatus = .online
+            
+        case "Idle":
+            print("Idle")
+            StateManager.shared.currentStatus = .online
+            
+        case "Busy":
+            print("Busy")
+            StateManager.shared.currentStatus = .busy
+            
+        case "WrapUp":
+            print("WrapUp")
+            StateManager.shared.currentStatus = .busy
+            
+        default:
+            print("default")
+        }
     }
     
     // MARK:- Access Token
@@ -255,8 +294,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     @objc func getAcesstokenRefreshed()
     {
-        print("getAcesstokenRefreshed")
-        
         if let validExpDate = self.expiryDate
         {
             let expDate = validExpDate.toLocalTime()
@@ -360,111 +397,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    // MARK:- RemoteNotification
+    // MARK:- RemoteNotification Registration
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    func registerForPUSHNotifications()
     {
-        if let messageID = userInfo[gcmMessageIDKey]
-        {
-            print("Message ID: \(messageID)")
-        }
+        UNUserNotificationCenter.current().delegate = self
         
-        print(userInfo)
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         
-        let messageTitle:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String) ?? ""
-        let messageBody:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["body"] as? String) ?? ""
-        let tonumber:String = userInfo["tonumber"] as? String ?? ""
-        let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
-        let module:String = userInfo["module"] as? String ?? "ch"
-        
-        print(module)
-        
-        if module == "su"
-        {
-            //            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
-            //            if status in payload is 'Offline' or 'Unavailable' then status will be Online or whatever word you are using for Offline
-            //            if status in payload is 'Busy' or 'WrapUp' then status will be Online or whatever word you are using for Busy
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions)
+        { (_, error) in
             
-            switch userInfo["status"] as? String
+            guard error == nil else
             {
-            case "Offline":
-                print("Offline")
-                StateManager.shared.currentStatus = .offline
-            case "Unavailable":
-                print("Unavailable")
-                StateManager.shared.currentStatus = .offline
-                
-            case "Available":
-                print("Available")
-                StateManager.shared.currentStatus = .online
-                
-            case "Idle":
-                print("Idle")
-                StateManager.shared.currentStatus = .online
-                
-            case "Busy":
-                print("Busy")
-                StateManager.shared.currentStatus = .busy
-                
-            case "WrapUp":
-                print("WrapUp")
-                StateManager.shared.currentStatus = .busy
-                
-            default:
-                print("default")
+                print(error!.localizedDescription)
+                return
             }
         }
         
-        if module == "TU" || module == "tu"
-        {
-            DispatchQueue.global().async
-            {
-                // Request the task assertion and save the ID.
-                self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks")
-                {
-                    // End the task if time expires.
-                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
-                    self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-                }
-                self.refreshAccessTokenOnSilentPush()
-            }
-        }
-        
-        guard module == "c" else
-        {
-            return
-        }
-        
-        let state = UIApplication.shared.applicationState
-        if state == .active
-        {
-            let alertController = UIAlertController(title: messageTitle, message: messageBody, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Open", style: UIAlertAction.Style.default, handler:
-            { _ in
-                
-                self.openMessageView(fromnumber, toparam: tonumber)
-            })
-            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler:nil))
-            alertController.addAction(okAction)
-            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-            
-            if var topController = keyWindow?.rootViewController
-            {
-                while let presentedViewController = topController.presentedViewController
-                {
-                    topController = presentedViewController
-                }
-                
-                // topController should now be your topmost view controller
-                topController.present(alertController, animated: true, completion: nil)
-            }
-        }
-        else if state == .inactive || state == .background
-        {
-            print("state == .inactive || state == .background")
-        }
-        
-        //        completionHandler(UIBackgroundFetchResult.newData)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler:
+                                                                    {didAllow, error in
+                                                                        
+                                                                    })
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error)
@@ -495,50 +449,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         {
             updatedPushToken = deviceToken
         }
-        
     }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
-    {
-        // Background Notification
-        
-        let userInfo = response.notification.request.content.userInfo
-        self.perform(#selector(self.showAlertOfNewMessage(_:)), with: userInfo, afterDelay: 1)
-        completionHandler()
-    }
-    
-    @objc func showAlertOfNewMessage(_ userInfo:[AnyHashable: Any])
-    {
-        //        let messageTitle:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String) ?? ""
-        //        let messageBody:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["body"] as? String) ?? ""
-        
-        let tonumber:String = userInfo["tonumber"] as? String ?? ""
-        let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
-        let module:String = userInfo["module"] as? String ?? "ch"
-        
-        guard module == "c" else
-        {
-            return
-        }
-        
-        self.openMessageView(fromnumber, toparam: tonumber)
-        //        let alertController = UIAlertController(title: messageTitle, message: messageBody, preferredStyle: .alert)
-        //        let okAction = UIAlertAction(title: "Open", style: UIAlertAction.Style.default, handler: { _ in
-        //            self.openMessageView(fromnumber, toparam: tonumber)
-        //        })
-        //        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.destructive, handler:nil))
-        //        alertController.addAction(okAction)
-        //        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-        //
-        //        if var topController = keyWindow?.rootViewController {
-        //            while let presentedViewController = topController.presentedViewController {
-        //                topController = presentedViewController
-        //            }
-        //
-        //            topController.present(alertController, animated: true, completion: nil)
-        //        }
-    }
-    
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?)
     {
@@ -552,6 +463,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
+    }
+    
+    // MARK:- RemoteNotification Receiving
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    {
+        if let messageID = userInfo[gcmMessageIDKey]
+        {
+            print("Message ID: \(messageID)")
+        }
+        
+        print(userInfo)
+        
+        let messageTitle:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String) ?? ""
+        let messageBody:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["body"] as? String) ?? ""
+        let tonumber:String = userInfo["tonumber"] as? String ?? ""
+        let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
+        let module:String = userInfo["module"] as? String ?? "ch"
+        
+        if module == "su"
+        {
+            //            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
+            //            if status in payload is 'Offline' or 'Unavailable' then status will be Online or whatever word you are using for Offline
+            //            if status in payload is 'Busy' or 'WrapUp' then status will be Online or whatever word you are using for Busy
+            
+            self.syncUserStatusWithWebLoggedInUser(staus: userInfo["status"] as? String ?? "")
+        }
+        
+        if module == "TU" || module == "tu"
+        {
+            DispatchQueue.global().async
+            {
+                // Request the task assertion and save the ID.
+                
+                self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks")
+                {
+                    // End the task if time expires.
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                    self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                }
+                
+                self.refreshAccessTokenOnSilentPush()
+            }
+        }
+        
+        guard module == "c" else
+        {
+            return
+        }
+        
+        let state = UIApplication.shared.applicationState
+        if state == .active
+        {
+            showAlertControllerWith(messageTitle: messageTitle, messageBody: messageBody)
+            {
+                self.openConversationView(fromnumber, toparam: tonumber)
+            }
+        }
+        else if state == .inactive || state == .background
+        {
+            print("state == .inactive || state == .background")
+        }
+        
+        //        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+        // Background Notification
+        
+        let userInfo = response.notification.request.content.userInfo
+        self.perform(#selector(self.showAlertOfNewMessage(_:)), with: userInfo, afterDelay: 1)
+        completionHandler()
     }
     
     // MARK:- PKPushRegistryDelegate
