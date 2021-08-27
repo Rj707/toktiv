@@ -67,23 +67,15 @@ class MessagingManager: NSObject {
             self?.connected = true
             self?.client = chatClient
             
-            if let chatClient = self?.client, chatClient.user != nil
-            {
-                chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-                { (result) in
-                    if (!result.isSuccessful())
-                    {
-                        // try registration again or verify token
-                    }
-                    else
-                    {
-                        
-                    }
+            self?.registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+            { (success) in
+                
+                if success
+                {
                 }
-            }
-            else
-            {
-                print("")
+                else
+                {
+                }
             }
         }
     }
@@ -103,6 +95,27 @@ class MessagingManager: NSObject {
     func errorWithDescription(description: String, code: Int) -> NSError {
         let userInfo = [NSLocalizedDescriptionKey : description]
         return NSError(domain: "app", code: code, userInfo: userInfo)
+    }
+    
+    func registerChatClientWith(deviceToken: Data, completion : @escaping (Bool) -> ())
+    {
+        if let chatClient = self.client, chatClient.user != nil
+        {
+            chatClient.register(withNotificationToken: deviceToken)
+            { (result) in
+                
+                completion(true)
+
+                if (!result.isSuccessful())
+                {
+                    // try registration again or verify token
+                }
+            }
+        }
+        else
+        {
+            completion(false)
+        }
     }
 }
 

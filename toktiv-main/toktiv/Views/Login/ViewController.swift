@@ -49,25 +49,19 @@ class ViewController: UIViewController, UITextFieldDelegate {
             MessagingManager.sharedManager().connectClientWithCompletion
             { (success, error) in
                 
-                if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+                if success
                 {
-                    chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
-                    { (result) in
-                        if (!result.isSuccessful())
+                    MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                    { (success) in
+                        
+                        if success
                         {
-                            // try registration again or verify token
                         }
                         else
                         {
-                            
                         }
                     }
                 }
-                else
-                {
-                    print("")
-                }
-                
             }
             
             // Navigate to Dashboard
@@ -132,17 +126,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             
                             MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
                                 
-                                if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil {
-                                    chatClient.register(withNotificationToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!) { (result) in
-                                        if (!result.isSuccessful()) {
-                                            // try registration again or verify token
-                                        }
-                                        else
-                                        {
-                                            
-                                        }
+                                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                                { (success) in
+                                    
+                                    if success
+                                    {
                                     }
-                                } else {
+                                    else
+                                    {
+                                    }
                                 }
                                 
                             }

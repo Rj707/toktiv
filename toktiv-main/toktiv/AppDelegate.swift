@@ -154,6 +154,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
     }
     
+    // MARK:- Helpers
+    
     func handleProgressView(_ value:Bool)
     {
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
@@ -434,20 +436,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         Messaging.messaging().apnsToken = deviceToken
         
-        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
-        {
-            chatClient.register(withNotificationToken: deviceToken)
-            { (result) in
+        MessagingManager.sharedManager().registerChatClientWith(deviceToken: deviceToken)
+        { (success) in
+            
+            if success
+            {
                 
-                if (!result.isSuccessful())
-                {
-                    // try registration again or verify token
-                }
             }
-        }
-        else
-        {
-            updatedPushToken = deviceToken
+            else
+            {
+                self.updatedPushToken = deviceToken
+            }
         }
     }
     
