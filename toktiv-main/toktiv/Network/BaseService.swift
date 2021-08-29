@@ -135,10 +135,8 @@ class BaseService: NSObject {
             }
     }
     
-    func upload(file:UIImage, with urlString:String,  completionHandler: @escaping ServiceCompletionHandler)
+    @objc public class func upload(imgData:Data, with urlString:String,  completionHandler: @escaping ServiceCompletionHandler)
     {
-        let imgData = file.jpegData(compressionQuality: 0.2)!
-        
         AF.upload(multipartFormData:
         { multipartFormData in
             
@@ -163,37 +161,12 @@ class BaseService: NSObject {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
                         completionHandler(value as? NSDictionary, nil, response.data)
                     }
-                case .failure:
+                case .failure(let error):
                     let skipRefreshSchemes = [""]
                     let filteredSchemes = skipRefreshSchemes.filter({ (scheme:String) -> Bool in
                         urlString.contains(scheme)
                     })
                     
-                    if response.response?.statusCode == 401 && filteredSchemes.isEmpty {
-                        
-                    }
-                    
-                    if let httpResponse = response.response{
-                        Logger.print("CODE - \(httpResponse.statusCode)\n")
-                        let errorTemp = NSError(    domain:"", code:httpResponse.statusCode, userInfo:nil)
-                        if let data = response.data, let string = String(data:data, encoding:.utf8) {
-                            Logger.print("\(string)")
-                            let dict = BaseService.convertToDictionary(text: string)
-                            if let value = dict?.first as NSDictionary? {
-                                completionHandler(value, errorTemp, response.data)
-                            }
-                            else {
-                                completionHandler(nil, errorTemp, response.data)
-                            }
-                        }
-                        else {
-                            completionHandler(nil, errorTemp, response.data)
-                        }
-                    }
-                    else
-                    {
-                        completionHandler(nil, response.error, nil)
-                    }
                 }
             }
     }

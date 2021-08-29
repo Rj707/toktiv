@@ -2799,6 +2799,40 @@
             </objects>
             <point key="canvasLocation" x="164" y="4280"/>
         </scene>
+        <!--Attachment View Controller-->
+        <scene sceneID="zz1-n0-uAd">
+            <objects>
+                <viewController id="4LV-vm-OdX" customClass="AttachmentViewController" customModule="toktiv" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TVP-Wc-efo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a8S-Ci-Hzb">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fGH-94-SgK"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fGH-94-SgK" firstAttribute="trailing" secondItem="a8S-Ci-Hzb" secondAttribute="trailing" id="9kY-np-2v2"/>
+                            <constraint firstItem="fGH-94-SgK" firstAttribute="bottom" secondItem="a8S-Ci-Hzb" secondAttribute="bottom" id="Vd9-BZ-VLf"/>
+                            <constraint firstItem="a8S-Ci-Hzb" firstAttribute="top" secondItem="fGH-94-SgK" secondAttribute="top" id="deE-zv-fUO"/>
+                            <constraint firstItem="a8S-Ci-Hzb" firstAttribute="leading" secondItem="fGH-94-SgK" secondAttribute="leading" id="zrU-A0-Vku"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="a8S-Ci-Hzb" id="Res-A1-p6i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ZT-tX-h2E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045" y="4275"/>
+        </scene>
     </scenes>
     <resources>
         <image name="1" width="32" height="32"/>

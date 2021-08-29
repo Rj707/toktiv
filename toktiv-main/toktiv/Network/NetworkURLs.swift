@@ -31,7 +31,7 @@ class NetworkURLs: NSObject {
     
     static let GET_CHAT_USER_LIST = "https://provider.drcurves.com/api/ChatUserApi/GetProviderHistory"
     static let GET_CHAT_TOKEN = "https://provider.drcurves.com/chattoken/Generate"
-    static let POST_CHAT_ATTACHMENT = "    https://provider.drcurves.com/TwilioChat/UploadAttachment"
+    static let POST_CHAT_ATTACHMENT = "https://provider.drcurves.com/TwilioChat/UploadAttachment"
 
 }
 

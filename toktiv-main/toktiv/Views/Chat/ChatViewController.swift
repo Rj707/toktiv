@@ -344,6 +344,14 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         {
             if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell {
                 cell.messageLabel.text = message.body ?? ""
+                if message.body?.contains("https://provider.drcurves.com") ?? false
+                {
+                    cell.messageLabel.text = "View Attachment"
+                }
+                else
+                {
+                    cell.messageLabel.text = message.body ?? ""
+                }
                 cell.timeLabel.text = timestamp
                 
                 if message.hasMedia() {
@@ -371,7 +379,14 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         }
         else {
             if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromChatTableViewCell") as? FromChatTableViewCell {
-                cell.messageLabel.text = message.body ?? ""
+                if message.body?.contains("https://provider.drcurves.com") ?? false
+                {
+                    cell.messageLabel.text = "View Attachment"
+                }
+                else
+                {
+                    cell.messageLabel.text = message.body ?? ""
+                }
                 cell.timeLabel.text = timestamp
                 
                 if message.hasMedia() {
@@ -411,6 +426,19 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
             return height + 50 + 21
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        let message = sortedMessages[indexPath.row]
+        
+        if message.body?.contains("https://provider.drcurves.com") ?? false
+        {
+            let controller = self.storyboard?.instantiateViewController(identifier: "AttachmentViewController") as? AttachmentViewController
+            controller?.webViewURL = message.body ?? ""
+            self.navigationController?.pushViewController(controller!, animated: true)
+        }
+        
     }
     
 }
@@ -471,38 +499,50 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         MBProgressHUD.showAdded(to: self.view, animated: true)
         // The data for the image you would like to send
         let data = attachmentData
-        // Prepare the upload stream and parameters
-        let messageOptions = TCHMessageOptions()
-        let inputStream = InputStream(data: data!)
         
-        messageOptions.withMediaStream(inputStream,
-                                       contentType: attachmentType,
-                                       defaultFilename: attachmentName,
-                                       onStarted: {
-                                        // Called when upload of media begins.
-                                        print("Media upload started")
-        },
-                                       onProgress: { (bytes) in
-                                        // Called as upload progresses, with the current byte count.
-                                        print("Media upload progress: \(bytes)")
-        }) { (mediaSid) in
-            // Called when upload is completed, with the new mediaSid if successful.
-            // Full failure details will be provided through sendMessage's completion.
-            print("Media upload completed")
+        ChatViewModel.shared.uploadChatAttachment(attachment: data!)
+        { (attachmentURL) in
+            
+            if attachmentURL != ""
+            {
+                self.sendMessage(inputMessage: attachmentURL ?? "")
+            }
+            MBProgressHUD.hide(for: self.view, animated: true)
+
         }
-
-        // Trigger the sending of the message.
-        self.channel.messages?.sendMessage(with: messageOptions,
-                                           completion: { (result, message) in
-                                            
-                                            MBProgressHUD.hide(for: self.view, animated: true)
-
-                                            if !result.isSuccessful() {
-                                                print("Creation failed: \(String(describing: result.error))")
-                                            } else {
-                                                print("Creation successful")
-                                            }
-        })
+        
+//        // Prepare the upload stream and parameters
+//        let messageOptions = TCHMessageOptions()
+//        let inputStream = InputStream(data: data!)
+//
+//        messageOptions.withMediaStream(inputStream,
+//                                       contentType: attachmentType,
+//                                       defaultFilename: attachmentName,
+//                                       onStarted: {
+//                                        // Called when upload of media begins.
+//                                        print("Media upload started")
+//        },
+//                                       onProgress: { (bytes) in
+//                                        // Called as upload progresses, with the current byte count.
+//                                        print("Media upload progress: \(bytes)")
+//        }) { (mediaSid) in
+//            // Called when upload is completed, with the new mediaSid if successful.
+//            // Full failure details will be provided through sendMessage's completion.
+//            print("Media upload completed")
+//        }
+//
+//        // Trigger the sending of the message.
+//        self.channel.messages?.sendMessage(with: messageOptions,
+//                                           completion: { (result, message) in
+//
+//                                            MBProgressHUD.hide(for: self.view, animated: true)
+//
+//                                            if !result.isSuccessful() {
+//                                                print("Creation failed: \(String(describing: result.error))")
+//                                            } else {
+//                                                print("Creation successful")
+//                                            }
+//        })
 
         
     }

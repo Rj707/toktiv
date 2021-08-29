@@ -11,6 +11,7 @@
 		218F7EBB26D66EC9008AB97A /* ToChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7EB926D66EC9008AB97A /* ToChatTableViewCell.xib */; };
 		218F7EDA26D6AB90008AB97A /* FromChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218F7ED826D6AB90008AB97A /* FromChatTableViewCell.swift */; };
 		218F7EDB26D6AB90008AB97A /* FromChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */; };
+		A155B15226DC024800102369 /* AttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A155B15126DC024800102369 /* AttachmentViewController.swift */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */; };
@@ -128,6 +129,7 @@
 		218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FromChatTableViewCell.xib; sourceTree = "<group>"; };
 		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A155B15126DC024800102369 /* AttachmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentViewController.swift; sourceTree = "<group>"; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
 		A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 				A1B2EDD526C2DC2B004AE32B /* ChatViewController.swift */,
 				A1B2EDD626C2DC2B004AE32B /* ContactListViewController.swift */,
 				A1B2EDD726C2DC2B004AE32B /* Cell */,
+				A155B15126DC024800102369 /* AttachmentViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */,
 				A1D52B5625E42AE3003A9A3F /* AppDelegate.swift in Sources */,
 				A1D52B5725E42AE3003A9A3F /* KGCopyableLabel.swift in Sources */,
+				A155B15226DC024800102369 /* AttachmentViewController.swift in Sources */,
 				A1D52B5825E42AE3003A9A3F /* NetworkURLs.swift in Sources */,
 				A1D52B5925E42AE3003A9A3F /* PatientCell.swift in Sources */,
 				A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */,

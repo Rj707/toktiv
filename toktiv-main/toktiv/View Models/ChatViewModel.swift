@@ -10,6 +10,7 @@ import UIKit
 typealias GetChatUserList = ([ChatUserModel]?, String?) -> Void
 typealias GetChatToken = (ChatTokenModel?, String?) -> Void
 typealias DownloadChatAttachment = (UIImage?, String?) -> Void
+typealias UploadChatAttachment = (String?) -> Void
 class ChatViewModel: NSObject {
     
     static let shared = ChatViewModel()
@@ -70,6 +71,24 @@ class ChatViewModel: NSObject {
                 completion(nil,"")
             }
         }
+    }
+    
+    func uploadChatAttachment(attachment:Data, completion: @escaping UploadChatAttachment)
+    {
+        BaseService.upload(imgData: attachment, with: NetworkURLs.POST_CHAT_ATTACHMENT, completionHandler: { (dictionary, error, data) in
+            guard data != nil else {
+                return
+            }
+            
+            if dictionary?.value(forKey: "res") as! Int == 1
+            {
+                completion(dictionary?.value(forKey: "data") as? String)
+            }
+            else
+            {
+                completion("")
+            }
+        })
     }
     
     
