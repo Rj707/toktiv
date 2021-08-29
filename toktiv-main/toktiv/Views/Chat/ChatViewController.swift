@@ -10,9 +10,14 @@ import TwilioChatClient
 import MBProgressHUD
 import MobileCoreServices
 
+enum ChatViewNavigation
+{
+    case Contacts
+    case PUSH
+}
 
-class ChatViewController: UIViewController, UITextFieldDelegate {
-    
+class ChatViewController: UIViewController, UITextFieldDelegate
+{
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
     @IBOutlet weak var attachmentButton:UIButton!
@@ -21,21 +26,26 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
     @IBOutlet weak var chatInputView:UIView!
 
+    var navigation : ChatViewNavigation = .Contacts
+    
     var toEmpID = ""
     
     var toName = ""
     
     var channelID = ""
     
-    var _channel:TCHChannel!
-    var channel:TCHChannel! {
+    var channelSID = ""
         
-        get {
+    var _channel:TCHChannel!
+    var channel:TCHChannel!
+    {
+        get
+        {
             return _channel
         }
         
-        set(channel) {
-            
+        set(channel)
+        {
             _channel = channel
             title = _channel.friendlyName
             _channel.delegate = self
@@ -51,9 +61,26 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     var attachmentType = ""
     var attachmentData:Data!
     
-    override func viewDidLoad() {
-        
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        
+        setup()
+        
+        addObservers()
+        
+        if navigation == .Contacts
+        {
+            joinOrCreateChannel()
+        }
+        else
+        {
+            loadChannelChatUponPush()
+        }
+    }
+    
+    func setup()
+    {
         MBProgressHUD.showAdded(to: self.view, animated: true)
         tableView!.allowsSelection = false
         tableView!.separatorStyle = .none
@@ -67,13 +94,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
         tableView.addGestureRecognizer(tapGestureRecognizer)
 
         self.topLabel.text = toName
-        
-        self.addObservers()
-        
-        joinOrCreateChannel()
     }
     
-    @objc func closeKeyboard() {
+    @objc func closeKeyboard()
+    {
         inputTextField.endEditing(true)
     }
     
@@ -104,6 +128,39 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
                         
                     }
                 }
+                
+                MBProgressHUD.hide(for: self.view, animated: true)
+            }
+        }
+    }
+    
+    func loadChannelChatUponPush()
+    {
+        setViewOnHold(onHold: true)
+
+        if self.channelSID != ""
+        {
+            ChannelManager.sharedManager.joinChatRoomWith(name: channelSID)
+            { (success) in
+                
+                if success
+                {
+                    self.channel = ChannelManager.sharedManager.currentChannel
+                    self.channel.delegate = self
+                    if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
+                    {
+                        self.loadMessages()
+                        DispatchQueue.main.async {
+                            self.tableView?.reloadData()
+                            self.setViewOnHold(onHold: false)
+                        }
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+                
                 MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
@@ -111,30 +168,36 @@ class ChatViewController: UIViewController, UITextFieldDelegate {
     
 
     //MARK: - IBActions
-    @IBAction func popThisController() {
-        
+    
+    @IBAction func popThisController()
+    {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func sendMessage(_ sender:UIButton) {
-        if let message = self.inputTextField.text {
+    @IBAction func sendMessage(_ sender:UIButton)
+    {
+        if let message = self.inputTextField.text
+        {
             inputTextField.resignFirstResponder()
             sendMessage(inputMessage: message)
         }
     }
     
-    @IBAction func addAttachment(_ sender:UIButton) {
+    @IBAction func addAttachment(_ sender:UIButton)
+    {
         chooseImageMethod()
     }
     
     //MARK: - Helpers
 
-    func addObservers() {
+    func addObservers()
+    {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    func getConverstaion() {
+    func getConverstaion()
+    {
         
     }
     

@@ -78,6 +78,7 @@ extension ContactListViewController: UITableViewDelegate, UITableViewDataSource 
         if let controller = self.storyboard?.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController {
             controller.toEmpID = contactsList[indexPath.row].empID ?? ""
             controller.toName = contactsList[indexPath.row].providerName ?? ""
+            controller.navigation = .Contacts
             self.navigationController?.pushViewController(controller, animated: true)
         }
 

@@ -200,6 +200,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
+    func openChatViewWith(channelSID: String, author:String)
+    {
+        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
+        {
+            controller.navigation = .PUSH
+            
+            controller.channelSID = channelSID
+            
+            controller.toName = author
+            
+            let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            
+            if var topController = keyWindow?.rootViewController
+            {
+                while let presentedViewController = topController.presentedViewController
+                {
+                    topController = presentedViewController
+                }
+                
+                // topController should now be your topmost view controller
+                
+                topController.present(controller, animated: true, completion: nil)
+            }
+        }
+    }
+    
     func showAlertControllerWith(messageTitle:String, messageBody:String, completionHandler: @escaping () -> ())
     {
         let alertController = UIAlertController(title: messageTitle, message: messageBody, preferredStyle: .alert)
@@ -480,7 +506,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         let tonumber:String = userInfo["tonumber"] as? String ?? ""
         let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
         let module:String = userInfo["module"] as? String ?? "ch"
-        
+        let messageType:String = userInfo["twi_message_type"] as? String ?? ""
+
+        if messageType == "twilio.channel.new_message"
+        {
+            let channelSID =  userInfo["channel_sid"] as? String ?? ""
+            if channelSID.count > 0
+            {
+                showAlertControllerWith(messageTitle: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", messageBody: "")
+                {
+                    self.openChatViewWith(channelSID: channelSID, author: userInfo["author"] as? String ?? "")
+                }
+            }
+            return
+        }
         if module == "su"
         {
             //            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
