@@ -135,6 +135,69 @@ class BaseService: NSObject {
             }
     }
     
+    func upload(file:UIImage, with urlString:String,  completionHandler: @escaping ServiceCompletionHandler)
+    {
+        let imgData = file.jpegData(compressionQuality: 0.2)!
+        
+        AF.upload(multipartFormData:
+        { multipartFormData in
+            
+            multipartFormData.append(imgData, withName: "ImageFile",fileName: "ImageFile.jpg", mimeType: "image/jpg")
+//            for (key, value) in parameters
+//            {
+//                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
+//            } //Optional for extra parameters
+        }, to: NetworkURLs.POST_CHAT_ATTACHMENT)
+        .uploadProgress
+        { progress in
+            print("Upload Progress: \(progress.fractionCompleted)")
+        }
+        .responseJSON
+            { (response: DataResponse<Any, AFError>) in
+                if let data = response.data {
+                    Logger.print("BODY - \(String(data:data, encoding:.utf8) ?? "Unknown")\n")
+                }
+                
+                switch response.result {
+                case .success(let value):
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                        completionHandler(value as? NSDictionary, nil, response.data)
+                    }
+                case .failure:
+                    let skipRefreshSchemes = [""]
+                    let filteredSchemes = skipRefreshSchemes.filter({ (scheme:String) -> Bool in
+                        urlString.contains(scheme)
+                    })
+                    
+                    if response.response?.statusCode == 401 && filteredSchemes.isEmpty {
+                        
+                    }
+                    
+                    if let httpResponse = response.response{
+                        Logger.print("CODE - \(httpResponse.statusCode)\n")
+                        let errorTemp = NSError(    domain:"", code:httpResponse.statusCode, userInfo:nil)
+                        if let data = response.data, let string = String(data:data, encoding:.utf8) {
+                            Logger.print("\(string)")
+                            let dict = BaseService.convertToDictionary(text: string)
+                            if let value = dict?.first as NSDictionary? {
+                                completionHandler(value, errorTemp, response.data)
+                            }
+                            else {
+                                completionHandler(nil, errorTemp, response.data)
+                            }
+                        }
+                        else {
+                            completionHandler(nil, errorTemp, response.data)
+                        }
+                    }
+                    else
+                    {
+                        completionHandler(nil, response.error, nil)
+                    }
+                }
+            }
+    }
+    
     class func convertToDictionary(text: String) -> [[String: Any]]? {
         if let data = text.data(using: .utf8) {
             do {
