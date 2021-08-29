@@ -107,6 +107,7 @@ DEPENDENCIES:
   - FTPopOverMenu_Swift
   - IQKeyboardManagerSwift
   - MBProgressHUD (~> 1.2.0)
+  - NotificationBannerSwift
   - NotificationBannerSwift (~> 3.0.0)
   - TwilioChatClient (~> 4.0)
   - TwilioVoice (~> 6.0.2)
@@ -160,6 +161,6 @@ SPEC CHECKSUMS:
   TwilioChatClient: bd1f553293c32dd5f04b74ef265eb179d9f0d983
   TwilioVoice: 89efb8621aa14860ec4282d2d04e987058eb0b7a
 
-PODFILE CHECKSUM: 6fc1510da33e2753470d2ae48b7ff514c40ed602
+PODFILE CHECKSUM: b5f0078e9f18c1892b151688b193cbc5059fc5e8
 
 COCOAPODS: 1.10.1

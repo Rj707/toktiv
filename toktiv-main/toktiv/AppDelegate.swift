@@ -19,6 +19,7 @@ import FirebaseCore
 import FirebaseInstanceID
 import NotificationBannerSwift
 import TwilioChatClient
+import NotificationBannerSwift
 
 
 protocol PushKitEventDelegate: AnyObject
@@ -220,8 +221,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 }
                 
                 // topController should now be your topmost view controller
-                
-                topController.present(controller, animated: true, completion: nil)
+                if topController is UINavigationController {
+                    (topController as? UINavigationController)?.pushViewController(controller, animated: true)
+                }
+                else
+                {
+                    let nav = UINavigationController.init()
+                    nav.pushViewController(controller, animated: true)
+                }
+//                topController.present(controller, animated: true, completion: nil)
             }
         }
     }
@@ -513,7 +521,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             let channelSID =  userInfo["channel_sid"] as? String ?? ""
             if channelSID.count > 0
             {
-                showAlertControllerWith(messageTitle: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", messageBody: "")
+                let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+                if var topController = keyWindow?.rootViewController
+                {
+                    while let presentedViewController = topController.presentedViewController
+                    {
+                        topController = presentedViewController
+                    }
+                    if topController is ChatViewController
+                    {
+                        return
+                    }
+                }
+                let leftView = UIImageView(image: #imageLiteral(resourceName: "mainlogo"))
+                let banner = NotificationBanner(title: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", leftView: leftView, style: .info)
+                banner.show()
+                banner.onTap =
                 {
                     self.openChatViewWith(channelSID: channelSID, author: userInfo["author"] as? String ?? "")
                 }
