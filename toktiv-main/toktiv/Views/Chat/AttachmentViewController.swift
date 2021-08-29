@@ -7,8 +7,9 @@
 
 import UIKit
 import WebKit
+import MBProgressHUD
 
-class AttachmentViewController: UIViewController {
+class AttachmentViewController: UIViewController, WKNavigationDelegate {
     
     @IBOutlet weak var webView : WKWebView!
     var webViewURL = ""
@@ -16,15 +17,28 @@ class AttachmentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         let url = URL(string: webViewURL)!
         let urlRequest = URLRequest(url: url)
         
         webView.load(urlRequest)
-
+        webView.navigationDelegate = self
         // Do any additional setup after loading the view.
     }
     
 
+    //MARK: - IBActions
+    
+    @IBAction func popThisController()
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        MBProgressHUD.hide(for: self.view, animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 

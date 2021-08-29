@@ -82,7 +82,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     func setup()
     {
         MBProgressHUD.showAdded(to: self.view, animated: true)
-        tableView!.allowsSelection = false
+        tableView!.allowsSelection = true
         tableView!.separatorStyle = .none
         
         tableView.register(UINib(nibName: "FromChatTableViewCell", bundle: nil), forCellReuseIdentifier: "FromChatTableViewCell")
@@ -91,7 +91,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
-        tableView.addGestureRecognizer(tapGestureRecognizer)
+//        tableView.addGestureRecognizer(tapGestureRecognizer)
 
         self.topLabel.text = toName
     }
