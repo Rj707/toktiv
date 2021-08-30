@@ -535,8 +535,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     }
                 }
                 let leftView = UIImageView(image: #imageLiteral(resourceName: "mainlogo"))
-                let banner = NotificationBanner(title: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", leftView: leftView, style: .info)
-                banner.show()
+                let banner = FloatingNotificationBanner(title: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["title"] as? String ?? "", subtitle: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", leftView: leftView, style: .info, colors: CustomBannerColors())
+                banner.show(cornerRadius: 7)
                 banner.onTap =
                 {
                     self.openChatViewWith(channelSID: channelSID, author: userInfo["author"] as? String ?? "")
@@ -576,14 +576,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
         
         let state = UIApplication.shared.applicationState
-        if state == .active
+        if state == .active  || state == .background
         {
             showAlertControllerWith(messageTitle: messageTitle, messageBody: messageBody)
             {
                 self.openConversationView(fromnumber, toparam: tonumber)
             }
         }
-        else if state == .inactive || state == .background
+        else if state == .inactive
         {
             print("state == .inactive || state == .background")
         }

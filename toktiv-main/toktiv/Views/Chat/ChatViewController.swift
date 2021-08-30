@@ -77,6 +77,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         {
             loadChannelChatUponPush()
         }
+        
     }
     
     func setup()
@@ -91,7 +92,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
-//        tableView.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(tapGestureRecognizer)
 
         self.topLabel.text = toName
     }
@@ -496,19 +498,21 @@ extension ChatViewController : TCHChannelDelegate {
 extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     func sendAttachment() {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHud.mode = MBProgressHUDMode.annularDeterminate
+        progressHud.label.text = "Attachment Uploading..."
         // The data for the image you would like to send
         let data = attachmentData
         
-        ChatViewModel.shared.uploadChatAttachment(attachment: data!)
+        ChatViewModel.shared.uploadChatAttachment(attachment: data!, contentType: attachmentType, filename: attachmentName, progressHud: progressHud)
         { (attachmentURL) in
             
             if attachmentURL != ""
             {
                 self.sendMessage(inputMessage: attachmentURL ?? "")
             }
-            MBProgressHUD.hide(for: self.view, animated: true)
-
+            
+            progressHud.hide(animated: true)
         }
         
 //        // Prepare the upload stream and parameters
@@ -566,8 +570,8 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
             if image != nil{
                 if let imageData = image!.pngData()
                 {
-                    self.attachmentName = "file.jpeg"
-                    self.attachmentType = "image/jpeg"
+                    self.attachmentName = "image.jpg"
+                    self.attachmentType = "image/jpg"
                     
                     self.attachmentData = imageData
                     self.sendAttachment()
@@ -661,8 +665,8 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
                 self.attachmentName = "image.jpeg"
                 self.attachmentType = "image/jpeg"
             }else if fileExt.contains("jpg"){
-                self.attachmentName = "image.jpeg"
-                self.attachmentType = "image/jpeg"
+                self.attachmentName = "image.jpg"
+                self.attachmentType = "image/jpg"
             }
             
             self.attachmentData = data

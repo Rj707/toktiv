@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 typealias GetChatUserList = ([ChatUserModel]?, String?) -> Void
 typealias GetChatToken = (ChatTokenModel?, String?) -> Void
@@ -73,9 +74,9 @@ class ChatViewModel: NSObject {
         }
     }
     
-    func uploadChatAttachment(attachment:Data, completion: @escaping UploadChatAttachment)
+    func uploadChatAttachment(attachment:Data, contentType: String, filename: String, progressHud: MBProgressHUD, completion: @escaping UploadChatAttachment)
     {
-        BaseService.upload(imgData: attachment, with: NetworkURLs.POST_CHAT_ATTACHMENT, completionHandler: { (dictionary, error, data) in
+        BaseService.upload(imgData: attachment, with: NetworkURLs.POST_CHAT_ATTACHMENT, contentType: contentType, filename: filename, progressHud: progressHud, completionHandler: { (dictionary, error, data) in
             guard data != nil else {
                 return
             }

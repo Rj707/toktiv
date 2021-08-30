@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import MBProgressHUD
 
 
 class Logger: NSObject {
@@ -135,12 +136,12 @@ class BaseService: NSObject {
             }
     }
     
-    @objc public class func upload(imgData:Data, with urlString:String,  completionHandler: @escaping ServiceCompletionHandler)
+    @objc public class func upload(imgData:Data, with urlString:String, contentType: String, filename: String, progressHud: MBProgressHUD, completionHandler: @escaping ServiceCompletionHandler)
     {
         AF.upload(multipartFormData:
         { multipartFormData in
             
-            multipartFormData.append(imgData, withName: "ImageFile",fileName: "ImageFile.jpg", mimeType: "image/jpg")
+            multipartFormData.append(imgData, withName: "attachment_file", fileName: filename, mimeType: contentType)
 //            for (key, value) in parameters
 //            {
 //                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
@@ -148,7 +149,10 @@ class BaseService: NSObject {
         }, to: NetworkURLs.POST_CHAT_ATTACHMENT)
         .uploadProgress
         { progress in
+            progressHud.progress = Float(progress.fractionCompleted)
+
             print("Upload Progress: \(progress.fractionCompleted)")
+            
         }
         .responseJSON
             { (response: DataResponse<Any, AFError>) in
@@ -162,6 +166,7 @@ class BaseService: NSObject {
                         completionHandler(value as? NSDictionary, nil, response.data)
                     }
                 case .failure(let error):
+                    progressHud.hide(animated: true)
                     let skipRefreshSchemes = [""]
                     let filteredSchemes = skipRefreshSchemes.filter({ (scheme:String) -> Bool in
                         urlString.contains(scheme)

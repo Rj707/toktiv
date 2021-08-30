@@ -51,7 +51,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 
                 if success
                 {
-                    MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                    MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
                     { (success) in
                         
                         if success
@@ -126,7 +126,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                             
                             MessagingManager.sharedManager().connectClientWithCompletion { (success, error) in
                                 
-                                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken!)
+                                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
                                 { (success) in
                                     
                                     if success

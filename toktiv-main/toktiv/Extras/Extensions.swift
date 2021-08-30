@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import NotificationBannerSwift
 
 extension UIViewController {
     func showMessage(_ message:String) {
@@ -57,4 +57,20 @@ public extension String {
     func isNumber() -> Bool {
         return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil && self.rangeOfCharacter(from: CharacterSet.letters) == nil
     }
+}
+
+//MARK:- Custom Notification Banner Colors Class
+
+class CustomBannerColors: BannerColorsProtocol {
+
+    internal func color(for style: BannerStyle) -> UIColor {
+        switch style {
+        case .danger:  return UIColor.red  // Your custom .danger color
+        case .info: return #colorLiteral(red: 0.2392156863, green: 0.4705882353, blue: 0.8274509804, alpha: 1)   // Your custom .info color
+        case .customView: return UIColor.yellow// Your custom .customView color
+        case .success: return UIColor.green  // Your custom .success color
+        case .warning: return UIColor.blue // Your custom .warning color
+        }
+    }
+
 }
