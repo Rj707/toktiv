@@ -141,11 +141,8 @@ class BaseService: NSObject {
         AF.upload(multipartFormData:
         { multipartFormData in
             
-            multipartFormData.append(imgData, withName: "attachment_file", fileName: filename, mimeType: contentType)
-//            for (key, value) in parameters
-//            {
-//                    multipartFormData.append(value.data(using: String.Encoding.utf8)!, withName: key)
-//            } //Optional for extra parameters
+            multipartFormData.append(imgData, withName: "ImageFile", fileName: filename, mimeType: contentType)
+
         }, to: NetworkURLs.POST_CHAT_ATTACHMENT)
         .uploadProgress
         { progress in
@@ -167,10 +164,8 @@ class BaseService: NSObject {
                     }
                 case .failure(let error):
                     progressHud.hide(animated: true)
-                    let skipRefreshSchemes = [""]
-                    let filteredSchemes = skipRefreshSchemes.filter({ (scheme:String) -> Bool in
-                        urlString.contains(scheme)
-                    })
+                    completionHandler(nil, error, nil)
+
                     
                 }
             }

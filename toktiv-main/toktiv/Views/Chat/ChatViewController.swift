@@ -345,7 +345,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         if message.author == StateManager.shared.loginViewModel.userProfile?.providerCode
         {
             if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell {
-                cell.messageLabel.text = message.body ?? ""
                 if message.body?.contains("https://provider.drcurves.com") ?? false
                 {
                     cell.messageLabel.text = "View Attachment"

@@ -596,6 +596,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // Background Notification
         
         let userInfo = response.notification.request.content.userInfo
+        
+        let messageType:String = userInfo["twi_message_type"] as? String ?? ""
+
+        if messageType == "twilio.channel.new_message"
+        {
+            let channelSID =  userInfo["channel_sid"] as? String ?? ""
+            if channelSID.count > 0
+            {
+                let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+                if var topController = keyWindow?.rootViewController
+                {
+                    while let presentedViewController = topController.presentedViewController
+                    {
+                        topController = presentedViewController
+                    }
+                    if topController is ChatViewController
+                    {
+                        return
+                    }
+                }
+                self.openChatViewWith(channelSID: channelSID, author: userInfo["author"] as? String ?? "")
+            }
+        }
+        
         self.perform(#selector(self.showAlertOfNewMessage(_:)), with: userInfo, afterDelay: 1)
         completionHandler()
     }
