@@ -500,6 +500,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     // MARK:- RemoteNotification Receiving
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
+    {
+        let userInfo = notification.request.content.userInfo
+        
+        print(userInfo)
+        
+        // Change this to your preferred presentation option
+        completionHandler([[.alert, .sound]])
+    }
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     {
         if let messageID = userInfo[gcmMessageIDKey]
@@ -546,10 +558,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
         if module == "su"
         {
-            //            if status in payload is 'Available' or 'Idle' then status will be Online or whatever word you are using for Online
-            //            if status in payload is 'Offline' or 'Unavailable' then status will be Online or whatever word you are using for Offline
-            //            if status in payload is 'Busy' or 'WrapUp' then status will be Online or whatever word you are using for Busy
-            
             self.syncUserStatusWithWebLoggedInUser(staus: userInfo["status"] as? String ?? "")
         }
         

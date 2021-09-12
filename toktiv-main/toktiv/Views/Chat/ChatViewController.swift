@@ -180,9 +180,13 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     {
         if let message = self.inputTextField.text
         {
-            inputTextField.resignFirstResponder()
+//            inputTextField.resignFirstResponder()
             sendMessage(inputMessage: message)
         }
+        
+        self.sendButton.isSelected = false
+        self.sendButton.backgroundColor = UIColor.lightGray
+        self.sendButton.isUserInteractionEnabled = false
     }
     
     @IBAction func addAttachment(_ sender:UIButton)
@@ -236,6 +240,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     @objc func textFieldDidChange(_ textField: UITextField) {
         let haveText = textField.text?.count ?? 0 > 0
         self.sendButton.isSelected = haveText
+        self.sendButton.backgroundColor = haveText ? UIColor.systemGreen : UIColor.lightGray
         self.sendButton.isUserInteractionEnabled = haveText
         
     }
@@ -282,7 +287,7 @@ extension ChatViewController
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
         channel.messages?.sendMessage(with: messageOptions, completion: { (result, message) in
             self.inputTextField.text = ""
-            self.inputTextField.resignFirstResponder()
+//            self.inputTextField.resignFirstResponder()
         })
     }
     
@@ -348,32 +353,49 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 if message.body?.contains("https://provider.drcurves.com") ?? false
                 {
                     cell.messageLabel.text = "View Attachment"
+                    cell.mediaImageView.isHidden = false
+                    cell.messageLabel.isHidden = true
+                    
+                    if message.body?.contains(".doc") ?? false || message.body?.contains(".docx") ?? false
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "word")
+                    }
+                    else if message.body?.contains(".pdf") ?? false
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "pdf")
+                    }
+                    else
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "picture")
+                    }
                 }
                 else
                 {
                     cell.messageLabel.text = message.body ?? ""
-                }
-                cell.timeLabel.text = timestamp
-                
-                if message.hasMedia() {
-                    cell.mediaImageView.isHidden = false
-                    cell.messageLabel.isHidden = true
-                    
-                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
-                        guard let mediaContentUrl = mediaContentUrl else {
-                            return
-                        }
-                        // Use the url to download an image or other media
-                        print(mediaContentUrl)
-                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
-                            cell.mediaImageView.image = image
-                        }
-                    }
-                }
-                else {
                     cell.messageLabel.isHidden = false
                     cell.mediaImageView.isHidden = true
                 }
+                cell.timeLabel.text = timestamp
+                
+//                if message.hasMedia() {
+//                    cell.mediaImageView.isHidden = false
+//                    cell.messageLabel.isHidden = true
+//
+//                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
+//                        guard let mediaContentUrl = mediaContentUrl else {
+//                            return
+//                        }
+//                        // Use the url to download an image or other media
+//                        print(mediaContentUrl)
+//                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
+//                            cell.mediaImageView.image = image
+//                        }
+//                    }
+//                }
+//                else {
+//                    cell.messageLabel.isHidden = false
+//                    cell.mediaImageView.isHidden = true
+//                }
 
                 return cell
             }
@@ -383,32 +405,49 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 if message.body?.contains("https://provider.drcurves.com") ?? false
                 {
                     cell.messageLabel.text = "View Attachment"
+                    cell.mediaImageView.isHidden = false
+                    cell.messageLabel.isHidden = true
+                    
+                    if message.body?.contains(".doc") ?? false || message.body?.contains(".docx") ?? false
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "word")
+                    }
+                    else if message.body?.contains(".pdf") ?? false
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "pdf")
+                    }
+                    else
+                    {
+                        cell.mediaImageView.image =  #imageLiteral(resourceName: "picture")
+                    }
                 }
                 else
                 {
                     cell.messageLabel.text = message.body ?? ""
-                }
-                cell.timeLabel.text = timestamp
-                
-                if message.hasMedia() {
-                    cell.mediaImageView.isHidden = false
-                    cell.messageLabel.isHidden = true
-                    
-                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
-                        guard let mediaContentUrl = mediaContentUrl else {
-                            return
-                        }
-                        // Use the url to download an image or other media
-                        print(mediaContentUrl)
-                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
-                            cell.mediaImageView.image = image
-                        }
-                    }
-                }
-                else {
                     cell.messageLabel.isHidden = false
                     cell.mediaImageView.isHidden = true
                 }
+                cell.timeLabel.text = timestamp
+                
+//                if message.hasMedia() {
+//                    cell.mediaImageView.isHidden = false
+//                    cell.messageLabel.isHidden = true
+//
+//                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
+//                        guard let mediaContentUrl = mediaContentUrl else {
+//                            return
+//                        }
+//                        // Use the url to download an image or other media
+//                        print(mediaContentUrl)
+//                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
+//                            cell.mediaImageView.image = image
+//                        }
+//                    }
+//                }
+//                else {
+//                    cell.messageLabel.isHidden = false
+//                    cell.mediaImageView.isHidden = true
+//                }
 
                 return cell
             }
@@ -419,7 +458,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if sortedMessages[indexPath.row].hasMedia() {
+        if sortedMessages[indexPath.row].body?.contains("https://provider.drcurves.com") ?? false {
             return 171 + 50 + 21
         }
         else {
