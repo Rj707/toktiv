@@ -508,6 +508,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         print(userInfo)
         
+        let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+
+        if var topController = keyWindow?.rootViewController
+        {
+            while let presentedViewController = topController.presentedViewController
+            {
+                topController = presentedViewController
+            }
+            if topController is ChatViewController
+            {
+                completionHandler([])
+            }
+        }
+        
         // Change this to your preferred presentation option
         completionHandler([[.alert, .sound]])
     }

@@ -71,8 +71,34 @@
 		A1DB834C26C4F312008AC959 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834A26C4F312008AC959 /* ChatTableCell.swift */; };
 		A1DB834D26C4F312008AC959 /* ChatTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1DB834B26C4F312008AC959 /* ChatTableCell.xib */; };
 		A1DB835026C4F419008AC959 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */; };
+		A1E1110226EF585A00C37A1C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E1110126EF585A00C37A1C /* NotificationService.swift */; };
+		A1E1110626EF585A00C37A1C /* ToktivNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A1E110FF26EF585A00C37A1C /* ToktivNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A1E1110426EF585A00C37A1C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E2D0AAC255CC242009E86B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A1E110FE26EF585A00C37A1C;
+			remoteInfo = ToktivNotificationServiceExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A1E1110726EF585A00C37A1C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A1E1110626EF585A00C37A1C /* ToktivNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E094F6E255D948800ACE57C /* CallHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallHistoryViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +170,9 @@
 		A1DB834A26C4F312008AC959 /* ChatTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableCell.swift; sourceTree = "<group>"; };
 		A1DB834B26C4F312008AC959 /* ChatTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatTableCell.xib; sourceTree = "<group>"; };
 		A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
+		A1E110FF26EF585A00C37A1C /* ToktivNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ToktivNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1E1110126EF585A00C37A1C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		A1E1110326EF585A00C37A1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.release.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,6 +183,13 @@
 			files = (
 				A1D52B6425E42AE3003A9A3F /* AudioToolbox.framework in Frameworks */,
 				BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E110FC26EF585A00C37A1C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				0E2D0AB6255CC242009E86B3 /* toktiv */,
+				A1E1110026EF585A00C37A1C /* ToktivNotificationServiceExtension */,
 				0E2D0AB5255CC242009E86B3 /* Products */,
 				B656BB9B4C00F0D501EFB1E6 /* Frameworks */,
 				3B5CD38540C3DD59FE8C3956 /* Pods */,
@@ -259,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				A1D52B7825E42AE3003A9A3F /* toktiv.app */,
+				A1E110FF26EF585A00C37A1C /* ToktivNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -387,6 +425,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		A1E1110026EF585A00C37A1C /* ToktivNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A1E1110126EF585A00C37A1C /* NotificationService.swift */,
+				A1E1110326EF585A00C37A1C /* Info.plist */,
+			);
+			path = ToktivNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 		B656BB9B4C00F0D501EFB1E6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,15 +456,34 @@
 				A1D52B6625E42AE3003A9A3F /* Resources */,
 				A1D52B7325E42AE3003A9A3F /* [CP] Embed Pods Frameworks */,
 				A1D52B7425E42AE3003A9A3F /* ShellScript */,
+				A1E1110726EF585A00C37A1C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A1E1110526EF585A00C37A1C /* PBXTargetDependency */,
 			);
 			name = toktiv;
 			productName = toktiv;
 			productReference = A1D52B7825E42AE3003A9A3F /* toktiv.app */;
 			productType = "com.apple.product-type.application";
+		};
+		A1E110FE26EF585A00C37A1C /* ToktivNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1E1110A26EF585A00C37A1C /* Build configuration list for PBXNativeTarget "ToktivNotificationServiceExtension" */;
+			buildPhases = (
+				A1E110FB26EF585A00C37A1C /* Sources */,
+				A1E110FC26EF585A00C37A1C /* Frameworks */,
+				A1E110FD26EF585A00C37A1C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ToktivNotificationServiceExtension;
+			productName = ToktivNotificationServiceExtension;
+			productReference = A1E110FF26EF585A00C37A1C /* ToktivNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -425,8 +491,13 @@
 		0E2D0AAC255CC242009E86B3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1210;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					A1E110FE26EF585A00C37A1C = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+				};
 			};
 			buildConfigurationList = 0E2D0AAF255CC242009E86B3 /* Build configuration list for PBXProject "toktiv" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -442,6 +513,7 @@
 			projectRoot = "";
 			targets = (
 				A1D52B3F25E42AE3003A9A3F /* toktiv */,
+				A1E110FE26EF585A00C37A1C /* ToktivNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -467,6 +539,13 @@
 				A1D52B7025E42AE3003A9A3F /* FromCell.xib in Resources */,
 				A1D52B7125E42AE3003A9A3F /* ToCell.xib in Resources */,
 				A1D52B7225E42AE3003A9A3F /* SMSHistoryCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A1E110FD26EF585A00C37A1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,7 +665,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1E110FB26EF585A00C37A1C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1E1110226EF585A00C37A1C /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A1E1110526EF585A00C37A1C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A1E110FE26EF585A00C37A1C /* ToktivNotificationServiceExtension */;
+			targetProxy = A1E1110426EF585A00C37A1C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0E2D0ABD255CC242009E86B3 /* Main.storyboard */ = {
@@ -728,12 +823,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = " ";
+				CURRENT_PROJECT_VERSION = " 30";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				EXCLUDED_ARCHS = "";
@@ -755,12 +851,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DE606E46F797C134AFB09342 /* Pods-toktiv.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = toktiv/toktiv.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = " ";
+				CURRENT_PROJECT_VERSION = " 30";
 				DEVELOPMENT_TEAM = TY8XLVW5UP;
 				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/toktiv/Info.plist";
@@ -772,6 +869,50 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.drcurves.toktiv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A1E1110826EF585A00C37A1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 30;
+				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				INFOPLIST_FILE = ToktivNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drcurves.toktiv.ToktivNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A1E1110926EF585A00C37A1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 30;
+				DEVELOPMENT_TEAM = TY8XLVW5UP;
+				INFOPLIST_FILE = ToktivNotificationServiceExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.drcurves.toktiv.ToktivNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -794,6 +935,15 @@
 			buildConfigurations = (
 				A1D52B7625E42AE3003A9A3F /* Debug */,
 				A1D52B7725E42AE3003A9A3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1E1110A26EF585A00C37A1C /* Build configuration list for PBXNativeTarget "ToktivNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1E1110826EF585A00C37A1C /* Debug */,
+				A1E1110926EF585A00C37A1C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
