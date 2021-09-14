@@ -25,6 +25,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var inputTextField:UITextField!
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
     @IBOutlet weak var chatInputView:UIView!
+    @IBOutlet weak var viewAttachmentInfo: UIView!
+    @IBOutlet weak var labelAttachmentName: UILabel!
+    @IBOutlet weak var attachmentTypeImage: UIImageView!
+
 
     var navigation : ChatViewNavigation = .Contacts
     
@@ -82,6 +86,9 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     
     func setup()
     {
+        self.viewAttachmentInfo.isHidden = true
+        self.view.layoutIfNeeded()
+        
         MBProgressHUD.showAdded(to: self.view, animated: true)
         tableView!.allowsSelection = true
         tableView!.separatorStyle = .none
@@ -178,20 +185,40 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func sendMessage(_ sender:UIButton)
     {
-        if let message = self.inputTextField.text
-        {
-//            inputTextField.resignFirstResponder()
-            sendMessage(inputMessage: message)
+        
+        if attachmentData != nil {
+            sendAttachment()
+        }
+        else {
+            if let message = self.inputTextField.text
+            {
+                //            inputTextField.resignFirstResponder()
+                sendMessage(inputMessage: message)
+            }
         }
         
+        self.inputTextField.isEnabled = true
         self.sendButton.isSelected = false
         self.sendButton.backgroundColor = UIColor.lightGray
         self.sendButton.isUserInteractionEnabled = false
+        viewAttachmentInfo.isHidden = true
+        view.layoutIfNeeded()
     }
     
     @IBAction func addAttachment(_ sender:UIButton)
     {
         chooseImageMethod()
+    }
+    
+    @IBAction func clearAttachmentPressed(_ sender: Any) {
+        inputTextField.isEnabled = true
+        sendButton.isSelected = false
+        sendButton.backgroundColor = UIColor.lightGray
+        sendButton.isUserInteractionEnabled = false
+        viewAttachmentInfo.isHidden = true
+        view.layoutIfNeeded()
+        
+        attachmentData?.removeAll()
     }
     
     //MARK: - Helpers
@@ -545,6 +572,8 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         ChatViewModel.shared.uploadChatAttachment(attachment: data!, contentType: attachmentType, filename: attachmentName, progressHud: progressHud)
         { (attachmentURL) in
             
+            self.attachmentData.removeAll()
+            
             if attachmentURL != ""
             {
                 self.sendMessage(inputMessage: attachmentURL ?? "")
@@ -612,7 +641,17 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                     self.attachmentType = "image/jpg"
                     
                     self.attachmentData = imageData
-                    self.sendAttachment()
+                    
+                    self.labelAttachmentName.text = "Image Attached"
+                    self.attachmentTypeImage.image = image
+                    self.viewAttachmentInfo.isHidden = false
+                    self.inputTextField.isEnabled = false
+                    self.sendButton.isSelected = true
+                    self.sendButton.backgroundColor = UIColor.systemGreen
+                    self.sendButton.isUserInteractionEnabled = true
+                    self.view.layoutIfNeeded()
+                    
+//                    self.sendAttachment()
                 }
             }
         }
@@ -709,7 +748,28 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
             
             self.attachmentData = data
             
-            self.sendAttachment()
+            if fileExt.contains("doc") || fileExt.contains("docx")
+            {
+                self.attachmentTypeImage.image =  #imageLiteral(resourceName: "word")
+            }
+            else if fileExt.contains("pdf")
+            {
+                self.attachmentTypeImage.image =  #imageLiteral(resourceName: "pdf")
+            }
+            else
+            {
+                self.attachmentTypeImage.image =  #imageLiteral(resourceName: "picture")
+            }
+            
+            self.labelAttachmentName.text = "File Attached"
+            self.viewAttachmentInfo.isHidden = false
+            self.inputTextField.isEnabled = false
+            self.sendButton.isSelected = true
+            self.sendButton.backgroundColor = UIColor.systemGreen
+            self.sendButton.isUserInteractionEnabled = true
+            self.view.layoutIfNeeded()
+            
+//            self.sendAttachment()
             
         } catch {
             print("Unable to load data: \(error)")

@@ -123,6 +123,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         self.pushKitEventDelegate = callConManager
         application.applicationIconBadgeNumber = 0;
         
+        // Get Contact List for Modify Chat Push Notification
+        getContactList()
+        
         return true
     }
     
@@ -763,4 +766,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     //        }
     //    }
     
+}
+
+
+// MARK:- Get Contact List API
+extension AppDelegate {
+    
+    func getContactList() {
+        ChatViewModel.shared.getChatUserList( completion: { (response, error) in
+            var contactsList = response ?? []
+            contactsList = contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode}
+            if let contactsListData = try? JSONEncoder().encode(contactsList) {
+                UserDefaults.standard.set(contactsListData, forKey: AppConstants.CONTACT_LIST)
+                UserDefaults.standard.synchronize()
+            }
+        })
+    }
 }

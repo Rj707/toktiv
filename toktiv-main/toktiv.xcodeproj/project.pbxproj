@@ -11,6 +11,9 @@
 		218F7EBB26D66EC9008AB97A /* ToChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7EB926D66EC9008AB97A /* ToChatTableViewCell.xib */; };
 		218F7EDA26D6AB90008AB97A /* FromChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218F7ED826D6AB90008AB97A /* FromChatTableViewCell.swift */; };
 		218F7EDB26D6AB90008AB97A /* FromChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 218F7ED926D6AB90008AB97A /* FromChatTableViewCell.xib */; };
+		21F2F17426F0E8F6004F9E31 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E1110126EF585A00C37A1C /* NotificationService.swift */; };
+		21F2F17526F0E915004F9E31 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
+		21F2F17626F0E91D004F9E31 /* NetworkURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F90255DA44200ACE57C /* NetworkURLs.swift */; };
 		A155B15226DC024800102369 /* AttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A155B15126DC024800102369 /* AttachmentViewController.swift */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
@@ -71,7 +74,6 @@
 		A1DB834C26C4F312008AC959 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834A26C4F312008AC959 /* ChatTableCell.swift */; };
 		A1DB834D26C4F312008AC959 /* ChatTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1DB834B26C4F312008AC959 /* ChatTableCell.xib */; };
 		A1DB835026C4F419008AC959 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DB834F26C4F419008AC959 /* DateTodayFormatter.swift */; };
-		A1E1110226EF585A00C37A1C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E1110126EF585A00C37A1C /* NotificationService.swift */; };
 		A1E1110626EF585A00C37A1C /* ToktivNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A1E110FF26EF585A00C37A1C /* ToktivNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BCAA91186C6AE1D90193443C /* Pods_toktiv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */; };
 /* End PBXBuildFile section */
@@ -669,7 +671,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1E1110226EF585A00C37A1C /* NotificationService.swift in Sources */,
+				21F2F17626F0E91D004F9E31 /* NetworkURLs.swift in Sources */,
+				21F2F17526F0E915004F9E31 /* ChatUserModel.swift in Sources */,
+				21F2F17426F0E8F6004F9E31 /* NotificationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

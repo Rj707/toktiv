@@ -40,6 +40,7 @@ class AppConstants: NSObject {
     static let USER_PROFILE_MODEL = "USER_PROFILE_MODEL"
     static let LAST_INBOUND_CALL_DATE = "LAST_INBOUND_CALL_DATE"
     static let WAIT_TIME_IN_SECONDS = "WAIT_TIME_IN_SECONDS"
+    static let CONTACT_LIST = "CONTACT_LIST"
     
 //    static let ACCOUNT_SID = "AC0f1a4b6ec426b7c775e3663d6e8e947b"
 //    static let API_KEY = "SKd5b70399a2d8d9fb7a746563edae75fb"

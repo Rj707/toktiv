@@ -17,13 +17,23 @@ class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
         if let bestAttemptContent = bestAttemptContent {
+            
+            var contactList = [ChatUserModel]()
+            if let contactListData = UserDefaults.standard.data(forKey: AppConstants.CONTACT_LIST) {
+                if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData) {
+                    contactList = list
+                }
+            }
+            
             let apsData = request.content.userInfo["aps"] as! [String : Any]
             let alertData = apsData["alert"] as! [String : Any]
             if var alertBody  = (alertData["body"] as? String), alertBody.count > 0
             {
                 let userName = alertBody.components(separatedBy: "You have a new message from")[1]
-                if userName.trimmingCharacters(in: .whitespaces) == "ZQ207" {
-                    alertBody = alertBody.replacingOccurrences(of: userName, with: " Zeeqa")
+                for contact in contactList {
+                    if userName.trimmingCharacters(in: .whitespaces) == contact.providerCode {
+                        alertBody = alertBody.replacingOccurrences(of: userName, with: " \(contact.providerName ?? "")")
+                    }
                 }
                 bestAttemptContent.body = alertBody
             }
