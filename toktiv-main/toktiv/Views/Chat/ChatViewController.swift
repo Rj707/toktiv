@@ -127,18 +127,32 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                     if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
                     {
                         self.loadMessages()
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async
+                        {
                             self.tableView?.reloadData()
                             self.setViewOnHold(onHold: false)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0)
+                            {
+                                MBProgressHUD.hide(for: self.view, animated: true)
+                            }
                         }
                     }
                     else
                     {
-                        
+                        DispatchQueue.main.async
+                        {
+                            MBProgressHUD.hide(for: self.view, animated: true)
+                        }
                     }
                 }
-                
-                MBProgressHUD.hide(for: self.view, animated: true)
+                else
+                {
+                    DispatchQueue.main.async
+                    {
+                        MBProgressHUD.hide(for: self.view, animated: true)
+                    }
+                }
             }
         }
     }
@@ -159,18 +173,31 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                     if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
                     {
                         self.loadMessages()
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async
+                        {
                             self.tableView?.reloadData()
                             self.setViewOnHold(onHold: false)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0)
+                        {
+                            MBProgressHUD.hide(for: self.view, animated: true)
                         }
                     }
                     else
                     {
-                        
+                        DispatchQueue.main.async
+                        {
+                            MBProgressHUD.hide(for: self.view, animated: true)
+                        }
                     }
                 }
-                
-                MBProgressHUD.hide(for: self.view, animated: true)
+                else
+                {
+                    DispatchQueue.main.async
+                    {
+                        MBProgressHUD.hide(for: self.view, animated: true)
+                    }
+                }
             }
         }
     }
