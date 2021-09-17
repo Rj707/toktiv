@@ -515,30 +515,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
         if var topController = keyWindow?.rootViewController
         {
-            var contactList = [ChatUserModel]()
-            if let contactListData = UserDefaults.standard.data(forKey: AppConstants.CONTACT_LIST) {
-                if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData) {
-                    contactList = list
-                }
-            }
-            
-            let apsData = userInfo["aps"] as! [String : Any]
-            let alertData = apsData["alert"] as! [String : Any]
-            if var alertBody  = (alertData["body"] as? String), alertBody.count > 0
-            {
-                let userName = alertBody.components(separatedBy: "You have a new message from")[1]
-                for contact in contactList {
-                    if userName.trimmingCharacters(in: .whitespaces) == contact.providerCode {
-                        alertBody = alertBody.replacingOccurrences(of: userName, with: " \(contact.providerName ?? "")")
-                    }
-                }
-//                if userName.trimmingCharacters(in: .whitespaces) == "ZQ207"
-//                {
-//                    alertBody = alertBody.replacingOccurrences(of: userName, with: " Zeeqa")
-//                }
-                print(alertBody)
-            }
-            
             while let presentedViewController = topController.presentedViewController
             {
                 topController = presentedViewController
