@@ -101,6 +101,7 @@ extension ContactListViewController: UITableViewDelegate, UITableViewDataSource 
             controller.toEmpID = filterArray[indexPath.row].empID ?? ""
             controller.toName = filterArray[indexPath.row].providerName ?? ""
             controller.navigation = .Contacts
+            cancelButtonTouched()
             self.navigationController?.pushViewController(controller, animated: true)
         }
 
