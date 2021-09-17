@@ -1,1 +1,1 @@
-${PODS_XCFRAMEWORKS_BUILD_DIR}/TwilioChatClient
+${PODS_XCFRAMEWORKS_BUILD_DIR}/TwilioChatClient/TwilioChatClient.framework
