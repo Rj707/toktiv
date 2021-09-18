@@ -9,6 +9,7 @@ import UIKit
 import TwilioChatClient
 import MBProgressHUD
 import MobileCoreServices
+import NotificationBannerSwift
 
 enum ChatViewNavigation
 {
@@ -193,6 +194,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                 }
                 else
                 {
+                    let banner = NotificationBanner(title: "", subtitle: "", style: .danger)
+                    banner.show()
                     DispatchQueue.main.async
                     {
                         MBProgressHUD.hide(for: self.view, animated: true)

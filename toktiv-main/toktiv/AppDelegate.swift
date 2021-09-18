@@ -668,6 +668,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     {
                         return
                     }
+                    else
+                    {
+                        if topController is UINavigationController
+                        {
+                            if let nav = topController as? UINavigationController
+                            {
+                                if nav.viewControllers[nav.viewControllers.count - 1] is ChatViewController
+                                {
+                                    return
+                                }
+                            }
+                        }
+                    }
                 }
                 self.openChatViewWith(channelSID: channelSID, author: userInfo["author"] as? String ?? "")
             }
