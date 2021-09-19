@@ -35,12 +35,26 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hk3-Sq-hba">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JOw-km-40n">
                                         <rect key="frame" x="0.0" y="174" width="190" height="46"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hk3-Sq-hba">
+                                                <rect key="frame" x="8" y="8" width="174" height="30"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="Hk3-Sq-hba" firstAttribute="top" secondItem="JOw-km-40n" secondAttribute="top" constant="8" id="43m-2S-H5D"/>
+                                            <constraint firstItem="Hk3-Sq-hba" firstAttribute="height" secondItem="JOw-km-40n" secondAttribute="height" multiplier="0.652174" id="8sa-y5-ZrE"/>
+                                            <constraint firstAttribute="trailing" secondItem="Hk3-Sq-hba" secondAttribute="trailing" constant="8" id="Aav-sZ-5ka"/>
+                                            <constraint firstAttribute="bottom" secondItem="Hk3-Sq-hba" secondAttribute="bottom" constant="8" id="OXT-By-LwF"/>
+                                            <constraint firstItem="Hk3-Sq-hba" firstAttribute="leading" secondItem="JOw-km-40n" secondAttribute="leading" constant="8" id="Yn3-Ta-Lzb"/>
+                                        </constraints>
+                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3H-Kb-8SV">
                                         <rect key="frame" x="0.0" y="223" width="190" height="21"/>
                                         <constraints>

@@ -80,9 +80,12 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         }
         else
         {
-            loadChannelChatUponPush()
+            let deadlineTime = DispatchTime.now() + .seconds(1)
+            DispatchQueue.main.asyncAfter(deadline: deadlineTime)
+            {
+                self.loadChannelChatUponPush()
+            }
         }
-        
     }
     
     func setup()
@@ -119,7 +122,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         {
             channelID = toEmployeeID < employeeID ? "\(employeeID)\(toEmployeeID)" : "\(toEmployeeID)\(employeeID)"
             ChannelManager.sharedManager.joinChatRoomWith(name: channelID)
-            { (success) in
+            { (success, error) in
                 
                 if success
                 {
@@ -151,6 +154,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                 {
                     DispatchQueue.main.async
                     {
+                        let banner = NotificationBanner(title: "Error", subtitle: error?.localizedDescription, style: .danger)
+                        banner.show()
                         MBProgressHUD.hide(for: self.view, animated: true)
                     }
                 }
@@ -165,7 +170,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         if self.channelSID != ""
         {
             ChannelManager.sharedManager.joinChatRoomWith(name: channelSID)
-            { (success) in
+            { (success, error) in
                 
                 if success
                 {
@@ -194,10 +199,10 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                 }
                 else
                 {
-                    let banner = NotificationBanner(title: "", subtitle: "", style: .danger)
-                    banner.show()
                     DispatchQueue.main.async
                     {
+                        let banner = NotificationBanner(title: "Error", subtitle: error?.localizedDescription, style: .danger)
+                        banner.show()
                         MBProgressHUD.hide(for: self.view, animated: true)
                     }
                 }
@@ -215,12 +220,13 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func sendMessage(_ sender:UIButton)
     {
-        
-        if attachmentData != nil {
+        if attachmentData != nil
+        {
             sendAttachment()
         }
-        else {
-            if let message = self.inputTextField.text
+        else
+        {
+            if let message = self.inputTextField.text, message.count > 0
             {
                 //            inputTextField.resignFirstResponder()
                 sendMessage(inputMessage: message)
@@ -240,7 +246,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         chooseImageMethod()
     }
     
-    @IBAction func clearAttachmentPressed(_ sender: Any) {
+    @IBAction func clearAttachmentPressed(_ sender: Any)
+    {
         inputTextField.isEnabled = true
         sendButton.isSelected = false
         sendButton.backgroundColor = UIColor.lightGray
@@ -294,32 +301,38 @@ class ChatViewController: UIViewController, UITextFieldDelegate
   
     //MARK: - TextField Handling
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
+    @objc func textFieldDidChange(_ textField: UITextField)
+    {
         let haveText = textField.text?.count ?? 0 > 0
         self.sendButton.isSelected = haveText
         self.sendButton.backgroundColor = haveText ? UIColor.systemGreen : UIColor.lightGray
         self.sendButton.isUserInteractionEnabled = haveText
-        
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
         self.view.endEditing(true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+    {
          self.channel?.typing()
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField)
+    {
         self.channel?.typing()
     }
     
-    func joinChannel() {
+    func joinChannel()
+    {
         setViewOnHold(onHold: true)
         
-        if channel.status != .joined {
-            channel.join { result in
+        if channel.status != .joined
+        {
+            channel.join
+            { result in
                 print("Channel Joined")
             }
             return
@@ -330,7 +343,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     }
     
     // Disable user input and show activity indicator
-    func setViewOnHold(onHold: Bool) {
+    func setViewOnHold(onHold: Bool)
+    {
         self.chatInputView.isHidden = onHold;
         UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
     }
@@ -340,50 +354,65 @@ extension ChatViewController
 {
     // MARK: - Chat Service
     
-    func sendMessage(inputMessage: String) {
+    func sendMessage(inputMessage: String)
+    {
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
-        channel.messages?.sendMessage(with: messageOptions, completion: { (result, message) in
+        channel.messages?.sendMessage(with: messageOptions, completion:
+        { (result, message) in
             self.inputTextField.text = ""
 //            self.inputTextField.resignFirstResponder()
         })
     }
     
-    func addMessages(newMessages:Set<TCHMessage>) {
+    func addMessages(newMessages:Set<TCHMessage>)
+    {
         messages =  messages.union(newMessages)
         sortMessages()
-        DispatchQueue.main.async {
+        DispatchQueue.main.async
+        {
             self.tableView!.reloadData()
-            if self.messages.count > 0 {
+            if self.messages.count > 0
+            {
                 self.scrollToBottom()
             }
         }
     }
     
-    func sortMessages() {
-        sortedMessages = messages.sorted { (a, b) -> Bool in
+    func sortMessages()
+    {
+        sortedMessages = messages.sorted
+        { (a, b) -> Bool in
             (a.dateCreated ?? "") < (b.dateCreated ?? "")
         }
     }
     
-    func loadMessages() {
+    func loadMessages()
+    {
         messages.removeAll()
-        if channel.synchronizationStatus == .all {
-            channel.messages?.getLastWithCount(100) { (result, items) in
+        if channel.synchronizationStatus == .all
+        {
+            channel.messages?.getLastWithCount(100)
+            { (result, items) in
                 self.addMessages(newMessages: Set(items!))
             }
         }
     }
     
-    func scrollToBottom() {
-        if messages.count > 0 {
+    func scrollToBottom()
+    {
+        if messages.count > 0
+        {
             let indexPath = IndexPath(row: messages.count > 0 ? messages.count-1 : 0, section: 0)
             tableView!.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
-    func leaveChannel() {
-        channel.leave { result in
-            if (result.isSuccessful()) {
+    func leaveChannel()
+    {
+        channel.leave
+        { result in
+            if (result.isSuccessful())
+            {
                 
             }
         }
@@ -433,26 +462,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.mediaImageView.isHidden = true
                 }
                 cell.timeLabel.text = timestamp
-                
-//                if message.hasMedia() {
-//                    cell.mediaImageView.isHidden = false
-//                    cell.messageLabel.isHidden = true
-//
-//                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
-//                        guard let mediaContentUrl = mediaContentUrl else {
-//                            return
-//                        }
-//                        // Use the url to download an image or other media
-//                        print(mediaContentUrl)
-//                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
-//                            cell.mediaImageView.image = image
-//                        }
-//                    }
-//                }
-//                else {
-//                    cell.messageLabel.isHidden = false
-//                    cell.mediaImageView.isHidden = true
-//                }
 
                 return cell
             }
@@ -485,26 +494,6 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.mediaImageView.isHidden = true
                 }
                 cell.timeLabel.text = timestamp
-                
-//                if message.hasMedia() {
-//                    cell.mediaImageView.isHidden = false
-//                    cell.messageLabel.isHidden = true
-//
-//                    message.getMediaContentTemporaryUrl { (result, mediaContentUrl) in
-//                        guard let mediaContentUrl = mediaContentUrl else {
-//                            return
-//                        }
-//                        // Use the url to download an image or other media
-//                        print(mediaContentUrl)
-//                        ChatViewModel.shared.downloadImageWithURL(url: mediaContentUrl) { (image, errorMeessage) in
-//                            cell.mediaImageView.image = image
-//                        }
-//                    }
-//                }
-//                else {
-//                    cell.messageLabel.isHidden = false
-//                    cell.mediaImageView.isHidden = true
-//                }
 
                 return cell
             }

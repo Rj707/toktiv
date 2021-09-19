@@ -1,6 +1,17 @@
 import UIKit
 import TwilioChatClient
 
+enum CustomError: Error {
+    // Throw when an invalid password is entered
+    case invalidPassword
+
+    // Throw when an expected resource is not found
+    case notFound
+
+    // Throw in all other cases
+    case unexpected(code: Int)
+}
+
 protocol ChannelManagerDelegate
 {
     
@@ -29,7 +40,7 @@ class ChannelManager: NSObject
     
     // MARK: - General channel
     
-    func joinChatRoomWith(name: String, completion: @escaping (Bool) -> Void)
+    func joinChatRoomWith(name: String, completion: @escaping (Bool, Error?) -> Void)
     {
         
         let uniqueName = name
@@ -44,7 +55,7 @@ class ChannelManager: NSObject
                 {
                     if self.currentChannel.status == .joined
                     {
-                        completion(true)
+                        completion(true, nil)
                         return
                     }
                     
@@ -53,20 +64,24 @@ class ChannelManager: NSObject
                 else
                 {
                     self.createChatRoomWithUniqueName(name: uniqueName)
-                    { succeeded in
+                    { succeeded,error  in
                         if (succeeded)
                         {
                             self.joinChatRoomWithUniqueName(name: uniqueName, completion: completion)
                             return
                         }
-                        completion(false)
+                        completion(false,error)
                     }
                 }
             }
         }
+        else
+        {
+            completion(false,CustomError.unexpected(code: 111))
+        }
     }
     
-    func joinChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void)
+    func joinChatRoomWithUniqueName(name: String?, completion: @escaping (Bool, Error?) -> Void)
     {
         currentChannel.join
         { result in
@@ -76,11 +91,11 @@ class ChannelManager: NSObject
                 self.setChatRoomUniqueNameWithCompletion(name: name!, completion: completion)
                 return
             }
-            completion((result.isSuccessful()))
+            completion((result.isSuccessful()), result.error)
         }
     }
     
-    func createChatRoomWithUniqueName(name: String, completion: @escaping (Bool) -> Void)
+    func createChatRoomWithUniqueName(name: String, completion: @escaping (Bool, Error?) -> Void)
     {
         let channelName = name
         
@@ -97,15 +112,15 @@ class ChannelManager: NSObject
             {
                 self.currentChannel = channel
             }
-            completion((result.isSuccessful()))
+            completion((result.isSuccessful()), result.error)
         }
     }
     
-    func setChatRoomUniqueNameWithCompletion(name: String, completion:@escaping (Bool) -> Void)
+    func setChatRoomUniqueNameWithCompletion(name: String, completion:@escaping (Bool, Error?) -> Void)
     {
         currentChannel.setUniqueName(name)
         { result in
-            completion((result.isSuccessful()))
+            completion((result.isSuccessful()), result.error)
         }
     }
     
@@ -210,5 +225,28 @@ extension ChannelManager : TwilioChatClientDelegate
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus)
     {
         
+    }
+}
+
+// For each error type return the appropriate localized description
+extension CustomError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidPassword:
+            return NSLocalizedString(
+                "The provided password is not valid.",
+                comment: "Invalid Password"
+            )
+        case .notFound:
+            return NSLocalizedString(
+                "The specified item could not be found.",
+                comment: "Resource Not Found"
+            )
+        case .unexpected(_):
+            return NSLocalizedString(
+                "An unexpected error occurred.",
+                comment: "Unexpected Error"
+            )
+        }
     }
 }
