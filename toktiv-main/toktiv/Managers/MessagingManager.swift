@@ -158,7 +158,6 @@ extension MessagingManager : TwilioChatClientDelegate
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus)
     {
-        
         if status == TCHClientSynchronizationStatus.completed
         {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -166,6 +165,7 @@ extension MessagingManager : TwilioChatClientDelegate
             ChannelManager.sharedManager.populateChannelDescriptors()
             
         }
+        
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
     
@@ -187,7 +187,9 @@ extension MessagingManager : TwilioChatClientDelegate
     
     func chatClientTokenExpired(_ client: TwilioChatClient)
     {
-        requestTokenWithCompletion { succeeded, token in
+        requestTokenWithCompletion
+        { succeeded, token in
+            
             if (succeeded)
             {
                 client.updateToken(token!)

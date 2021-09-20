@@ -1,7 +1,8 @@
 import UIKit
 import TwilioChatClient
 
-enum CustomError: Error {
+enum CustomError: Error
+{
     // Throw when an invalid password is entered
     case invalidPassword
 
@@ -42,8 +43,8 @@ class ChannelManager: NSObject
     
     func joinChatRoomWith(name: String, completion: @escaping (Bool, Error?) -> Void)
     {
-        
         let uniqueName = name
+        
         if let channelsList = self.channelsList
         {
             channelsList.channel(withSidOrUniqueName: uniqueName)
@@ -58,7 +59,6 @@ class ChannelManager: NSObject
                         completion(true, nil)
                         return
                     }
-                    
                     self.joinChatRoomWithUniqueName(name: nil, completion: completion)
                 }
                 else
@@ -126,47 +126,62 @@ class ChannelManager: NSObject
     
     // MARK: - Populate channel Descriptors
     
-    func populateChannelDescriptors() {
-        
-        channelsList?.userChannelDescriptors { result, paginator in
-            guard let paginator = paginator else {
+    func populateChannelDescriptors()
+    {
+        channelsList?.userChannelDescriptors
+        { result, paginator in
+            
+            guard let paginator = paginator else
+            {
                 return
             }
 
             let newChannelDescriptors = NSMutableOrderedSet()
             newChannelDescriptors.addObjects(from: paginator.items())
-            self.channelsList?.publicChannelDescriptors { result, paginator in
-                guard let paginator = paginator else {
+            self.channelsList?.publicChannelDescriptors
+            { result, paginator in
+                
+                guard let paginator = paginator else
+                {
                     return
                 }
 
                 // de-dupe channel list
                 let channelIds = NSMutableSet()
-                for descriptor in newChannelDescriptors {
-                    if let descriptor = descriptor as? TCHChannelDescriptor {
-                        if let sid = descriptor.sid {
+                
+                for descriptor in newChannelDescriptors
+                {
+                    if let descriptor = descriptor as? TCHChannelDescriptor
+                    {
+                        if let sid = descriptor.sid
+                        {
                             channelIds.add(sid)
                         }
                     }
                 }
-                for descriptor in paginator.items() {
-                    if let sid = descriptor.sid {
-                        if !channelIds.contains(sid) {
+                
+                for descriptor in paginator.items()
+                {
+                    if let sid = descriptor.sid
+                    {
+                        if !channelIds.contains(sid)
+                        {
                             channelIds.add(sid)
                             newChannelDescriptors.add(descriptor)
                         }
                     }
                 }
                 
+                //*** sort the descriptors *** //
                 
-                // sort the descriptors
                 let sortSelector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
                 let descriptor = NSSortDescriptor(key: "friendlyName", ascending: true, selector: sortSelector)
                 newChannelDescriptors.sort(using: [descriptor])
                 
                 self.channelDescriptors = newChannelDescriptors
                 
-                if let delegate = self.delegate {
+                if let delegate = self.delegate
+                {
                     delegate.reloadChannelDescriptorList()
                 }
             }
@@ -229,24 +244,27 @@ extension ChannelManager : TwilioChatClientDelegate
 }
 
 // For each error type return the appropriate localized description
-extension CustomError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .invalidPassword:
-            return NSLocalizedString(
-                "The provided password is not valid.",
-                comment: "Invalid Password"
-            )
-        case .notFound:
-            return NSLocalizedString(
-                "The specified item could not be found.",
-                comment: "Resource Not Found"
-            )
-        case .unexpected(_):
-            return NSLocalizedString(
-                "An unexpected error occurred.",
-                comment: "Unexpected Error"
-            )
+extension CustomError: LocalizedError
+{
+    public var errorDescription: String?
+    {
+        switch self
+        {
+            case .invalidPassword:
+                return NSLocalizedString(
+                    "The provided password is not valid.",
+                    comment: "Invalid Password"
+                )
+            case .notFound:
+                return NSLocalizedString(
+                    "The specified item could not be found.",
+                    comment: "Resource Not Found"
+                )
+            case .unexpected(_):
+                return NSLocalizedString(
+                    "An unexpected error occurred.",
+                    comment: "Unexpected Error"
+                )
         }
     }
 }
