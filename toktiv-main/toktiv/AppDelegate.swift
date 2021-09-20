@@ -815,7 +815,9 @@ extension AppDelegate {
     func getContactList() {
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
             var contactsList = response ?? []
+
             contactsList = contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode}
+            DataManager.shared.contactList = contactsList
             if let contactsListData = try? JSONEncoder().encode(contactsList) {
                 UserDefaults.standard.set(contactsListData, forKey: AppConstants.CONTACT_LIST)
                 UserDefaults.standard.synchronize()

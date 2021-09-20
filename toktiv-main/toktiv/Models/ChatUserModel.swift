@@ -60,3 +60,9 @@ struct ChatTokenModel : Codable {
     }
     
 }
+
+class DataManager: NSObject {
+    static let shared = DataManager()
+    
+    var contactList:[ChatUserModel]? = []
+}

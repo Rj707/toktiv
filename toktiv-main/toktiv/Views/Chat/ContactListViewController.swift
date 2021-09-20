@@ -39,6 +39,17 @@ class ContactListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if let contactListData = UserDefaults.standard.data(forKey: AppConstants.CONTACT_LIST) {
+            if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData) {
+                self.contactsList = list
+                self.contactsList = self.contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode }
+                self.filterArray = self.contactsList
+                self.searchBar.isHidden = !(self.filterArray.count > 0)
+                self.tableView.reloadData()
+                
+            }
+        }
+
         MBProgressHUD.showAdded(to: self.view, animated: true)
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
             MBProgressHUD.hide(for: self.view, animated: true)
