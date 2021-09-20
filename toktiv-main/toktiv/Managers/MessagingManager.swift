@@ -1,7 +1,8 @@
 import UIKit
 import TwilioChatClient
 
-class MessagingManager: NSObject {
+class MessagingManager: NSObject
+{
     
     static let _sharedManager = MessagingManager()
     
@@ -9,28 +10,34 @@ class MessagingManager: NSObject {
     var delegate:ChannelManager?
     var connected = false
     
-    var userIdentity:String {
+    var userIdentity:String
+    {
         return SessionManager.getUsername()
     }
     
-    var hasIdentity: Bool {
+    var hasIdentity: Bool
+    {
         return SessionManager.isLoggedIn()
     }
     
-    override init() {
+    override init()
+    {
         super.init()
         delegate = ChannelManager.sharedManager
     }
     
-    class func sharedManager() -> MessagingManager {
+    class func sharedManager() -> MessagingManager
+    {
         return _sharedManager
     }
     
     // MARK: User and session management
     
-    func logout() {
+    func logout()
+    {
         SessionManager.logout()
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async
+        {
             self.client?.shutdown()
             self.client = nil
         }
@@ -39,28 +46,38 @@ class MessagingManager: NSObject {
     
     // MARK: Twilio Client
     
-    func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void) {
-        if (client != nil) {
+    func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void)
+    {
+        if (client != nil)
+        {
             logout()
         }
         
-        requestTokenWithCompletion { succeeded, token in
-            if let token = token, succeeded {
+        requestTokenWithCompletion
+        { succeeded, token in
+            
+            if let token = token, succeeded
+            {
                 self.initializeClientWithToken(token: token)
                 completion(succeeded, nil)
             }
-            else {
+            else
+            {
                 let error = self.errorWithDescription(description: "Could not get access token", code:301)
                 completion(succeeded, error)
             }
         }
     }
     
-    func initializeClientWithToken(token: String) {
-        DispatchQueue.main.async {
+    func initializeClientWithToken(token: String)
+    {
+        DispatchQueue.main.async
+        {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
-        TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self) { [weak self] result, chatClient in
+        TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
+        { [weak self] result, chatClient in
+            
             guard (result.isSuccessful()) else { return }
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -80,19 +97,20 @@ class MessagingManager: NSObject {
         }
     }
     
-    func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void) {
-        
-        ChatViewModel.shared.generateTwilioChatToken { (chatTokenModle, errorMessage) in
+    func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void)
+    {
+        ChatViewModel.shared.generateTwilioChatToken
+        { (chatTokenModle, errorMessage) in
             
             var token: String?
             token = chatTokenModle?.token
             completion(token != nil, token)
-            
         }
         
     }
     
-    func errorWithDescription(description: String, code: Int) -> NSError {
+    func errorWithDescription(description: String, code: Int) -> NSError
+    {
         let userInfo = [NSLocalizedDescriptionKey : description]
         return NSError(domain: "app", code: code, userInfo: userInfo)
     }
@@ -120,23 +138,29 @@ class MessagingManager: NSObject {
 }
 
 // MARK: - TwilioChatClientDelegate
-extension MessagingManager : TwilioChatClientDelegate {
-    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
+
+extension MessagingManager : TwilioChatClientDelegate
+{
+    func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel)
+    {
         self.delegate?.chatClient(client, channelAdded: channel)
     }
     
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate)
+    {
         self.delegate?.chatClient(client, channel: channel, updated: updated)
     }
     
-    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel)
+    {
         self.delegate?.chatClient(client, channelDeleted: channel)
     }
     
-    func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
+    func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus)
+    {
         
-        if status == TCHClientSynchronizationStatus.completed {
-            
+        if status == TCHClientSynchronizationStatus.completed
+        {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
@@ -145,23 +169,31 @@ extension MessagingManager : TwilioChatClientDelegate {
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
     
-    func chatClientTokenWillExpire(_ client: TwilioChatClient) {
-        requestTokenWithCompletion { succeeded, token in
-            if (succeeded) {
+    func chatClientTokenWillExpire(_ client: TwilioChatClient)
+    {
+        requestTokenWithCompletion
+        { succeeded, token in
+            
+            if (succeeded)
+            {
                 client.updateToken(token!)
             }
-            else {
+            else
+            {
                 print("Error while trying to get new access token")
             }
         }
     }
     
-    func chatClientTokenExpired(_ client: TwilioChatClient) {
+    func chatClientTokenExpired(_ client: TwilioChatClient)
+    {
         requestTokenWithCompletion { succeeded, token in
-            if (succeeded) {
+            if (succeeded)
+            {
                 client.updateToken(token!)
             }
-            else {
+            else
+            {
                 print("Error while trying to get new access token")
             }
         }

@@ -220,7 +220,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func sendMessage(_ sender:UIButton)
     {
-        if attachmentData != nil
+        if attachmentData != nil && attachmentData.count > 0
         {
             sendAttachment()
         }
@@ -420,22 +420,25 @@ extension ChatViewController
 }
 
 
-extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
+extension ChatViewController: UITableViewDelegate, UITableViewDataSource
+{
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return messages.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let message = sortedMessages[indexPath.row]
 
-        
         let date = NSDate.dateWithISO8601String(dateString: message.dateCreated ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         if message.author == StateManager.shared.loginViewModel.userProfile?.providerCode
         {
-            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell
+            {
                 if message.body?.contains("https://provider.drcurves.com") ?? false
                 {
                     cell.messageLabel.text = "View Attachment"
@@ -466,8 +469,10 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
-        else {
-            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromChatTableViewCell") as? FromChatTableViewCell {
+        else
+        {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromChatTableViewCell") as? FromChatTableViewCell
+            {
                 if message.body?.contains("https://provider.drcurves.com") ?? false
                 {
                     cell.messageLabel.text = "View Attachment"
@@ -502,12 +507,14 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if sortedMessages[indexPath.row].body?.contains("https://provider.drcurves.com") ?? false {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        if sortedMessages[indexPath.row].body?.contains("https://provider.drcurves.com") ?? false
+        {
             return 171 + 50 + 21
         }
-        else {
+        else
+        {
             let string = sortedMessages[indexPath.row].body ?? ""
             let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
             return height + 50 + 21
@@ -524,31 +531,37 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             controller?.webViewURL = message.body ?? ""
             self.navigationController?.pushViewController(controller!, animated: true)
         }
-        
     }
     
 }
 
-extension ChatViewController : TCHChannelDelegate {
+extension ChatViewController : TCHChannelDelegate
+{
     
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage) {
-        
-        if !messages.contains(message) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, messageAdded message: TCHMessage)
+    {
+        if !messages.contains(message)
+        {
             addMessages(newMessages: [message])
         }
     }
     
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberJoined member: TCHMember)
+    {
         
     }
     
-    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember) {
+    func chatClient(_ client: TwilioChatClient, channel: TCHChannel, memberLeft member: TCHMember)
+    {
         
     }
     
-    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
-        DispatchQueue.main.async {
-            if channel == self.channel {
+    func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel)
+    {
+        DispatchQueue.main.async
+        {
+            if channel == self.channel
+            {
                 
             }
         }
@@ -556,21 +569,26 @@ extension ChatViewController : TCHChannelDelegate {
     
     func chatClient(_ client: TwilioChatClient,
                     channel: TCHChannel,
-                    synchronizationStatusUpdated status: TCHChannelSynchronizationStatus) {
-        if status == .all {
+                    synchronizationStatusUpdated status: TCHChannelSynchronizationStatus)
+    {
+        if status == .all
+        {
             loadMessages()
-            DispatchQueue.main.async {
+            DispatchQueue.main.async
+            {
                 self.tableView?.reloadData()
                 self.setViewOnHold(onHold: false)
             }
         }
     }
     
-    func chatClient(_ client: TwilioChatClient, typingStartedOn channel: TCHChannel, member: TCHMember) {
+    func chatClient(_ client: TwilioChatClient, typingStartedOn channel: TCHChannel, member: TCHMember)
+    {
         self.topLabel.text = "\(toName) is typing...."
     }
     
-    func chatClient(_ client: TwilioChatClient, typingEndedOn channel: TCHChannel, member: TCHMember) {
+    func chatClient(_ client: TwilioChatClient, typingEndedOn channel: TCHChannel, member: TCHMember)
+    {
         self.topLabel.text = toName
     }
 }
@@ -581,7 +599,8 @@ extension ChatViewController : TCHChannelDelegate {
 // MARK: - UIImagePicker Delegate / UINavigation Delegate
 extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
-    func sendAttachment() {
+    func sendAttachment()
+    {
         let progressHud = MBProgressHUD.showAdded(to: self.view, animated: true)
         progressHud.mode = MBProgressHUDMode.annularDeterminate
         progressHud.label.text = "Attachment Uploading..."
@@ -642,18 +661,23 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any])
+    {
         var image : UIImage?
-        if let pickedImage = info[.editedImage] as? UIImage {
+        
+        if let pickedImage = info[.editedImage] as? UIImage
+        {
             image   =   pickedImage
         }
-        else if let pickedImage = info[.originalImage] as? UIImage {
+        else if let pickedImage = info[.originalImage] as? UIImage
+        {
             image   =   pickedImage
         }
         
-        DispatchQueue.main.async {
-            if image != nil{
+        DispatchQueue.main.async
+        {
+            if image != nil
+            {
                 if let imageData = image!.pngData()
                 {
                     self.attachmentName = "image.jpg"
@@ -680,7 +704,8 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
     
     func openCamera()
     {
-        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
+        {
             let imagePicker = UIImagePickerController()
             imagePicker.allowsEditing = false
             imagePicker.delegate = self
@@ -690,7 +715,8 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         }
     }
     
-    func openGallery () {
+    func openGallery ()
+    {
         let imagePicker = UIImagePickerController()
         imagePicker.allowsEditing = true
         imagePicker.delegate = self
@@ -698,29 +724,40 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-    func openFileManager() {
+    func openFileManager()
+    {
         let documentPicker: UIDocumentPickerViewController = UIDocumentPickerViewController(documentTypes: [String(kUTTypePDF),"com.microsoft.word.doc","org.openxmlformats.wordprocessingml.document",String(kUTTypeJPEG),String(kUTTypePNG),String(kUTTypeImage),String(kUTTypeJPEG2000)], in: UIDocumentPickerMode.import)
         documentPicker.delegate = self
         documentPicker.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         self.present(documentPicker, animated: true, completion: nil)
     }
     
-    func chooseImageMethod() {
+    func chooseImageMethod()
+    {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
-        if let popoverPresentationController = alert.popoverPresentationController {
+        if let popoverPresentationController = alert.popoverPresentationController
+        {
             popoverPresentationController.sourceView = self.view
             popoverPresentationController.sourceRect =  CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY / 2.5, width: 0, height: 0)
         }
-        let GalleryAction: UIAlertAction = UIAlertAction(title: "Choose from Library", style: .default) { action -> Void in
+        
+        let GalleryAction: UIAlertAction = UIAlertAction(title: "Choose from Library", style: .default)
+        { action -> Void in
             self.openGallery()
         }
-        let CameraAction: UIAlertAction = UIAlertAction(title: "Take photo", style: .default ) { action -> Void in
+        
+        let CameraAction: UIAlertAction = UIAlertAction(title: "Take photo", style: .default )
+        { action -> Void in
             self.openCamera()
         }
-        let FileAction: UIAlertAction = UIAlertAction(title: "Choose File", style: .default ) { action -> Void in
+        
+        let FileAction: UIAlertAction = UIAlertAction(title: "Choose File", style: .default )
+        { action -> Void in
             self.openFileManager()
         }
-        let CancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel ) { action -> Void in
+        
+        let CancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel )
+        { action -> Void in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(GalleryAction)
@@ -733,14 +770,18 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
 }
 
 
-extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
+extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate
+{
     
-    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let myURL = urls.first else {
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL])
+    {
+        guard let myURL = urls.first else
+        {
             return
         }
         
-        do {
+        do
+        {
             let data = try Data.init(contentsOf: myURL)
             
             let fileExt: String = myURL.pathExtension
@@ -790,19 +831,23 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate {
             
 //            self.sendAttachment()
             
-        } catch {
+        }
+        catch
+        {
             print("Unable to load data: \(error)")
         }
     }
     
     
-    public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+    public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController)
+    {
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)
     }
     
     
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController)
+    {
         print("view was cancelled")
         dismiss(animated: true, completion: nil)
     }
