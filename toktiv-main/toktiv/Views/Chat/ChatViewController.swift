@@ -139,29 +139,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                 
                 if success
                 {
-                    self.channel = ChannelManager.sharedManager.currentChannel
-                    self.channel.delegate = self
-                    if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
-                    {
-                        self.loadMessages()
-                        DispatchQueue.main.async
-                        {
-                            self.tableView?.reloadData()
-                            self.setViewOnHold(onHold: false)
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0)
-                            {
-                                MBProgressHUD.hide(for: self.view, animated: true)
-                            }
-                        }
-                    }
-                    else
-                    {
-                        DispatchQueue.main.async
-                        {
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                        }
-                    }
+                    self.getConverstaion()
                 }
                 else
                 {
@@ -187,28 +165,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                 
                 if success
                 {
-                    self.channel = ChannelManager.sharedManager.currentChannel
-                    self.channel.delegate = self
-                    if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
-                    {
-                        self.loadMessages()
-                        DispatchQueue.main.async
-                        {
-                            self.tableView?.reloadData()
-                            self.setViewOnHold(onHold: false)
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0)
-                        {
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                        }
-                    }
-                    else
-                    {
-                        DispatchQueue.main.async
-                        {
-                            MBProgressHUD.hide(for: self.view, animated: true)
-                        }
-                    }
+                    self.getConverstaion()
                 }
                 else
                 {
@@ -310,6 +267,24 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     
     func getConverstaion()
     {
+        self.channel = ChannelManager.sharedManager.currentChannel
+        self.channel.delegate = self
+        if ChannelManager.sharedManager.currentChannel.synchronizationStatus == .all
+        {
+            self.loadMessages()
+            DispatchQueue.main.async
+            {
+                self.tableView?.reloadData()
+                self.setViewOnHold(onHold: false)
+            }
+        }
+        else
+        {
+            DispatchQueue.main.async
+            {
+                MBProgressHUD.hide(for: self.view, animated: true)
+            }
+        }
         
     }
     
@@ -470,6 +445,17 @@ extension ChatViewController
             channel.messages?.getLastWithCount(100)
             { (result, items) in
                 self.addMessages(newMessages: Set(items!))
+                
+                DispatchQueue.main.async
+                {
+                    MBProgressHUD.hide(for: self.view, animated: true)
+                }
+            }
+        }
+        else {
+            DispatchQueue.main.async
+            {
+                MBProgressHUD.hide(for: self.view, animated: true)
             }
         }
     }
@@ -670,6 +656,7 @@ extension ChatViewController : TCHChannelDelegate
     {
         self.topLabel.text = toName
     }
+    
 }
 
 
