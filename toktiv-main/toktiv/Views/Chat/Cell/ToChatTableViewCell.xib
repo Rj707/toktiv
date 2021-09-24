@@ -47,7 +47,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="kBn-20-DUm" firstAttribute="height" secondItem="fYB-Mg-y61" secondAttribute="height" multiplier="0.774648" id="7fD-7T-Evd"/>
+                                            <constraint firstItem="kBn-20-DUm" firstAttribute="height" secondItem="fYB-Mg-y61" secondAttribute="height" constant="-16" id="7fD-7T-Evd"/>
                                             <constraint firstAttribute="trailing" secondItem="kBn-20-DUm" secondAttribute="trailing" constant="8" id="BYR-6c-2Lf"/>
                                             <constraint firstAttribute="bottom" secondItem="kBn-20-DUm" secondAttribute="bottom" constant="8" id="YKr-F9-T4g"/>
                                             <constraint firstItem="kBn-20-DUm" firstAttribute="top" secondItem="fYB-Mg-y61" secondAttribute="top" constant="8" id="b8N-2U-dkL"/>

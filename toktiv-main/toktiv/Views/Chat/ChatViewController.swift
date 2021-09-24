@@ -581,7 +581,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
         else
         {
             let string = sortedMessages[indexPath.row].body ?? ""
-            let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 120, font: UIFont.systemFont(ofSize: 15))
+            let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 100 - 10 - 36, font: UIFont.systemFont(ofSize: 15))
             return height + 50 + 21
         }
     }

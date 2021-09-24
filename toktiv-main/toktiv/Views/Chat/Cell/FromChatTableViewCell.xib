@@ -49,7 +49,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="Hk3-Sq-hba" firstAttribute="top" secondItem="JOw-km-40n" secondAttribute="top" constant="8" id="43m-2S-H5D"/>
-                                            <constraint firstItem="Hk3-Sq-hba" firstAttribute="height" secondItem="JOw-km-40n" secondAttribute="height" multiplier="0.652174" id="8sa-y5-ZrE"/>
+                                            <constraint firstItem="Hk3-Sq-hba" firstAttribute="height" secondItem="JOw-km-40n" secondAttribute="height" constant="-16" id="8sa-y5-ZrE"/>
                                             <constraint firstAttribute="trailing" secondItem="Hk3-Sq-hba" secondAttribute="trailing" constant="8" id="Aav-sZ-5ka"/>
                                             <constraint firstAttribute="bottom" secondItem="Hk3-Sq-hba" secondAttribute="bottom" constant="8" id="OXT-By-LwF"/>
                                             <constraint firstItem="Hk3-Sq-hba" firstAttribute="leading" secondItem="JOw-km-40n" secondAttribute="leading" constant="8" id="Yn3-Ta-Lzb"/>

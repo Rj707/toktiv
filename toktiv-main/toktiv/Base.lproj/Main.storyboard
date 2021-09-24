@@ -2788,7 +2788,7 @@
                                                 <rect key="frame" x="0.0" y="56" width="414" height="53"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhu-7A-MNb">
-                                                        <rect key="frame" x="12" y="1" width="44" height="44"/>
+                                                        <rect key="frame" x="12" y="4.5" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="6qc-CB-Pl5"/>
                                                             <constraint firstAttribute="width" constant="44" id="avy-OS-bEk"/>
@@ -2814,7 +2814,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ej0-vV-ZsO">
-                                                        <rect key="frame" x="358" y="1" width="44" height="44"/>
+                                                        <rect key="frame" x="358" y="4.5" width="44" height="44"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="Q0F-gi-cKb"/>
@@ -2872,8 +2872,8 @@
                                                     <constraint firstItem="a16-Um-XDD" firstAttribute="top" secondItem="jG4-Mc-mtF" secondAttribute="top" id="mU1-ue-b3Y"/>
                                                     <constraint firstItem="a16-Um-XDD" firstAttribute="trailing" secondItem="jG4-Mc-mtF" secondAttribute="trailing" id="pqn-2h-D1I"/>
                                                     <constraint firstItem="yhu-7A-MNb" firstAttribute="leading" secondItem="i3N-Yp-Q3r" secondAttribute="leading" constant="12" id="rEs-q7-DqT"/>
-                                                    <constraint firstAttribute="bottom" secondItem="ej0-vV-ZsO" secondAttribute="bottom" constant="8" id="rGK-BC-heC"/>
-                                                    <constraint firstAttribute="bottom" secondItem="yhu-7A-MNb" secondAttribute="bottom" constant="8" id="xwB-i9-nav"/>
+                                                    <constraint firstAttribute="bottom" secondItem="ej0-vV-ZsO" secondAttribute="bottom" constant="4.5" id="rGK-BC-heC"/>
+                                                    <constraint firstAttribute="bottom" secondItem="yhu-7A-MNb" secondAttribute="bottom" constant="4.5" id="xwB-i9-nav"/>
                                                     <constraint firstItem="ej0-vV-ZsO" firstAttribute="leading" secondItem="jG4-Mc-mtF" secondAttribute="trailing" constant="10" id="zWJ-xP-qWM"/>
                                                 </constraints>
                                             </view>
