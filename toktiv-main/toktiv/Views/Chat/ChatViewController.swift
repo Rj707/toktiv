@@ -33,7 +33,6 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
 
     @IBOutlet weak var inputTextView:GrowingTextView!
 
-
     var navigation : ChatViewNavigation = .Contacts
     
     var toEmpID = ""
@@ -69,6 +68,9 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     var attachmentType = ""
     var attachmentData:Data!
     
+    //MARK: - Implementation
+
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -90,36 +92,20 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
             }
         }
         
+        configureInputTextView()
+    }
+    
+    func configureInputTextView()
+    {
         automaticallyAdjustsScrollViewInsets = false
         
         inputTextView.maxLength = 1000
         inputTextView.trimWhiteSpaceWhenEndEditing = false
-//        inputTextView.placeholder = "Say something..."
         inputTextView.placeholderColor = UIColor(white: 0.8, alpha: 1.0)
         inputTextView.minHeight = 25.0
         inputTextView.maxHeight = 100.0
         inputTextView.backgroundColor = UIColor.white
         inputTextView.layer.cornerRadius = 4.0
-
-    }
-    
-    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
-    {
-           UIView.animate(withDuration: 0.2)
-           {
-               self.view.layoutIfNeeded()
-           }
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        return true
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let haveText = textView.text?.count ?? 0 > 0
-        self.sendButton.isSelected = haveText
-        self.sendButton.backgroundColor = haveText ? UIColor.systemGreen : UIColor.lightGray
-        self.sendButton.isUserInteractionEnabled = haveText
     }
     
     func setup()
@@ -134,19 +120,11 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         tableView.register(UINib(nibName: "FromChatTableViewCell", bundle: nil), forCellReuseIdentifier: "FromChatTableViewCell")
         tableView.register(UINib(nibName: "ToChatTableViewCell", bundle: nil), forCellReuseIdentifier: "ToChatTableViewCell")
 
-//        inputTextField.addTarget(self, action: #selector(ChatViewController.textFieldDidChange(_:)), for: .editingChanged)
-
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         tapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGestureRecognizer)
 
         self.topLabel.text = toName
-    }
-    
-    @objc func closeKeyboard()
-    {
-//        inputTextField.endEditing(true)
-        inputTextView.endEditing(true)
     }
     
     func joinOrCreateChannel()
@@ -253,26 +231,27 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         }
     }
     
-    func handleMessagingManagerConnectionError()
+    //MARK: - UITextView
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
     {
-        MessagingManager.sharedManager().connectClientWithCompletion
-        { (success, error) in
-            
-            if success
-            {
-                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-                { (success) in
-                    
-                    if success
-                    {
-                        self.loadChannelChatUponPush()
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-        }
+           UIView.animate(withDuration: 0.2)
+           {
+               self.view.layoutIfNeeded()
+           }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    {
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView)
+    {
+        let haveText = textView.text?.count ?? 0 > 0
+        self.sendButton.isSelected = haveText
+        self.sendButton.backgroundColor = haveText ? UIColor.systemGreen : UIColor.lightGray
+        self.sendButton.isUserInteractionEnabled = haveText
     }
     
 
@@ -296,9 +275,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                 sendMessage(inputMessage: message)
             }
         }
-        
-//        self.inputTextField.isEnabled = true
-        
+                
         self.sendButton.isSelected = false
         self.sendButton.backgroundColor = UIColor.lightGray
         self.sendButton.isUserInteractionEnabled = false
@@ -336,15 +313,65 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         
     }
     
+    // Disable user input and show activity indicator
+    func setViewOnHold(onHold: Bool)
+    {
+        self.chatInputView.isHidden = onHold;
+        UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
+    }
+    
+    func handleMessagingManagerConnectionError()
+    {
+        MessagingManager.sharedManager().connectClientWithCompletion
+        { (success, error) in
+            
+            if success
+            {
+                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+                { (success) in
+                    
+                    if success
+                    {
+                        self.loadChannelChatUponPush()
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+        }
+    }
+    
+    func joinChannel()
+    {
+        setViewOnHold(onHold: true)
+        
+        if channel.status != .joined
+        {
+            channel.join
+            { result in
+                print("Channel Joined")
+            }
+            return
+        }
+        
+        loadMessages()
+        setViewOnHold(onHold: false)
+    }
+    
     //MARK: - Keyboard Observers
     
-    @objc func keyboardDidAppear(notification: NSNotification) {
+    @objc func keyboardDidAppear(notification: NSNotification)
+    {
         let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
         let height = min(keyboardSize.height, keyboardSize.width)
-        UIView.animate(withDuration: 0.3) {
-            DispatchQueue.main.async {
+        UIView.animate(withDuration: 0.3)
+        {
+            DispatchQueue.main.async
+            {
                 var value = 0
-                if let window = UIApplication.shared.windows.first {
+                if let window = UIApplication.shared.windows.first
+                {
                     value = Int(window.safeAreaInsets.bottom)
                 }
                 self.bottomMarginConstraint.constant = height - CGFloat(value)
@@ -353,17 +380,24 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         }
     }
 
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc func keyboardWillHide(notification: NSNotification)
+    {
         print("Keyboard hidden")
-        UIView.animate(withDuration: 0.3) {
-            DispatchQueue.main.async {
+        UIView.animate(withDuration: 0.3)
+        {
+            DispatchQueue.main.async
+            {
                 self.bottomMarginConstraint.constant = 0
                 self.view.layoutIfNeeded()
             }
         }
     }
     
-  
+    @objc func closeKeyboard()
+    {
+        inputTextView.endEditing(true)
+    }
+    
     //MARK: - TextField Handling
     
     @objc func textFieldDidChange(_ textField: UITextField)
@@ -389,43 +423,20 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     {
         self.channel?.typing()
     }
-    
-    func joinChannel()
-    {
-        setViewOnHold(onHold: true)
-        
-        if channel.status != .joined
-        {
-            channel.join
-            { result in
-                print("Channel Joined")
-            }
-            return
-        }
-        
-        loadMessages()
-        setViewOnHold(onHold: false)
-    }
-    
-    // Disable user input and show activity indicator
-    func setViewOnHold(onHold: Bool)
-    {
-        self.chatInputView.isHidden = onHold;
-        UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
-    }
+
 }
+
+// MARK: - Chat Service
 
 extension ChatViewController
 {
-    // MARK: - Chat Service
-    
     func sendMessage(inputMessage: String)
     {
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
         channel.messages?.sendMessage(with: messageOptions, completion:
         { (result, message) in
+            
             self.inputTextView.text = ""
-//            self.inputTextField.resignFirstResponder()
         })
     }
     
@@ -484,6 +495,7 @@ extension ChatViewController
     }
 }
 
+// MARK: - UITableView
 
 extension ChatViewController: UITableViewDelegate, UITableViewDataSource
 {
@@ -600,6 +612,8 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
     
 }
 
+// MARK: - TCHChannelDelegate
+
 extension ChatViewController : TCHChannelDelegate
 {
     
@@ -662,7 +676,9 @@ extension ChatViewController : TCHChannelDelegate
 
 
 // MARK: - UIImagePicker Delegate / UINavigation Delegate
-extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+
+extension ChatViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
     
     func sendAttachment()
     {
@@ -684,41 +700,6 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
             
             progressHud.hide(animated: true)
         }
-        
-//        // Prepare the upload stream and parameters
-//        let messageOptions = TCHMessageOptions()
-//        let inputStream = InputStream(data: data!)
-//
-//        messageOptions.withMediaStream(inputStream,
-//                                       contentType: attachmentType,
-//                                       defaultFilename: attachmentName,
-//                                       onStarted: {
-//                                        // Called when upload of media begins.
-//                                        print("Media upload started")
-//        },
-//                                       onProgress: { (bytes) in
-//                                        // Called as upload progresses, with the current byte count.
-//                                        print("Media upload progress: \(bytes)")
-//        }) { (mediaSid) in
-//            // Called when upload is completed, with the new mediaSid if successful.
-//            // Full failure details will be provided through sendMessage's completion.
-//            print("Media upload completed")
-//        }
-//
-//        // Trigger the sending of the message.
-//        self.channel.messages?.sendMessage(with: messageOptions,
-//                                           completion: { (result, message) in
-//
-//                                            MBProgressHUD.hide(for: self.view, animated: true)
-//
-//                                            if !result.isSuccessful() {
-//                                                print("Creation failed: \(String(describing: result.error))")
-//                                            } else {
-//                                                print("Creation successful")
-//                                            }
-//        })
-
-        
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController)
@@ -758,8 +739,6 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                     self.sendButton.backgroundColor = UIColor.systemGreen
                     self.sendButton.isUserInteractionEnabled = true
                     self.view.layoutIfNeeded()
-                    
-//                    self.sendAttachment()
                 }
             }
         }
@@ -834,6 +813,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
     }
 }
 
+// MARK: - UIDocumentPicker Delegate
 
 extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate
 {
@@ -893,16 +873,12 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate
             self.sendButton.backgroundColor = UIColor.systemGreen
             self.sendButton.isUserInteractionEnabled = true
             self.view.layoutIfNeeded()
-            
-//            self.sendAttachment()
-            
         }
         catch
         {
             print("Unable to load data: \(error)")
         }
     }
-    
     
     public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController)
     {
