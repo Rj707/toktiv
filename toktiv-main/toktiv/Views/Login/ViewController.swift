@@ -69,8 +69,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         }
         
-        usernameTextField.text = "zeeqa"
-        passwordTextField.text = "apss20202021"
+        usernameTextField.text = "Sameer"
+        passwordTextField.text = "apss2021"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

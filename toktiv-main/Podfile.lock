@@ -82,6 +82,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.0.0):
     - GoogleUtilities/Logger
+  - GrowingTextView (0.7.2)
   - IQKeyboardManagerSwift (6.5.6)
   - MarqueeLabel (4.0.5)
   - MBProgressHUD (1.2.0)
@@ -105,6 +106,7 @@ DEPENDENCIES:
   - Firebase/Crashlytics
   - Firebase/Messaging
   - FTPopOverMenu_Swift
+  - GrowingTextView (= 0.7.2)
   - IQKeyboardManagerSwift
   - MBProgressHUD (~> 1.2.0)
   - NotificationBannerSwift
@@ -127,6 +129,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - GrowingTextView
     - IQKeyboardManagerSwift
     - MarqueeLabel
     - MBProgressHUD
@@ -151,6 +154,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 7790ef975d1d463c8614cd949a847e612edf087a
   GoogleDataTransport: 6ce8004a961db1b905740d7be106c61ba7e89c21
   GoogleUtilities: ffb2f4159f2c897c6e8992bd7fbcdef8a300589c
+  GrowingTextView: 876bf42005b5e4a4fd740597db12caaf41f0fe6c
   IQKeyboardManagerSwift: c7df9d2deb356c04522f5c4b7b6e4ce4d8ed94fe
   MarqueeLabel: 00cc0bcd087111dca575878b3531af980559707d
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
@@ -161,6 +165,6 @@ SPEC CHECKSUMS:
   TwilioChatClient: bd1f553293c32dd5f04b74ef265eb179d9f0d983
   TwilioVoice: 89efb8621aa14860ec4282d2d04e987058eb0b7a
 
-PODFILE CHECKSUM: b5f0078e9f18c1892b151688b193cbc5059fc5e8
+PODFILE CHECKSUM: 7177671947b08c8037ab79c1f65c4a6b03a8428f
 
 COCOAPODS: 1.11.2

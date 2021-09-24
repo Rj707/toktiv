@@ -817,8 +817,10 @@ extension AppDelegate {
             var contactsList = response ?? []
             contactsList = contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode}
             if let contactsListData = try? JSONEncoder().encode(contactsList) {
-                UserDefaults.standard.set(contactsListData, forKey: AppConstants.CONTACT_LIST)
-                UserDefaults.standard.synchronize()
+                let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
+
+                defaults?.set(contactsListData, forKey: AppConstants.CONTACT_LIST)
+                defaults?.synchronize()
             }
         })
     }

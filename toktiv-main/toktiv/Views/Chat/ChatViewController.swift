@@ -10,6 +10,7 @@ import TwilioChatClient
 import MBProgressHUD
 import MobileCoreServices
 import NotificationBannerSwift
+import GrowingTextView
 
 enum ChatViewNavigation
 {
@@ -17,7 +18,7 @@ enum ChatViewNavigation
     case PUSH
 }
 
-class ChatViewController: UIViewController, UITextFieldDelegate
+class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextViewDelegate
 {
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
@@ -29,6 +30,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var viewAttachmentInfo: UIView!
     @IBOutlet weak var labelAttachmentName: UILabel!
     @IBOutlet weak var attachmentTypeImage: UIImageView!
+
+    @IBOutlet weak var inputTextView:GrowingTextView!
 
 
     var navigation : ChatViewNavigation = .Contacts
@@ -86,6 +89,37 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                 self.loadChannelChatUponPush()
             }
         }
+        
+        automaticallyAdjustsScrollViewInsets = false
+        
+        inputTextView.maxLength = 1000
+        inputTextView.trimWhiteSpaceWhenEndEditing = false
+//        inputTextView.placeholder = "Say something..."
+        inputTextView.placeholderColor = UIColor(white: 0.8, alpha: 1.0)
+        inputTextView.minHeight = 25.0
+        inputTextView.maxHeight = 100.0
+        inputTextView.backgroundColor = UIColor.white
+        inputTextView.layer.cornerRadius = 4.0
+
+    }
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
+    {
+           UIView.animate(withDuration: 0.2)
+           {
+               self.view.layoutIfNeeded()
+           }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let haveText = textView.text?.count ?? 0 > 0
+        self.sendButton.isSelected = haveText
+        self.sendButton.backgroundColor = haveText ? UIColor.systemGreen : UIColor.lightGray
+        self.sendButton.isUserInteractionEnabled = haveText
     }
     
     func setup()
@@ -100,8 +134,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         tableView.register(UINib(nibName: "FromChatTableViewCell", bundle: nil), forCellReuseIdentifier: "FromChatTableViewCell")
         tableView.register(UINib(nibName: "ToChatTableViewCell", bundle: nil), forCellReuseIdentifier: "ToChatTableViewCell")
 
-        inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
-        
+//        inputTextField.addTarget(self, action: #selector(ChatViewController.textFieldDidChange(_:)), for: .editingChanged)
+
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         tapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGestureRecognizer)
@@ -111,7 +145,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate
     
     @objc func closeKeyboard()
     {
-        inputTextField.endEditing(true)
+//        inputTextField.endEditing(true)
+        inputTextView.endEditing(true)
     }
     
     func joinOrCreateChannel()
@@ -199,11 +234,41 @@ class ChatViewController: UIViewController, UITextFieldDelegate
                 }
                 else
                 {
+                    if error?.localizedDescription == "An unexpected error occurred."
+                    {
+                        if ChannelManager.sharedManager.channelsList == nil
+                        {
+                            self.handleMessagingManagerConnectionError()
+                        }
+                    }
+                    
                     DispatchQueue.main.async
                     {
                         let banner = NotificationBanner(title: "Error", subtitle: error?.localizedDescription, style: .danger)
                         banner.show()
                         MBProgressHUD.hide(for: self.view, animated: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    func handleMessagingManagerConnectionError()
+    {
+        MessagingManager.sharedManager().connectClientWithCompletion
+        { (success, error) in
+            
+            if success
+            {
+                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+                { (success) in
+                    
+                    if success
+                    {
+                        self.loadChannelChatUponPush()
+                    }
+                    else
+                    {
                     }
                 }
             }
@@ -226,14 +291,14 @@ class ChatViewController: UIViewController, UITextFieldDelegate
         }
         else
         {
-            if let message = self.inputTextField.text, message.count > 0
+            if let message = self.inputTextView.text, message.count > 0
             {
-                //            inputTextField.resignFirstResponder()
                 sendMessage(inputMessage: message)
             }
         }
         
-        self.inputTextField.isEnabled = true
+//        self.inputTextField.isEnabled = true
+        
         self.sendButton.isSelected = false
         self.sendButton.backgroundColor = UIColor.lightGray
         self.sendButton.isUserInteractionEnabled = false
@@ -359,7 +424,7 @@ extension ChatViewController
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
         channel.messages?.sendMessage(with: messageOptions, completion:
         { (result, message) in
-            self.inputTextField.text = ""
+            self.inputTextView.text = ""
 //            self.inputTextField.resignFirstResponder()
         })
     }

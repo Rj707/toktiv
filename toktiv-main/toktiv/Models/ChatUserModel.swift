@@ -1,7 +1,7 @@
 
 import Foundation
 
-struct ChatUserModel : Codable {
+public struct ChatUserModel : Codable {
 
 	let channelSid : String?
 	let chatUserSid : String?
@@ -25,7 +25,7 @@ struct ChatUserModel : Codable {
 		case userOnline = "UserOnline"
 	}
     
-	init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		channelSid = try values.decodeIfPresent(String.self, forKey: .channelSid)
@@ -41,7 +41,7 @@ struct ChatUserModel : Codable {
 
 }
 
-struct ChatTokenModel : Codable {
+public struct ChatTokenModel : Codable {
     
     let identity : String?
     let token : String?
@@ -52,7 +52,7 @@ struct ChatTokenModel : Codable {
         case token = "token"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         identity = try values.decodeIfPresent(String.self, forKey: .identity)

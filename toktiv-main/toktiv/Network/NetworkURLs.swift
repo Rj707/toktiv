@@ -7,7 +7,7 @@
 //http://89.107.61.153/
 import UIKit
 
-class NetworkURLs: NSObject {
+open class NetworkURLs: NSObject {
     static let GET_TOKEN_URL = "https://api.drcurves.com/AuthApi/token"
     static let GET_USER_PROFILE = "https://api.drcurves.com/AuthApi/api/MAccount/Login"
     static let GET_USER_CALL_HISTORY = "https://api.drcurves.com/AuthApi/api/UserCallHistory/GetProviderHistory"
@@ -35,7 +35,7 @@ class NetworkURLs: NSObject {
 
 }
 
-class AppConstants: NSObject {
+open class AppConstants: NSObject {
     static let USER_ACCESS_TOKEN = "USER_ACCESS_TOKEN"
     static let USER_PROFILE_MODEL = "USER_PROFILE_MODEL"
     static let LAST_INBOUND_CALL_DATE = "LAST_INBOUND_CALL_DATE"

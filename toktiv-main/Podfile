@@ -6,18 +6,19 @@ target 'toktiv' do
   use_frameworks!
 
   # Pods for toktiv
-  pod 'TwilioVoice', '~> 6.0.2'
+pod 'TwilioVoice', '~> 6.0.2'
 pod 'IQKeyboardManagerSwift'
 pod 'NotificationBannerSwift', '~> 3.0.0'
 pod 'Firebase/Core'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
-  pod 'Firebase/Messaging'
+pod 'Firebase/Analytics'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Messaging'
 pod 'Firebase/Crashlytics'
 pod 'Alamofire', '~> 5.2'
 pod 'FTPopOverMenu_Swift'
 pod 'MBProgressHUD', '~> 1.2.0'
 pod 'TwilioChatClient', '~> 4.0'
-pod 'NotificationBannerSwift'
+#pod 'NotificationBannerSwift'
+pod 'GrowingTextView', '0.7.2'
 
 end

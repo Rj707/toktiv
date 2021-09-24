@@ -2705,7 +2705,7 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-gK-Jc5">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="652"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="659"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <connections>
                                             <outlet property="dataSource" destination="cMH-KK-bhe" id="UOb-f0-dEg"/>
@@ -2713,7 +2713,7 @@
                                         </connections>
                                     </tableView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8cT-fs-nS6">
-                                        <rect key="frame" x="0.0" y="652" width="414" height="116"/>
+                                        <rect key="frame" x="0.0" y="659" width="414" height="109"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ikr-do-ISc">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -2785,11 +2785,12 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3N-Yp-Q3r">
-                                                <rect key="frame" x="0.0" y="56" width="414" height="60"/>
+                                                <rect key="frame" x="0.0" y="56" width="414" height="53"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhu-7A-MNb">
-                                                        <rect key="frame" x="12" y="8" width="44" height="44"/>
+                                                        <rect key="frame" x="12" y="1" width="44" height="44"/>
                                                         <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="6qc-CB-Pl5"/>
                                                             <constraint firstAttribute="width" constant="44" id="avy-OS-bEk"/>
                                                         </constraints>
                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2804,7 +2805,7 @@
                                                         </connections>
                                                     </button>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter message here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jG4-Mc-mtF">
-                                                        <rect key="frame" x="66" y="10" width="282" height="40"/>
+                                                        <rect key="frame" x="66" y="10" width="282" height="33"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
@@ -2813,9 +2814,10 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ej0-vV-ZsO">
-                                                        <rect key="frame" x="358" y="8" width="44" height="44"/>
+                                                        <rect key="frame" x="358" y="1" width="44" height="44"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
+                                                            <constraint firstAttribute="height" constant="44" id="Q0F-gi-cKb"/>
                                                             <constraint firstAttribute="width" secondItem="ej0-vV-ZsO" secondAttribute="height" id="vCL-0w-PPF"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -2841,16 +2843,34 @@
                                                             <action selector="sendMessage:" destination="cMH-KK-bhe" eventType="touchUpInside" id="Mip-0U-Fg2"/>
                                                         </connections>
                                                     </button>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a16-Um-XDD" customClass="GrowingTextView" customModule="GrowingTextView">
+                                                        <rect key="frame" x="66" y="10" width="282" height="33"/>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="textColor" systemColor="labelColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter message here"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="cMH-KK-bhe" id="lxk-bt-EMG"/>
+                                                        </connections>
+                                                    </textView>
                                                 </subviews>
                                                 <color key="backgroundColor" red="0.88445191059999995" green="0.88445191059999995" blue="0.88445191059999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <constraints>
                                                     <constraint firstItem="jG4-Mc-mtF" firstAttribute="leading" secondItem="yhu-7A-MNb" secondAttribute="trailing" constant="10" id="5j7-P6-eex"/>
-                                                    <constraint firstAttribute="height" constant="60" id="9u3-mD-tZm"/>
-                                                    <constraint firstItem="ej0-vV-ZsO" firstAttribute="top" secondItem="i3N-Yp-Q3r" secondAttribute="top" constant="8" id="Jjs-Ra-kxD"/>
+                                                    <constraint firstItem="jG4-Mc-mtF" firstAttribute="leading" secondItem="yhu-7A-MNb" secondAttribute="trailing" constant="10" id="DZB-g6-s8R"/>
+                                                    <constraint firstItem="jG4-Mc-mtF" firstAttribute="top" secondItem="i3N-Yp-Q3r" secondAttribute="top" constant="10" id="EjB-fr-Ya6"/>
+                                                    <constraint firstItem="a16-Um-XDD" firstAttribute="bottom" secondItem="jG4-Mc-mtF" secondAttribute="bottom" id="MR8-CS-aPc"/>
                                                     <constraint firstItem="jG4-Mc-mtF" firstAttribute="top" secondItem="i3N-Yp-Q3r" secondAttribute="top" constant="10" id="O1V-XC-L8p"/>
-                                                    <constraint firstItem="yhu-7A-MNb" firstAttribute="top" secondItem="i3N-Yp-Q3r" secondAttribute="top" constant="8" id="Tew-1J-NVI"/>
+                                                    <constraint firstItem="a16-Um-XDD" firstAttribute="leading" secondItem="jG4-Mc-mtF" secondAttribute="leading" id="Qja-zi-YPv"/>
+                                                    <constraint firstAttribute="bottom" secondItem="jG4-Mc-mtF" secondAttribute="bottom" constant="10" id="RRw-Ly-1hx"/>
                                                     <constraint firstAttribute="bottom" secondItem="jG4-Mc-mtF" secondAttribute="bottom" constant="10" id="bhp-2w-2SM"/>
                                                     <constraint firstAttribute="trailing" secondItem="ej0-vV-ZsO" secondAttribute="trailing" constant="12" id="cTH-7c-zL3"/>
+                                                    <constraint firstItem="ej0-vV-ZsO" firstAttribute="leading" secondItem="jG4-Mc-mtF" secondAttribute="trailing" constant="10" id="hlt-kc-AAb"/>
+                                                    <constraint firstItem="a16-Um-XDD" firstAttribute="top" secondItem="jG4-Mc-mtF" secondAttribute="top" id="mU1-ue-b3Y"/>
+                                                    <constraint firstItem="a16-Um-XDD" firstAttribute="trailing" secondItem="jG4-Mc-mtF" secondAttribute="trailing" id="pqn-2h-D1I"/>
                                                     <constraint firstItem="yhu-7A-MNb" firstAttribute="leading" secondItem="i3N-Yp-Q3r" secondAttribute="leading" constant="12" id="rEs-q7-DqT"/>
                                                     <constraint firstAttribute="bottom" secondItem="ej0-vV-ZsO" secondAttribute="bottom" constant="8" id="rGK-BC-heC"/>
                                                     <constraint firstAttribute="bottom" secondItem="yhu-7A-MNb" secondAttribute="bottom" constant="8" id="xwB-i9-nav"/>
@@ -2900,6 +2920,7 @@
                         <outlet property="bottomMarginConstraint" destination="wKd-o6-Ql9" id="xng-At-TrM"/>
                         <outlet property="chatInputView" destination="i3N-Yp-Q3r" id="mCP-LG-dmE"/>
                         <outlet property="inputTextField" destination="jG4-Mc-mtF" id="Wpm-7I-2v7"/>
+                        <outlet property="inputTextView" destination="a16-Um-XDD" id="EYw-J6-CYD"/>
                         <outlet property="labelAttachmentName" destination="OxT-eY-pQy" id="LCg-FK-iGY"/>
                         <outlet property="sendButton" destination="ej0-vV-ZsO" id="I0O-qJ-2gu"/>
                         <outlet property="tableView" destination="ocn-gK-Jc5" id="fmY-we-hbj"/>
@@ -2979,6 +3000,11 @@
             <point key="canvasLocation" x="1044.9275362318842" y="4275"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="a16-Um-XDD">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
+    </designables>
     <resources>
         <image name="1" width="32" height="32"/>
         <image name="a" width="32" height="32"/>

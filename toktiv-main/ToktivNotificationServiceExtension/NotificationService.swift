@@ -19,7 +19,9 @@ class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent = bestAttemptContent {
             
             var contactList = [ChatUserModel]()
-            if let contactListData = UserDefaults.standard.data(forKey: AppConstants.CONTACT_LIST) {
+            let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
+
+            if let contactListData = defaults?.data(forKey: AppConstants.CONTACT_LIST) {
                 if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData) {
                     contactList = list
                 }
