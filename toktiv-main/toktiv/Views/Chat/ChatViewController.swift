@@ -248,6 +248,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     @IBAction func clearAttachmentPressed(_ sender: Any)
     {
         inputTextField.isEnabled = true
+        self.inputTextView.isEditable = true
         sendButton.isSelected = false
         sendButton.backgroundColor = UIColor.lightGray
         sendButton.isUserInteractionEnabled = false
@@ -678,6 +679,8 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
         ChatViewModel.shared.uploadChatAttachment(attachment: data!, contentType: attachmentType, filename: attachmentName, progressHud: progressHud)
         { (attachmentURL) in
             
+            self.inputTextView.isEditable = true
+            
             self.attachmentData.removeAll()
             
             if attachmentURL != ""
@@ -722,6 +725,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
                     self.attachmentTypeImage.image = image
                     self.viewAttachmentInfo.isHidden = false
                     self.inputTextField.isEnabled = false
+                    self.inputTextView.isEditable = false
                     self.sendButton.isSelected = true
                     self.sendButton.backgroundColor = UIColor.systemGreen
                     self.sendButton.isUserInteractionEnabled = true
@@ -856,6 +860,7 @@ extension ChatViewController: UIDocumentMenuDelegate,UIDocumentPickerDelegate
             self.labelAttachmentName.text = "File Attached"
             self.viewAttachmentInfo.isHidden = false
             self.inputTextField.isEnabled = false
+            self.inputTextView.isEditable = false
             self.sendButton.isSelected = true
             self.sendButton.backgroundColor = UIColor.systemGreen
             self.sendButton.isUserInteractionEnabled = true

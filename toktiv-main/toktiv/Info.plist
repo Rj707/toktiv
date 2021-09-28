@@ -40,6 +40,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Requires access to the camera for image attachment in chat</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App uses microphone to make Voice calls</string>
 	<key>UIApplicationSceneManifest</key>
