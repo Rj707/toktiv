@@ -478,7 +478,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
             if success
             {
-                
             }
             else
             {

@@ -303,17 +303,18 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
             
             if success
             {
-                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-                { (success, errorMessage) in
+                self.loadChannelChatUponPush()
 
-                    if success
-                    {
-                        self.loadChannelChatUponPush()
-                    }
-                    else
-                    {
-                    }
-                }
+//                MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+//                { (success, errorMessage) in
+//
+//                    if success
+//                    {
+//                    }
+//                    else
+//                    {
+//                    }
+//                }
             }
         }
     }

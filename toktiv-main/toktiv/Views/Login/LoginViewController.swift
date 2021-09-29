@@ -226,7 +226,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             
             if success
             {
-                self.registerTwilioChatClientWithDeviceToken()
+//                self.registerTwilioChatClientWithDeviceToken()
             }
             else
             {
@@ -235,20 +235,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         }
     }
     
-    func registerTwilioChatClientWithDeviceToken()
-    {
-        MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-        { (success, errorMessage) in
-
-            if success
-            {
-            }
-            else
-            {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceTokenethod:\(errorMessage ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
-            }
-        }
-    }
+//    func registerTwilioChatClientWithDeviceToken()
+//    {
+//        MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+//        { (success, errorMessage) in
+//
+//            if success
+//            {
+//            }
+//            else
+//            {
+//                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceTokenethod:\(errorMessage ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+//            }
+//        }
+//    }
     
     //MARK: - TextField Delegate
     
