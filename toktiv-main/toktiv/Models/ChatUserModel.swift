@@ -10,7 +10,8 @@ public struct ChatUserModel : Codable {
 	let empID : String?
 	let providerCode : String?
 	let providerName : String?
-	let userOnline : Bool?
+	var userOnline : Bool?
+    var TwilioStatus : String?
 
 
 	enum CodingKeys: String, CodingKey {
@@ -23,6 +24,7 @@ public struct ChatUserModel : Codable {
 		case providerCode = "ProviderCode"
 		case providerName = "ProviderName"
 		case userOnline = "UserOnline"
+        case TwilioStatus = "TwilioStatus"
 	}
     
     public init(from decoder: Decoder) throws {
@@ -36,6 +38,7 @@ public struct ChatUserModel : Codable {
 		providerCode = try values.decodeIfPresent(String.self, forKey: .providerCode)
 		providerName = try values.decodeIfPresent(String.self, forKey: .providerName)
 		userOnline = try values.decodeIfPresent(Bool.self, forKey: .userOnline)
+        TwilioStatus = try values.decodeIfPresent(String.self, forKey: .TwilioStatus)
 	}
 
 

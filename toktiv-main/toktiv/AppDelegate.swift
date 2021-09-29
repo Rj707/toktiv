@@ -621,6 +621,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
         }
         
+        if module == "cusu" || module == "cusu".capitalized
+        {
+            var contactList = [ChatUserModel]()
+            let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
+
+            if let contactListData = defaults?.data(forKey: AppConstants.CONTACT_LIST)
+            {
+                if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData)
+                {
+                    contactList = list
+                    let providerCode = userInfo["ProviderCode"] as? String ?? ""
+                    for (index,contact) in contactList.enumerated()
+                    {
+                        var tempContact = contact
+                        if providerCode.trimmingCharacters(in: .whitespaces) == contact.providerCode
+                        {
+                            tempContact.userOnline = userInfo["BrowserStatus"] as? Bool ?? false
+                            tempContact.TwilioStatus = userInfo["TwilioStatus"] as? String ?? ""
+                            
+                            contactList[index] = tempContact
+                            
+                            if let contactsListData = try? JSONEncoder().encode(contactList)
+                            {
+                                defaults?.set(contactsListData, forKey: AppConstants.CONTACT_LIST)
+                                defaults?.synchronize()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         guard module == "c" else
         {
             return
