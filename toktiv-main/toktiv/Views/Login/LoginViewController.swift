@@ -30,8 +30,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         
         setupFlow()
         
+        #if DEBUG
         usernameTextField.text = "Sameer"
         passwordTextField.text = "apss2021"
+        #endif
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
@@ -49,7 +51,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             {
                 self.handleAccessTokenExpiry(validAccessToken)
                 
-                self.registerAtTwilioWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
+                self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
             }
             
             self.stateManager.loginViewModel.userProfile = userProfileModel
@@ -98,7 +100,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                     {
                         print("Valid Refresh Token: \(validAccessToken)")
                         
-                        self.registerAtTwilioWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
+                        self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
                     }
                 }
             }
@@ -132,12 +134,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
-        self.getAccessTokenFroServerAgainst(username: username, password: password)
+        self.getAccessTokenFromServerAgainst(username: username, password: password)
     }
     
     //MARK: - APIs
     
-    func getAccessTokenFroServerAgainst(username: String, password: String)
+    func getAccessTokenFromServerAgainst(username: String, password: String)
     {
         stateManager.loginViewModel.getAccessToken(with: username, password: password)
         { (response, error) in
@@ -181,7 +183,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 {
                     self.handleAccessTokenExpiry(validAccessToken)
                     
-                    self.registerAtTwilioWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
+                    self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
                 }
                 
                 self.connectTwilioChatClient()
@@ -200,7 +202,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
 
     //MARK: - Twilio
     
-    func registerAtTwilioWith(accessToken: String, andDeviceToken deviceToken: Data)
+    func registerAtTwilioVoiceWith(accessToken: String, andDeviceToken deviceToken: Data)
     {
         TwilioVoice.register(accessToken: accessToken, deviceToken: deviceToken)
         { (error) in
@@ -225,6 +227,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             {
                 self.registerTwilioChatClientWithDeviceToken()
             }
+            else
+            {
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletion: \(error?.localizedDescription ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+            }
         }
     }
     
@@ -238,6 +244,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceToken:", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
             }
         }
     }
