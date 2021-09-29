@@ -474,8 +474,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         Messaging.messaging().apnsToken = deviceToken
         
         MessagingManager.sharedManager().registerChatClientWith(deviceToken: deviceToken)
-        { (success) in
-            
+        { (success, errorMessage) in
+
             if success
             {
                 

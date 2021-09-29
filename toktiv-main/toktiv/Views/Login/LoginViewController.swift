@@ -238,14 +238,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     func registerTwilioChatClientWithDeviceToken()
     {
         MessagingManager.sharedManager().registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-        { (success) in
-            
+        { (success, errorMessage) in
+
             if success
             {
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceToken:", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceToken:\(errorMessage ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
             }
         }
     }

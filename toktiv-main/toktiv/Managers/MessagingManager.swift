@@ -85,7 +85,7 @@ class MessagingManager: NSObject
             self?.client = chatClient
             
             self?.registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-            { (success) in
+            { (success, errorMessage) in
                 
                 if success
                 {
@@ -115,24 +115,27 @@ class MessagingManager: NSObject
         return NSError(domain: "app", code: code, userInfo: userInfo)
     }
     
-    func registerChatClientWith(deviceToken: Data, completion : @escaping (Bool) -> ())
+    func registerChatClientWith(deviceToken: Data, completion : @escaping (Bool, String?) -> ())
     {
         if let chatClient = self.client, chatClient.user != nil
         {
             chatClient.register(withNotificationToken: deviceToken)
             { (result) in
                 
-                completion(true)
-
                 if (!result.isSuccessful())
                 {
                     // try registration again or verify token
+                    completion(false,result.error?.localizedDescription)
+                }
+                else
+                {
+                    completion(true,nil)
                 }
             }
         }
         else
         {
-            completion(false)
+            completion(false,"TwilioChatClient is nil")
         }
     }
 }
