@@ -33,6 +33,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         #if DEBUG
         usernameTextField.text = "Sameer"
         passwordTextField.text = "apss2021"
+        passwordTextField.isSecureTextEntry = false
         #endif
     }
     
@@ -134,12 +135,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
-        self.getAccessTokenFromServerAgainst(username: username, password: password)
+        self.loginUserWith(username: username, password: password)
     }
     
     //MARK: - APIs
     
-    func getAccessTokenFromServerAgainst(username: String, password: String)
+    func loginUserWith(username: String, password: String)
     {
         stateManager.loginViewModel.getAccessToken(with: username, password: password)
         { (response, error) in
