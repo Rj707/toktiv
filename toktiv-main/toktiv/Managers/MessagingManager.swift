@@ -53,6 +53,8 @@ class MessagingManager: NSObject
             logout()
         }
         
+        ///* Call generateTwilioChatToken API for token *///
+        
         requestTokenWithCompletion
         { succeeded, token in
             
@@ -73,14 +75,15 @@ class MessagingManager: NSObject
     {
         DispatchQueue.main.async
         {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
+        
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
         { [weak self] result, chatClient in
             
             guard (result.isSuccessful()) else { return }
             
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             self?.connected = true
             self?.client = chatClient
             

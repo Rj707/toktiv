@@ -230,7 +230,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletion: \(error?.localizedDescription ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
             }
         }
     }
@@ -245,7 +245,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceToken:\(errorMessage ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at registerTwilioChatClientWithDeviceTokenethod:\(errorMessage ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
             }
         }
     }
