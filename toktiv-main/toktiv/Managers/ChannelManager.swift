@@ -199,12 +199,12 @@ class ChannelManager: NSObject
             TCHChannelOptionType: TCHChannelType.public.rawValue
         ] as [String : Any]
         
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
         
         self.channelsList?.createChannel(options: channelOptions)
         { result, channel in
             
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             completion((result.isSuccessful()), channel)
         }
     }
@@ -243,7 +243,6 @@ extension ChannelManager : TwilioChatClientDelegate
     }
 }
 
-// For each error type return the appropriate localized description
 extension CustomError: LocalizedError
 {
     public var errorDescription: String?

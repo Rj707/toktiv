@@ -33,7 +33,7 @@
 		A1D52B4725E42AE3003A9A3F /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F8A255DA16700ACE57C /* BaseService.swift */; };
 		A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E45A8CF255F788700B37EE1 /* UserHistoryViewModel.swift */; };
 		A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1564BC256C238F009CFAED /* NewMessageViewController.swift */; };
-		A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0ABB255CC242009E86B3 /* ViewController.swift */; };
+		A1D52B4A25E42AE3003A9A3F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2D0ABB255CC242009E86B3 /* LoginViewController.swift */; };
 		A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E156502256ECBA5009CFAED /* JWTDecoder.swift */; };
 		A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF7D625769290001A9EB0 /* SettingsViewController.swift */; };
 		A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBBF8072577AF2F001A9EB0 /* PatientsViewController.swift */; };
@@ -123,7 +123,7 @@
 		0E1565642570D0A2009CFAED /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0E1567332571546A009CFAED /* WorkerStatusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerStatusModel.swift; sourceTree = "<group>"; };
 		0E2D0AB7255CC242009E86B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0E2D0ABB255CC242009E86B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0E2D0ABB255CC242009E86B3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		0E2D0ABE255CC242009E86B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0E2D0AC0255CC245009E86B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E2D0AC3255CC245009E86B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 		0E094F7F255D981B00ACE57C /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				0E2D0ABB255CC242009E86B3 /* ViewController.swift */,
+				0E2D0ABB255CC242009E86B3 /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -630,7 +630,7 @@
 				A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */,
 				A1D52B4825E42AE3003A9A3F /* UserHistoryViewModel.swift in Sources */,
 				A1D52B4925E42AE3003A9A3F /* NewMessageViewController.swift in Sources */,
-				A1D52B4A25E42AE3003A9A3F /* ViewController.swift in Sources */,
+				A1D52B4A25E42AE3003A9A3F /* LoginViewController.swift in Sources */,
 				A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */,
 				A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */,
 				A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */,

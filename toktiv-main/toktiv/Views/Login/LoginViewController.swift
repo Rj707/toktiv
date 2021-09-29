@@ -11,7 +11,7 @@ import TwilioVoice
 import NotificationBannerSwift
 import SafariServices
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var usernameTextField:UITextField!
     @IBOutlet weak var passwordTextField:UITextField!
