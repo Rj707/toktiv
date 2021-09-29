@@ -137,7 +137,14 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
             let taskID = (validDetails.data?.first?.taskID ?? "").replacingOccurrences(of: " ", with: "%20")
             let taskType = (validDetails.direction ?? "").appending("%20Call")
             
-            let url = "https://provider.drcurves.com/Account/Login?returnUrl=/Patient/Index?pid=\(patientID)&tid=\(taskID)&tasktype=\(taskType)"
+            var returnURL = "/Patient/Index?pid=\(patientID)&tid=\(taskID)&tasktype=\(taskType)"
+            
+            returnURL = returnURL.replacingOccurrences(of: "/", with: "%2F")
+            returnURL = returnURL.replacingOccurrences(of: "?", with: "%3F")
+            returnURL = returnURL.replacingOccurrences(of: "=", with: "%3D")
+            returnURL = returnURL.replacingOccurrences(of: "&", with: "%26")
+            let url = "https://provider.drcurves.com/Account/Login?returnUrl=\(returnURL)"
+            
             if let validURL = URL(string: url) {
                 let vc = SFSafariViewController(url: validURL)
                 self.present(vc, animated: true, completion: nil)
