@@ -11,7 +11,8 @@ class ContactTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
-    
+    @IBOutlet weak var twilioStatusImage: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

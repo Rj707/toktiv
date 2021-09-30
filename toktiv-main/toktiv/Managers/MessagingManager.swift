@@ -1,5 +1,6 @@
 import UIKit
 import TwilioChatClient
+import MBProgressHUD
 
 class MessagingManager: NSObject
 {
@@ -75,7 +76,7 @@ class MessagingManager: NSObject
     {
         DispatchQueue.main.async
         {
-//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
         }
         
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
@@ -83,7 +84,8 @@ class MessagingManager: NSObject
             
             guard (result.isSuccessful()) else { return }
             
-//            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+
             self?.connected = true
             self?.client = chatClient
             
@@ -164,12 +166,18 @@ extension MessagingManager : TwilioChatClientDelegate
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus)
     {
-        if status == TCHClientSynchronizationStatus.completed
+        //* Called when the client synchronization state changes during startup.
+
+        if status == .completed
         {
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
             
+        }
+        if status == .channelsListCompleted
+        {
+            ChannelManager.sharedManager.channelsList = client.channelsList()
+            ChannelManager.sharedManager.populateChannelDescriptors()
         }
         
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)

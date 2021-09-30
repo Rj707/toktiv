@@ -100,6 +100,24 @@ extension ContactListViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = ContactTableViewCell.cellForTableView(tableView, atIndexPath: indexPath)
         cell.nameLabel.text = filterArray[indexPath.row].providerName ?? ""
         cell.statusView.backgroundColor = (filterArray[indexPath.row].userOnline ?? false) ? UIColor.green : UIColor.red
+        
+        switch filterArray[indexPath.row].TwilioStatus ?? ""
+        {
+            case "Offline":
+                cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "F3FF63")) // Yellowish // #F3FF63
+                break
+            case "Idle":
+                cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "35BF31")) // Green // #35BF31
+                break
+            case "Busy":
+                cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "FF0101")) // Red // #FF0101
+                break
+            case "Automated Call":
+                break
+            default:
+                print("default:\(filterArray[indexPath.row].TwilioStatus ?? "")")
+        }
+        
         return cell
     }
     

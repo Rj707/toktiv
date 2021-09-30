@@ -787,55 +787,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    //    // For iOS 10 and later; do not forget to set up a delegate for UNUserNotificationCenter
-    //    func userNotificationCenter(_ center: UNUserNotificationCenter,
-    //                                didReceive response: UNNotificationResponse,
-    //                                withCompletionHandler completionHandler:
-    //                                    @escaping () -> Void)
-    //    {
-    //        let userInfo = response.notification.request.content.userInfo
-    //
-    //        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
-    //        {
-    //            // If your reference to the Chat client exists and is initialized, send the notification to it
-    //            chatClient.handleNotification(userInfo)
-    //            { (result) in
-    //
-    //                if (!result.isSuccessful())
-    //                {
-    //                    // Handling of notification was not successful, retry?
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // Store the notification for later handling
-    //            receivedNotification = userInfo
-    //        }
-    //    }
-    //
-    //    // For iOS versions before 10
-    //    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-    //    {
-    //        // If your application supports multiple types of push notifications, you may wish to limit which ones you send to the TwilioChatClient here
-    //
-    //        if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
-    //        {
-    //            // If your reference to the Chat client exists and is initialized, send the notification to it
-    //            chatClient.handleNotification(userInfo)
-    //            { (result) in
-    //                if (!result.isSuccessful())
-    //                {
-    //                    // Handling of notification was not successful, retry?
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // Store the notification for later handling
-    //            receivedNotification = userInfo
-    //        }
-    //    }
+//        // For iOS 10 and later; do not forget to set up a delegate for UNUserNotificationCenter
+//        func userNotificationCenter(_ center: UNUserNotificationCenter,
+//                                    didReceive response: UNNotificationResponse,
+//                                    withCompletionHandler completionHandler:
+//                                        @escaping () -> Void)
+//        {
+//            let userInfo = response.notification.request.content.userInfo
+//
+//            if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+//            {
+//                // If your reference to the Chat client exists and is initialized, send the notification to it
+//                chatClient.handleNotification(userInfo)
+//                { (result) in
+//
+//                    if (!result.isSuccessful())
+//                    {
+//                        // Handling of notification was not successful, retry?
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                // Store the notification for later handling
+//                receivedNotification = userInfo
+//            }
+//        }
+//
+//        // For iOS versions before 10
+//        func application(_ application: UIApplication,
+//                         didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+//                         fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+//        {
+//            // If your application supports multiple types of push notifications, you may wish to limit which ones you send to the TwilioChatClient here
+//
+//            if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
+//            {
+//                // If your reference to the Chat client exists and is initialized, send the notification to it
+//                chatClient.handleNotification(userInfo)
+//                { (result) in
+//                    if (!result.isSuccessful())
+//                    {
+//                        // Handling of notification was not successful, retry?
+//                    }
+//                }
+//            }
+//            else
+//            {
+//                // Store the notification for later handling
+//                receivedNotification = userInfo
+//            }
+//        }
     
 }
 
@@ -857,24 +859,56 @@ extension AppDelegate {
     }
 }
 
-extension UIViewController {
-    func topMostViewController() -> UIViewController {
-        if self.presentedViewController == nil {
-            if let navigation = self as? UINavigationController {
-                return navigation.visibleViewController!.topMostViewController()
-            }
-            
-            if let tab = self as? UITabBarController {
-                if let selectedTab = tab.selectedViewController {
-                    return selectedTab.topMostViewController()
-                }
-                return tab.topMostViewController()
-            }        }
-        if let navigation = self.presentedViewController as? UINavigationController {
-            return navigation.visibleViewController?.topMostViewController() ?? UIViewController()
+//extension UIViewController {
+//    func topMostViewController() -> UIViewController {
+//        if self.presentedViewController == nil {
+//            if let navigation = self as? UINavigationController {
+//                return navigation.visibleViewController!.topMostViewController()
+//            }
+//
+//            if let tab = self as? UITabBarController {
+//                if let selectedTab = tab.selectedViewController {
+//                    return selectedTab.topMostViewController()
+//                }
+//                return tab.topMostViewController()
+//            }        }
+//        if let navigation = self.presentedViewController as? UINavigationController {
+//            return navigation.visibleViewController?.topMostViewController() ?? UIViewController()
+//        }
+//        if let tab = self.presentedViewController as? UITabBarController {
+//            if let selectedTab = tab.selectedViewController {
+//                return selectedTab.topMostViewController()
+//            }
+//            return tab.topMostViewController()
+//        }
+//        return self.presentedViewController!.topMostViewController()
+//    }
+//}
+
+extension UIApplication
+{
+    func topMostViewController() -> UIViewController?
+    {
+        return self.windows.filter {$0.isKeyWindow}.first?.rootViewController?.topMostViewController()
+    }
+}
+
+extension UIViewController
+{
+    func topMostViewController() -> UIViewController
+    {
+        if self.presentedViewController == nil
+        {
+            return self
         }
-        if let tab = self.presentedViewController as? UITabBarController {
-            if let selectedTab = tab.selectedViewController {
+        if let navigation = self.presentedViewController as? UINavigationController
+        {
+            return navigation.visibleViewController!.topMostViewController()
+        }
+        if let tab = self.presentedViewController as? UITabBarController
+        {
+            if let selectedTab = tab.selectedViewController
+            {
                 return selectedTab.topMostViewController()
             }
             return tab.topMostViewController()
@@ -883,8 +917,17 @@ extension UIViewController {
     }
 }
 
-extension UIApplication {
-    func topMostViewController() -> UIViewController? {
-        return self.windows.filter {$0.isKeyWindow}.first?.rootViewController?.topMostViewController()
-    }
-}
+//extension UIWindow
+//{
+//    static var key: UIWindow?
+//    {
+//        if #available(iOS 13, *)
+//        {
+//            return UIApplication.shared.windows.first { $0.isKeyWindow }
+//        }
+//        else
+//        {
+//            return UIApplication.shared.keyWindow
+//        }
+//    }
+//}
