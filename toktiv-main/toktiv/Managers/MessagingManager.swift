@@ -4,22 +4,11 @@ import MBProgressHUD
 
 class MessagingManager: NSObject
 {
-    
     static let _sharedManager = MessagingManager()
     
     var client:TwilioChatClient?
     var delegate:ChannelManager?
     var connected = false
-    
-    var userIdentity:String
-    {
-        return SessionManager.getUsername()
-    }
-    
-    var hasIdentity: Bool
-    {
-        return SessionManager.isLoggedIn()
-    }
     
     override init()
     {
@@ -54,9 +43,7 @@ class MessagingManager: NSObject
             logout()
         }
         
-        ///* Call generateTwilioChatToken API for token *///
-        
-        requestTokenWithCompletion
+        self.requestTokenWithCompletion
         { succeeded, token in
             
             if let token = token, succeeded
@@ -104,6 +91,8 @@ class MessagingManager: NSObject
     
     func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void)
     {
+        /* Get twilio chat token from server */
+
         ChatViewModel.shared.generateTwilioChatToken
         { (chatTokenModle, errorMessage) in
             
@@ -111,17 +100,12 @@ class MessagingManager: NSObject
             token = chatTokenModle?.token
             completion(token != nil, token)
         }
-        
-    }
-    
-    func errorWithDescription(description: String, code: Int) -> NSError
-    {
-        let userInfo = [NSLocalizedDescriptionKey : description]
-        return NSError(domain: "app", code: code, userInfo: userInfo)
     }
     
     func registerChatClientWith(deviceToken: Data, completion : @escaping (Bool, String?) -> ())
     {
+        /* Register APNS token for push notification updates. */
+
         if let chatClient = self.client, chatClient.user != nil
         {
             chatClient.register(withNotificationToken: deviceToken)
@@ -142,6 +126,14 @@ class MessagingManager: NSObject
         {
             completion(false,"TwilioChatClient is nil")
         }
+    }
+    
+    //MARK: - Helper
+    
+    func errorWithDescription(description: String, code: Int) -> NSError
+    {
+        let userInfo = [NSLocalizedDescriptionKey : description]
+        return NSError(domain: "app", code: code, userInfo: userInfo)
     }
 }
 

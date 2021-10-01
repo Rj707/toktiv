@@ -15,17 +15,12 @@ enum CustomError: Error
 
 protocol ChannelManagerDelegate
 {
-    
     func reloadChannelDescriptorList()
 }
 
 class ChannelManager: NSObject
 {
-    
     static let sharedManager = ChannelManager()
-    
-//    static let defaultChannelUniqueName = "general"
-//    static let defaultChannelName = "General Channel"
     
     var delegate:ChannelManagerDelegate?
     
@@ -39,8 +34,8 @@ class ChannelManager: NSObject
         channelDescriptors = NSMutableOrderedSet()
     }
     
-    // MARK: - General channel
-    
+    // MARK: - Join or Create channel
+
     func joinChatRoomWith(name: String, completion: @escaping (Bool, Error?) -> Void)
     {
         let uniqueName = name
@@ -123,6 +118,24 @@ class ChannelManager: NSObject
             completion((result.isSuccessful()), result.error)
         }
     }
+        
+    func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void)
+    {
+        let channelOptions =
+        [
+            TCHChannelOptionFriendlyName: name,
+            TCHChannelOptionType: TCHChannelType.public.rawValue
+        ] as [String : Any]
+        
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+        
+        self.channelsList?.createChannel(options: channelOptions)
+        { result, channel in
+            
+//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            completion((result.isSuccessful()), channel)
+        }
+    }
     
     // MARK: - Populate channel Descriptors
     
@@ -187,30 +200,10 @@ class ChannelManager: NSObject
             }
         }
     }
-    
-    
-    // MARK: - Create channel
-    
-    func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void)
-    {
-        let channelOptions =
-        [
-            TCHChannelOptionFriendlyName: name,
-            TCHChannelOptionType: TCHChannelType.public.rawValue
-        ] as [String : Any]
-        
-//        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
-        
-        self.channelsList?.createChannel(options: channelOptions)
-        { result, channel in
-            
-//            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            completion((result.isSuccessful()), channel)
-        }
-    }
 }
 
 // MARK: - TwilioChatClientDelegate
+
 extension ChannelManager : TwilioChatClientDelegate
 {
     func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel)
