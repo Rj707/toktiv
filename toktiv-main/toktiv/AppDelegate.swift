@@ -199,6 +199,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 }
                 
                 // topController should now be your topmost view controller
+                
                 topController.present(controller, animated: true, completion: nil)
             }
         }
@@ -224,7 +225,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 }
                 
                 // topController should now be your topmost view controller
-                if topController is UINavigationController {
+                
+                if topController is UINavigationController
+                {
                     (topController as? UINavigationController)?.pushViewController(controller, animated: true)
                 }
                 else
@@ -232,7 +235,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     let nav = UINavigationController.init()
                     nav.pushViewController(controller, animated: true)
                 }
-//                topController.present(controller, animated: true, completion: nil)
             }
         }
     }
@@ -259,6 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
             
             // topController should now be your topmost view controller
+            
             topController.present(alertController, animated: true, completion: nil)
         }
     }

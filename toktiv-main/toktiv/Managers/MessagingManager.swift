@@ -172,7 +172,6 @@ extension MessagingManager : TwilioChatClientDelegate
         {
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
-            
         }
         if status == .channelsListCompleted
         {
