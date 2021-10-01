@@ -6,7 +6,7 @@ class MessagingManager: NSObject
 {
     static let _sharedManager = MessagingManager()
     
-    var client:TwilioChatClient?
+    var chatClient:TwilioChatClient?
     var delegate:ChannelManager?
     var connected = false
     
@@ -28,8 +28,8 @@ class MessagingManager: NSObject
         SessionManager.logout()
         DispatchQueue.global(qos: .userInitiated).async
         {
-            self.client?.shutdown()
-            self.client = nil
+            self.chatClient?.shutdown()
+            self.chatClient = nil
         }
         self.connected = false
     }
@@ -38,7 +38,7 @@ class MessagingManager: NSObject
     
     func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void)
     {
-        if (client != nil)
+        if (chatClient != nil)
         {
             logout()
         }
@@ -53,38 +53,8 @@ class MessagingManager: NSObject
             }
             else
             {
-                let error = self.errorWithDescription(description: "Could not get access token", code:301)
+                let error = self.errorWithDescription(description: "Error while trying to get chat access token from server", code:301)
                 completion(succeeded, error)
-            }
-        }
-    }
-    
-    func initializeClientWithToken(token: String)
-    {
-        DispatchQueue.main.async
-        {
-            MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
-        }
-        
-        TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
-        { [weak self] result, chatClient in
-            
-            guard (result.isSuccessful()) else { return }
-            
-            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
-
-            self?.connected = true
-            self?.client = chatClient
-            
-            self?.registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
-            { (success, errorMessage) in
-                
-                if success
-                {
-                }
-                else
-                {
-                }
             }
         }
     }
@@ -102,11 +72,35 @@ class MessagingManager: NSObject
         }
     }
     
+    func initializeClientWithToken(token: String)
+    {
+        DispatchQueue.main.async
+        {
+            MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true).label.text = "Syncing Channels"
+        }
+        
+        TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
+        { [weak self] result, chatClient in
+            
+            guard (result.isSuccessful()) else { return }
+            
+            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+
+            self?.connected = true
+            self?.chatClient = chatClient
+            
+            self?.registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+            { (success, errorMessage) in
+                
+            }
+        }
+    }
+    
     func registerChatClientWith(deviceToken: Data, completion : @escaping (Bool, String?) -> ())
     {
         /* Register APNS token for push notification updates. */
 
-        if let chatClient = self.client, chatClient.user != nil
+        if let chatClient = self.chatClient, chatClient.user != nil
         {
             chatClient.register(withNotificationToken: deviceToken)
             { (result) in

@@ -207,6 +207,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     func openChatViewWith(channelSID: String, author:String)
     {
+        if let chatClient = MessagingManager.sharedManager().chatClient, chatClient.user != nil
+        {
+            if ChannelManager.sharedManager.channelsList != nil
+            {
+                
+            }
+            else
+            {
+                // chat channel list is nil, wait for synchronizationStatusUpdated
+                print("")
+            }
+        }
+        else
+        {
+            // chat client is not initialized, go for initializeClientWithToken
+            print("")
+        }
+
         if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
         {
             controller.navigation = .PUSH
@@ -514,14 +532,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         print(userInfo)
         
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
-
+        let messageType = userInfo["twi_message_type"] as? String ?? ""
         if var topController = keyWindow?.rootViewController
         {
             while let presentedViewController = topController.presentedViewController
             {
                 topController = presentedViewController
             }
-            if topController is ChatViewController
+            if topController is ChatViewController  && messageType == "twilio.channel.new_message"
             {
                 completionHandler([])
             }
@@ -531,7 +549,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 {
                     if let nav = topController as? UINavigationController
                     {
-                        if nav.viewControllers[nav.viewControllers.count - 1] is ChatViewController
+                        if nav.viewControllers[nav.viewControllers.count - 1] is ChatViewController && messageType == "twilio.channel.new_message"
                         {
                             completionHandler([])
                         }
@@ -545,7 +563,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         completionHandler([[.alert, .sound]])
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
     {
         if let messageID = userInfo[gcmMessageIDKey]
         {
@@ -592,6 +612,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         }
                     }
                 }
+                
                 let leftView = UIImageView(image: #imageLiteral(resourceName: "mainlogo"))
                 let banner = FloatingNotificationBanner(title: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["title"] as? String ?? "", subtitle: ((userInfo["aps"] as? [String:Any] ?? [String:Any]())["alert"] as? [String:Any] ?? [String:Any]())["body"] as? String ?? "", leftView: leftView, style: .info, colors: CustomBannerColors())
                 banner.show(cornerRadius: 7)
@@ -602,6 +623,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
             return
         }
+        
         if module == "su"
         {
             self.syncUserStatusWithWebLoggedInUser(staus: userInfo["status"] as? String ?? "")
@@ -677,9 +699,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         //        completionHandler(UIBackgroundFetchResult.newData)
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void)
     {
-        // Background Notification
+        // when Notification is tapped
         
         let userInfo = response.notification.request.content.userInfo
         
@@ -862,32 +886,6 @@ extension AppDelegate {
     }
 }
 
-//extension UIViewController {
-//    func topMostViewController() -> UIViewController {
-//        if self.presentedViewController == nil {
-//            if let navigation = self as? UINavigationController {
-//                return navigation.visibleViewController!.topMostViewController()
-//            }
-//
-//            if let tab = self as? UITabBarController {
-//                if let selectedTab = tab.selectedViewController {
-//                    return selectedTab.topMostViewController()
-//                }
-//                return tab.topMostViewController()
-//            }        }
-//        if let navigation = self.presentedViewController as? UINavigationController {
-//            return navigation.visibleViewController?.topMostViewController() ?? UIViewController()
-//        }
-//        if let tab = self.presentedViewController as? UITabBarController {
-//            if let selectedTab = tab.selectedViewController {
-//                return selectedTab.topMostViewController()
-//            }
-//            return tab.topMostViewController()
-//        }
-//        return self.presentedViewController!.topMostViewController()
-//    }
-//}
-
 extension UIApplication
 {
     func topMostViewController() -> UIViewController?
@@ -919,18 +917,3 @@ extension UIViewController
         return self.presentedViewController!.topMostViewController()
     }
 }
-
-//extension UIWindow
-//{
-//    static var key: UIWindow?
-//    {
-//        if #available(iOS 13, *)
-//        {
-//            return UIApplication.shared.windows.first { $0.isKeyWindow }
-//        }
-//        else
-//        {
-//            return UIApplication.shared.keyWindow
-//        }
-//    }
-//}
