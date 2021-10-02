@@ -34,9 +34,9 @@ class CallHistoryViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        InterfaceManager.shared.showLoader()
         observer.userHistoryViewModel.getUserCallHistory(providerCode: self.observer.loginViewModel.userProfile?.providerCode ?? "", accessToken: observer.loginViewModel.userAccessToken) { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             self.observer.userHistoryViewModel.currentCalls.removeAll()
             self.observer.userHistoryViewModel.currentCalls = response ?? []
             self.tableView.reloadData()

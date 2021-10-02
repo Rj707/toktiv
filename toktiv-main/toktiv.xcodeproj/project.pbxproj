@@ -18,6 +18,7 @@
 		A18A070527079C32005CA7FB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18A070427079C32005CA7FB /* SplashViewController.swift */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
+		A1AB49222708470D00E9D17D /* InterfaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AB49212708470D00E9D17D /* InterfaceManager.swift */; };
 		A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */; };
 		A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */; };
 		A1B2ED3F26C2CAC3004AE32B /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */; };
@@ -163,6 +164,7 @@
 		A18D641326F77F90002E8B2E /* ToktivNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToktivNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
+		A1AB49212708470D00E9D17D /* InterfaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceManager.swift; sourceTree = "<group>"; };
 		A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingManager.swift; sourceTree = "<group>"; };
 		A1B2ED3E26C2CAC3004AE32B /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				A1B2ECF226C2C4DA004AE32B /* MessagingManager.swift */,
 				0EBBF8332578B39A001A9EB0 /* CallSessionManager.swift */,
 				0E7DC2102581ECB8006AA8B4 /* CallConnectivityManager.swift */,
+				A1AB49212708470D00E9D17D /* InterfaceManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -670,6 +673,7 @@
 				A1D52B6125E42AE3003A9A3F /* Extensions.swift in Sources */,
 				A1D52B6225E42AE3003A9A3F /* SceneDelegate.swift in Sources */,
 				A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */,
+				A1AB49222708470D00E9D17D /* InterfaceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

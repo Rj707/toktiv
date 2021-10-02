@@ -172,11 +172,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             
             if value
             {
-                MBProgressHUD.showAdded(to: topController.view, animated: true)
+//                MBProgressHUD.showAdded(to: topController.view, animated: true)
+                InterfaceManager.shared.showLoader()
             }
             else
             {
-                MBProgressHUD.hide(for: topController.view, animated: true)
+//                MBProgressHUD.hide(for: topController.view, animated: true)
+                InterfaceManager.shared.hideLoader()
             }
         }
     }
