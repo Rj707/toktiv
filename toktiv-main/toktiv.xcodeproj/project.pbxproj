@@ -15,6 +15,7 @@
 		21F2F17526F0E915004F9E31 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		21F2F17626F0E91D004F9E31 /* NetworkURLs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E094F90255DA44200ACE57C /* NetworkURLs.swift */; };
 		A155B15226DC024800102369 /* AttachmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A155B15126DC024800102369 /* AttachmentViewController.swift */; };
+		A18A070527079C32005CA7FB /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18A070427079C32005CA7FB /* SplashViewController.swift */; };
 		A1A6C0A726973F5700A30BF3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */; };
 		A1A6C0AA2697410600A30BF3 /* ChatUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */; };
 		A1B2ECF326C2C4DA004AE32B /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2ECF126C2C4DA004AE32B /* ChannelManager.swift */; };
@@ -158,6 +159,7 @@
 		2F21EBBDB6E8D46979DA62E5 /* Pods-toktiv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toktiv.debug.xcconfig"; path = "Target Support Files/Pods-toktiv/Pods-toktiv.debug.xcconfig"; sourceTree = "<group>"; };
 		66D8E14F83C3948454F65F88 /* Pods_toktiv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toktiv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A155B15126DC024800102369 /* AttachmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentViewController.swift; sourceTree = "<group>"; };
+		A18A070427079C32005CA7FB /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		A18D641326F77F90002E8B2E /* ToktivNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ToktivNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		A1A6C0A626973F5700A30BF3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		A1A6C0A92697410600A30BF3 /* ChatUserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserModel.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				0E094F79255D97CB00ACE57C /* Call History */,
 				0E094F78255D97C400ACE57C /* Dialer */,
 				A1B2EDD426C2DC2B004AE32B /* Chat */,
+				A18A070427079C32005CA7FB /* SplashViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				A1D52B4B25E42AE3003A9A3F /* JWTDecoder.swift in Sources */,
 				A1D52B4C25E42AE3003A9A3F /* SettingsViewController.swift in Sources */,
 				A1D52B4D25E42AE3003A9A3F /* PatientsViewController.swift in Sources */,
+				A18A070527079C32005CA7FB /* SplashViewController.swift in Sources */,
 				A1DB834C26C4F312008AC959 /* ChatTableCell.swift in Sources */,
 				A1B2ECF426C2C4DA004AE32B /* MessagingManager.swift in Sources */,
 				A1D52B4E25E42AE3003A9A3F /* StateManager.swift in Sources */,

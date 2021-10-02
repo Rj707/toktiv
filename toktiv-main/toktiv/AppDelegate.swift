@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
     {
-        
         NSLog("Twilio Voice Version: %@", TwilioVoice.sdkVersion())
         
         initializePushKit()
@@ -85,18 +84,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         Messaging.messaging().delegate = self
         
         //get application instance ID
-        InstanceID.instanceID().instanceID
-        { (result, error) in
-            
-            if let error = error
-            {
-                print("Error fetching remote instance ID: \(error)")
-            }
-            else if let result = result
-            {
-                print("Remote instance ID token: \(result.token)")
-            }
-        }
+//        InstanceID.instanceID().instanceID
+//        { (result, error) in
+//
+//            if let error = error
+//            {
+//                print("Error fetching remote instance ID: \(error)")
+//            }
+//            else if let result = result
+//            {
+//                print("Remote instance ID token: \(result.token)")
+//            }
+//        }
         
         application.registerForRemoteNotifications()
         
@@ -215,14 +214,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
             else
             {
-                // chat channel list is nil, wait for synchronizationStatusUpdated
-                print("")
+                print("chat channel list is nil, wait for synchronizationStatusUpdated")
             }
         }
         else
         {
-            // chat client is not initialized, go for initializeClientWithToken
-            print("")
+            print("chat client is not initialized, go for initializeClientWithToken")
         }
 
         if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
@@ -528,7 +525,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
         let userInfo = notification.request.content.userInfo
-        
+        receivedNotification = userInfo
+
         print(userInfo)
         
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
@@ -706,6 +704,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         // when Notification is tapped
         
         let userInfo = response.notification.request.content.userInfo
+        
+        receivedNotification = userInfo
         
         let messageType:String = userInfo["twi_message_type"] as? String ?? ""
 

@@ -64,6 +64,14 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (UIApplication.shared.delegate as? AppDelegate)?.receivedNotification.count ?? 0 > 0
+        {
+            let userInfo = (UIApplication.shared.delegate as? AppDelegate)?.receivedNotification
+            (UIApplication.shared.delegate as? AppDelegate)?.openChatViewWith(channelSID: userInfo?["channel_sid"] as? String ?? "", author: userInfo?["authod"] as? String ?? "")
+            (UIApplication.shared.delegate as? AppDelegate)?.receivedNotification = [AnyHashable : Any]()
+        }
+        
         self.setupView()
         
         let name = observer.loginViewModel.userProfile?.fullName ?? "World"

@@ -49,7 +49,10 @@ class MessagingManager: NSObject
             if let token = token, succeeded
             {
                 self.initializeClientWithToken(token: token)
-                completion(succeeded, nil)
+                { (succcess, error) in
+                
+                    completion(succcess, error)
+                }
             }
             else
             {
@@ -72,22 +75,28 @@ class MessagingManager: NSObject
         }
     }
     
-    func initializeClientWithToken(token: String)
+    func initializeClientWithToken(token: String, completion:@escaping (Bool, NSError?) -> Void)
     {
         DispatchQueue.main.async
         {
-            MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true).label.text = "Syncing Channels"
+//            MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true).label.text = "Syncing Channels"
         }
         
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self)
         { [weak self] result, chatClient in
             
-            guard (result.isSuccessful()) else { return }
+            guard (result.isSuccessful()) else
+            {
+                completion(false, result.error)
+                return
+            }
             
-            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+//            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
 
             self?.connected = true
             self?.chatClient = chatClient
+            
+            completion(true, nil)
             
             self?.registerChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
             { (success, errorMessage) in
@@ -163,6 +172,8 @@ extension MessagingManager : TwilioChatClientDelegate
         {
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannelDescriptors()
+            
+            NotificationCenter.default.post(name: NSNotification.Name.init("kChannelsListCompleted"), object: nil)
         }
         
         self.delegate?.chatClient(client, synchronizationStatusUpdated: status)

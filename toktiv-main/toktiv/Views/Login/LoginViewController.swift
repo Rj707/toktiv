@@ -52,14 +52,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             {
                 self.handleAccessTokenExpiry(validAccessToken)
                 
-                self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
+//                self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
             }
             
             self.stateManager.loginViewModel.userProfile = userProfileModel
             
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
             
-            self.connectTwilioChatClient()
+//            self.connectTwilioChatClient()
             
             // Navigate to Dashboard
             self.moveToDashbnoard(animated: false)
