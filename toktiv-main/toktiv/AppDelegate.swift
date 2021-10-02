@@ -748,6 +748,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         completionHandler()
     }
     
+    func handleSavedNotification()
+    {
+        if self.receivedNotification.count > 0
+        {
+            let userInfo = self.receivedNotification
+            self.openChatViewWith(channelSID: userInfo["channel_sid"] as? String ?? "", author: userInfo["authod"] as? String ?? "")
+            self.receivedNotification = [AnyHashable : Any]()
+        }
+    }
+    
     // MARK:- PKPushRegistryDelegate
     
     func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, for type: PKPushType)
