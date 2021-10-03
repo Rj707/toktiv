@@ -7,13 +7,14 @@
 
 import UIKit
 import MBProgressHUD
+import GrowingTextView
 
-class ConvesationViewController: UIViewController, UITextFieldDelegate {
+class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
     
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
     @IBOutlet weak var tableView:UITableView!
-    @IBOutlet weak var inputTextField:UITextField!
+    @IBOutlet weak var inputTextView:GrowingTextView!
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
     
     let toCellIdentifier = "ToCell"
@@ -72,8 +73,6 @@ class ConvesationViewController: UIViewController, UITextFieldDelegate {
 
         self.getConverstaion()
         
-        inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
-
         self.topLabel.text = self.topName
         
         self.addObservers()
@@ -82,6 +81,39 @@ class ConvesationViewController: UIViewController, UITextFieldDelegate {
         refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
+        configureInputTextView()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+        tapGestureRecognizer.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(tapGestureRecognizer)
+        tableView.keyboardDismissMode = .onDrag
+    }
+    
+    func configureInputTextView()
+    {
+        automaticallyAdjustsScrollViewInsets = false
+        
+        inputTextView.maxLength = 1000
+        inputTextView.trimWhiteSpaceWhenEndEditing = false
+        inputTextView.placeholderColor = UIColor(white: 0.8, alpha: 1.0)
+        inputTextView.minHeight = 25.0
+        inputTextView.maxHeight = 100.0
+        inputTextView.backgroundColor = UIColor.white
+        inputTextView.layer.cornerRadius = 4.0
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let draftMessage = StateManager.shared.draftMessage
+        if draftMessage.0 == self.selectedChat?.from && !draftMessage.1.isEmpty {
+            inputTextView.text = draftMessage.1
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if !inputTextView.text.isEmpty {
+            StateManager.shared.draftMessage = (self.selectedChat?.from ?? "", inputTextView.text)
+        }
     }
 
     
@@ -96,7 +128,7 @@ class ConvesationViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func sendMessage(_ sender:UIButton) {
-        if let message = self.inputTextField.text {
+        if let message = self.inputTextView.text {
             let accessToken = self.observer.loginViewModel.userAccessToken
             let from = self.observer.loginViewModel.defaultPhoneNumber
             let to = self.toNumber
@@ -106,7 +138,7 @@ class ConvesationViewController: UIViewController, UITextFieldDelegate {
                 MBProgressHUD.hide(for: self.view, animated: true)
                 
                 if let res = response?.res, res == 1 {
-                    self.inputTextField.text = ""
+                    self.inputTextView.text = ""
                     self.getConverstaion()
                 }
                 else {
@@ -194,19 +226,38 @@ class ConvesationViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-  
-    //MARK: - TextField Handling
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        let haveText = textField.text?.count ?? 0 > 0
+    @objc func closeKeyboard()
+    {
+        inputTextView.endEditing(true)
+    }
+    
+  
+    //MARK: - UITextView
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
+    {
+           UIView.animate(withDuration: 0.2)
+           {
+               self.view.layoutIfNeeded()
+           }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    {
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView)
+    {
+        let haveText = textView.text?.count ?? 0 > 0
         self.sendButton.isSelected = haveText
         self.sendButton.isUserInteractionEnabled = haveText
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-    }
+
 }
+
 
 extension ConvesationViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

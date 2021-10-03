@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rlT-5p-Gmt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rlT-5p-Gmt">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1981,7 +1981,7 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-oZ-KYf">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="708"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="715"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <connections>
                                             <outlet property="dataSource" destination="rCj-Di-w5U" id="J12-I8-N70"/>
@@ -1989,21 +1989,29 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdQ-4O-4xk">
-                                        <rect key="frame" x="0.0" y="708" width="414" height="60"/>
+                                        <rect key="frame" x="0.0" y="715" width="414" height="53"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter message here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W45-0a-XxD">
-                                                <rect key="frame" x="16" y="10" width="328" height="40"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Av6-di-gTZ" customClass="GrowingTextView" customModule="GrowingTextView">
+                                                <rect key="frame" x="16" y="10" width="325" height="33"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter message here"/>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="5"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <outlet property="delegate" destination="rCj-Di-w5U" id="7yv-ej-gZG"/>
+                                                    <outlet property="delegate" destination="rCj-Di-w5U" id="yEX-zH-KCz"/>
                                                 </connections>
-                                            </textField>
-                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVg-kp-pl9">
-                                                <rect key="frame" x="354" y="0.0" width="60" height="60"/>
+                                            </textView>
+                                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVg-kp-pl9">
+                                                <rect key="frame" x="351" y="0.0" width="53" height="53"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="60" id="YFz-6b-ap2"/>
+                                                    <constraint firstAttribute="width" secondItem="YVg-kp-pl9" secondAttribute="height" id="YcA-05-oLU"/>
+                                                    <constraint firstAttribute="height" constant="53" id="abk-qf-pmI"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2020,14 +2028,12 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.88445191059999995" green="0.88445191059999995" blue="0.88445191059999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
-                                            <constraint firstItem="YVg-kp-pl9" firstAttribute="top" secondItem="vdQ-4O-4xk" secondAttribute="top" id="0pC-rV-MFy"/>
-                                            <constraint firstAttribute="trailing" secondItem="YVg-kp-pl9" secondAttribute="trailing" id="2z6-ne-ABx"/>
-                                            <constraint firstItem="YVg-kp-pl9" firstAttribute="leading" secondItem="W45-0a-XxD" secondAttribute="trailing" constant="10" id="EFT-kq-fp3"/>
+                                            <constraint firstAttribute="trailing" secondItem="YVg-kp-pl9" secondAttribute="trailing" constant="10" id="1sR-BW-63E"/>
+                                            <constraint firstItem="YVg-kp-pl9" firstAttribute="leading" secondItem="Av6-di-gTZ" secondAttribute="trailing" constant="10" id="8lO-7z-cTL"/>
+                                            <constraint firstAttribute="bottom" secondItem="Av6-di-gTZ" secondAttribute="bottom" constant="10" id="AnC-1H-KcD"/>
+                                            <constraint firstItem="Av6-di-gTZ" firstAttribute="top" secondItem="vdQ-4O-4xk" secondAttribute="top" constant="10" id="MtH-9s-vyc"/>
                                             <constraint firstAttribute="bottom" secondItem="YVg-kp-pl9" secondAttribute="bottom" id="Nh9-Jt-w0K"/>
-                                            <constraint firstAttribute="bottom" secondItem="W45-0a-XxD" secondAttribute="bottom" constant="10" id="c8e-1J-9xZ"/>
-                                            <constraint firstAttribute="height" constant="60" id="osC-AV-lrR"/>
-                                            <constraint firstItem="W45-0a-XxD" firstAttribute="leading" secondItem="vdQ-4O-4xk" secondAttribute="leading" constant="16" id="rpx-q3-D7A"/>
-                                            <constraint firstItem="W45-0a-XxD" firstAttribute="top" secondItem="vdQ-4O-4xk" secondAttribute="top" constant="10" id="xpj-cN-aTT"/>
+                                            <constraint firstItem="Av6-di-gTZ" firstAttribute="leading" secondItem="vdQ-4O-4xk" secondAttribute="leading" constant="16" id="myH-av-P50"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -2066,7 +2072,7 @@
                     <connections>
                         <outlet property="IQLayoutGuideConstraint" destination="KUM-2A-h7I" id="yWm-co-g4g"/>
                         <outlet property="bottomMarginConstraint" destination="vh6-z6-f19" id="mV4-HB-2rC"/>
-                        <outlet property="inputTextField" destination="W45-0a-XxD" id="S5r-8S-u5L"/>
+                        <outlet property="inputTextView" destination="Av6-di-gTZ" id="l6g-BC-Xgl"/>
                         <outlet property="sendButton" destination="YVg-kp-pl9" id="pqJ-GB-CgT"/>
                         <outlet property="tableView" destination="xoc-oZ-KYf" id="TV7-Sg-yOH"/>
                         <outlet property="topLabel" destination="IF0-dR-VNk" id="njx-RG-1WO"/>
@@ -2121,13 +2127,13 @@
                                         <rect key="frame" x="5" y="5" width="364" height="50"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MA6-IC-cNX">
-                                                <rect key="frame" x="0.0" y="0.0" width="276.5" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="50"/>
                                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" value="60" maximumValue="1000" stepValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="Xtg-fd-fut">
-                                                <rect key="frame" x="276.5" y="9" width="87.5" height="32"/>
+                                                <rect key="frame" x="270" y="9" width="94" height="32"/>
                                                 <connections>
                                                     <action selector="updateSecondCount:" destination="VWR-i7-ltA" eventType="valueChanged" id="079-M9-eGs"/>
                                                 </connections>
@@ -2178,21 +2184,29 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1G2-60-bur">
-                                <rect key="frame" x="0.0" y="802" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="809" width="414" height="53"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter message here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VYN-Mq-t5v">
-                                        <rect key="frame" x="16" y="10" width="328" height="40"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gTZ-mB-FL1" customClass="GrowingTextView" customModule="GrowingTextView">
+                                        <rect key="frame" x="16" y="10" width="325" height="33"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter message here"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <outlet property="delegate" destination="axm-KK-LqV" id="Phw-qh-bUn"/>
+                                            <outlet property="delegate" destination="axm-KK-LqV" id="ag9-x2-Osj"/>
                                         </connections>
-                                    </textField>
-                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5c-ge-Izm">
-                                        <rect key="frame" x="354" y="0.0" width="60" height="60"/>
+                                    </textView>
+                                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5c-ge-Izm">
+                                        <rect key="frame" x="351" y="0.0" width="53" height="53"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="NpK-d4-cto"/>
+                                            <constraint firstAttribute="width" secondItem="g5c-ge-Izm" secondAttribute="height" id="611-zQ-3hC"/>
+                                            <constraint firstAttribute="height" constant="53" id="Qe2-lM-Zlb"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2209,14 +2223,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.88445191059999995" green="0.88445191059999995" blue="0.88445191059999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstItem="g5c-ge-Izm" firstAttribute="leading" secondItem="VYN-Mq-t5v" secondAttribute="trailing" constant="10" id="Fkx-aD-rSy"/>
-                                    <constraint firstAttribute="trailing" secondItem="g5c-ge-Izm" secondAttribute="trailing" id="PKR-xU-7D5"/>
-                                    <constraint firstItem="VYN-Mq-t5v" firstAttribute="top" secondItem="1G2-60-bur" secondAttribute="top" constant="10" id="S7L-dt-AvP"/>
-                                    <constraint firstAttribute="bottom" secondItem="VYN-Mq-t5v" secondAttribute="bottom" constant="10" id="T7r-gj-p5H"/>
+                                    <constraint firstItem="g5c-ge-Izm" firstAttribute="leading" secondItem="gTZ-mB-FL1" secondAttribute="trailing" constant="10" id="4gi-iR-edz"/>
+                                    <constraint firstAttribute="trailing" secondItem="g5c-ge-Izm" secondAttribute="trailing" constant="10" id="JHa-2F-po1"/>
                                     <constraint firstAttribute="bottom" secondItem="g5c-ge-Izm" secondAttribute="bottom" id="WwX-Gq-3TQ"/>
-                                    <constraint firstAttribute="height" constant="60" id="gDd-So-JOc"/>
-                                    <constraint firstItem="g5c-ge-Izm" firstAttribute="top" secondItem="1G2-60-bur" secondAttribute="top" id="mHq-BU-BNL"/>
-                                    <constraint firstItem="VYN-Mq-t5v" firstAttribute="leading" secondItem="1G2-60-bur" secondAttribute="leading" constant="16" id="ygX-Eo-ZOw"/>
+                                    <constraint firstItem="gTZ-mB-FL1" firstAttribute="top" secondItem="1G2-60-bur" secondAttribute="top" constant="10" id="XSt-W0-HP2"/>
+                                    <constraint firstItem="gTZ-mB-FL1" firstAttribute="leading" secondItem="1G2-60-bur" secondAttribute="leading" constant="16" id="xfI-IA-V8W"/>
+                                    <constraint firstAttribute="bottom" secondItem="gTZ-mB-FL1" secondAttribute="bottom" constant="10" id="ykf-v9-fO8"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nsd-KN-Rvj">
@@ -2278,7 +2290,7 @@
                     </view>
                     <connections>
                         <outlet property="bottomMarginConstraint" destination="xRJ-oz-gpl" id="iTU-1A-yLC"/>
-                        <outlet property="inputTextField" destination="VYN-Mq-t5v" id="0Ki-BG-GGd"/>
+                        <outlet property="inputTextView" destination="gTZ-mB-FL1" id="x3b-zO-l4M"/>
                         <outlet property="numberField" destination="iPm-p3-9d8" id="MzT-fm-1LZ"/>
                         <outlet property="sendButton" destination="g5c-ge-Izm" id="84C-ys-B5o"/>
                     </connections>
@@ -2851,6 +2863,9 @@
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter message here"/>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
                                                             <outlet property="delegate" destination="cMH-KK-bhe" id="lxk-bt-EMG"/>
@@ -3033,7 +3048,13 @@
         </scene>
     </scenes>
     <designables>
+        <designable name="Av6-di-gTZ">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
         <designable name="a16-Um-XDD">
+            <size key="intrinsicContentSize" width="-1" height="30"/>
+        </designable>
+        <designable name="gTZ-mB-FL1">
             <size key="intrinsicContentSize" width="-1" height="30"/>
         </designable>
     </designables>

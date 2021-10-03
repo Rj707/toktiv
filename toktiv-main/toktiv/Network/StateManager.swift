@@ -55,4 +55,26 @@ class StateManager: NSObject {
             self.currentStatus = .busy
         }
     }
+    
+    var draftMessage:(String, String) {
+        set
+        {
+            let draftMessage = ["channelId":newValue.0, "message":newValue.1]
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(draftMessage) {
+                UserDefaults.standard.set(encoded, forKey: "draftMessage")
+                UserDefaults.standard.synchronize()
+            }
+        }
+        get
+        {
+            if let draftMessageData = UserDefaults.standard.object(forKey: "draftMessage") as? Data {
+                let decoder = JSONDecoder()
+                if let dict = try? decoder.decode([String:String].self, from: draftMessageData) {
+                    return (dict["channelId"] as! String, dict["message"] as! String)
+                }
+            }
+            return ("", "")
+        }
+    }
 }

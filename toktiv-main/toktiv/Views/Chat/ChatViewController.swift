@@ -123,6 +123,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         tapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGestureRecognizer)
+        tableView.keyboardDismissMode = .onDrag
 
         self.topLabel.text = toName
     }
@@ -185,6 +186,20 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                     }
                 }
             }
+        }
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let draftMessage = StateManager.shared.draftMessage
+        if draftMessage.0 == channelID && !draftMessage.1.isEmpty {
+            inputTextView.text = draftMessage.1
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if !inputTextView.text.isEmpty {
+            StateManager.shared.draftMessage = (channelID, inputTextView.text)
         }
     }
     

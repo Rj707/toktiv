@@ -7,16 +7,17 @@
 
 import UIKit
 import MBProgressHUD
+import GrowingTextView
 
 protocol NewMessageConversationDelegate {
     func newMessageCreated(_ selectedChat:HistoryResponseElement)
 }
 
-class NewMessageViewController: UIViewController, UITextFieldDelegate {
+class NewMessageViewController: UIViewController, GrowingTextViewDelegate {
     
     @IBOutlet weak var sendButton:UIButton!
     @IBOutlet weak var numberField:UITextField!
-    @IBOutlet weak var inputTextField:UITextField!
+    @IBOutlet weak var inputTextView:GrowingTextView!
     @IBOutlet weak var bottomMarginConstraint:NSLayoutConstraint!
     
     var inputString:String = ""
@@ -31,15 +32,33 @@ class NewMessageViewController: UIViewController, UITextFieldDelegate {
         self.addObservers()
         self.addAccessoryView()
         
-        inputTextField.addTarget(self, action: #selector(ConvesationViewController.textFieldDidChange(_:)), for: .editingChanged)
         numberField.text = inputString
+        
+        configureInputTextView()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
+        tapGestureRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func configureInputTextView()
+    {
+        automaticallyAdjustsScrollViewInsets = false
+        
+        inputTextView.maxLength = 1000
+        inputTextView.trimWhiteSpaceWhenEndEditing = false
+        inputTextView.placeholderColor = UIColor(white: 0.8, alpha: 1.0)
+        inputTextView.minHeight = 25.0
+        inputTextView.maxHeight = 100.0
+        inputTextView.backgroundColor = UIColor.white
+        inputTextView.layer.cornerRadius = 4.0
     }
     
     
     //MARK: - IBActions
     
     @IBAction func sendMessage(_ sender:UIButton) {
-        if let message = self.inputTextField.text {
+        if let message = self.inputTextView.text {
             let accessToken = self.observer.loginViewModel.userAccessToken
             let from = self.observer.loginViewModel.defaultPhoneNumber
             let to = self.numberField.text ?? ""
@@ -49,7 +68,7 @@ class NewMessageViewController: UIViewController, UITextFieldDelegate {
                 MBProgressHUD.hide(for: self.view, animated: true)
                 
                 if let res = response?.res, res == 1 {
-                    self.inputTextField.text = ""
+                    self.inputTextView.text = ""
                     self.dismiss(animated: true) {
                         let chatObject = HistoryResponseElement(with: to, from: from, direction: "Outbound")
                         self.delegate?.newMessageCreated(chatObject)
@@ -96,7 +115,7 @@ class NewMessageViewController: UIViewController, UITextFieldDelegate {
     
     
     @objc func keyboardDidAppear(notification: NSNotification) {
-        guard inputTextField.isFirstResponder == true else { return }
+        guard inputTextView.isFirstResponder == true else { return }
         let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
         let height = min(keyboardSize.height, keyboardSize.width)
         UIView.animate(withDuration: 0.3) {
@@ -121,16 +140,33 @@ class NewMessageViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    //MARK: - TextField
+    @objc func closeKeyboard()
+    {
+        inputTextView.endEditing(true)
+    }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        let haveText = textField.text?.count ?? 0 > 0
+    
+    //MARK: - UITextView
+    
+    func textViewDidChangeHeight(_ textView: GrowingTextView, height: CGFloat)
+    {
+           UIView.animate(withDuration: 0.2)
+           {
+               self.view.layoutIfNeeded()
+           }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+    {
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView)
+    {
+        let haveText = textView.text?.count ?? 0 > 0
         self.sendButton.isSelected = haveText
         self.sendButton.isUserInteractionEnabled = haveText
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-    }
 
 }
