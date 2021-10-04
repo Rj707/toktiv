@@ -35,7 +35,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azp-1g-Bhg">
-                                <rect key="frame" x="48" y="15.5" width="12" height="12"/>
+                                <rect key="frame" x="45" y="15.5" width="12" height="12"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Azp-1g-Bhg" secondAttribute="height" id="EeP-1y-w48"/>
@@ -48,9 +48,9 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="incoming-call" translatesAutoresizingMaskIntoConstraints="NO" id="1OR-vL-JRv">
-                                <rect key="frame" x="279" y="27" width="24" height="24"/>
+                                <rect key="frame" x="283" y="29" width="20" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="dJQ-7K-1zl"/>
+                                    <constraint firstAttribute="width" constant="20" id="dJQ-7K-1zl"/>
                                     <constraint firstAttribute="width" secondItem="1OR-vL-JRv" secondAttribute="height" multiplier="1:1" id="jNK-cn-xYG"/>
                                 </constraints>
                             </imageView>
@@ -59,7 +59,7 @@
                         <constraints>
                             <constraint firstItem="Azp-1g-Bhg" firstAttribute="top" secondItem="IDU-fD-7q2" secondAttribute="top" constant="-1" id="1AS-YU-5Ha"/>
                             <constraint firstAttribute="trailing" secondItem="1OR-vL-JRv" secondAttribute="trailing" constant="12" id="Kqb-YD-Q6E"/>
-                            <constraint firstItem="Azp-1g-Bhg" firstAttribute="trailing" secondItem="IDU-fD-7q2" secondAttribute="trailing" constant="3" id="Mi0-cE-nuG"/>
+                            <constraint firstItem="Azp-1g-Bhg" firstAttribute="trailing" secondItem="IDU-fD-7q2" secondAttribute="trailing" id="Mi0-cE-nuG"/>
                             <constraint firstItem="IDU-fD-7q2" firstAttribute="leading" secondItem="Tz6-5S-0TL" secondAttribute="leading" constant="12" id="SKe-3y-7jC"/>
                             <constraint firstItem="kaf-hs-nrW" firstAttribute="leading" secondItem="IDU-fD-7q2" secondAttribute="trailing" constant="15" id="UB0-cV-Krd"/>
                             <constraint firstItem="kaf-hs-nrW" firstAttribute="centerY" secondItem="Tz6-5S-0TL" secondAttribute="centerY" id="UDu-xP-haT"/>
@@ -93,7 +93,7 @@
     </objects>
     <resources>
         <image name="incoming-call" width="32" height="32"/>
-        <image name="profile" width="20" height="20"/>
+        <image name="profile" width="64" height="64"/>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
