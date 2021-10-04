@@ -63,3 +63,15 @@ public struct ChatTokenModel : Codable {
     }
     
 }
+
+
+
+struct DraftMessageModel : Codable {
+    var channelId : String = ""
+    var message : String = ""
+    
+    init(channelId:String, message:String) {
+        self.channelId = channelId
+        self.message = message
+    }
+}

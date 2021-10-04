@@ -104,16 +104,13 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        let draftMessage = StateManager.shared.draftMessage
-        if draftMessage.0 == self.selectedChat?.from && !draftMessage.1.isEmpty {
-            inputTextView.text = draftMessage.1
-        }
+        inputTextView.text = StateManager.shared.getDraftMessage(self.selectedChat?.from ?? "")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if !inputTextView.text.isEmpty {
-            StateManager.shared.draftMessage = (self.selectedChat?.from ?? "", inputTextView.text)
-        }
+        
+        let draftMessage = DraftMessageModel(channelId: self.selectedChat?.from ?? "", message: inputTextView.text)
+        StateManager.shared.saveDraftMessage(draftMessage)
     }
 
     

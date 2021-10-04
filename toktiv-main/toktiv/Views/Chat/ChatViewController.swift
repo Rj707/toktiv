@@ -191,16 +191,13 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     
     
     override func viewWillAppear(_ animated: Bool) {
-        let draftMessage = StateManager.shared.draftMessage
-        if draftMessage.0 == channelID && !draftMessage.1.isEmpty {
-            inputTextView.text = draftMessage.1
-        }
+        inputTextView.text = StateManager.shared.getDraftMessage(self.channelID)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if !inputTextView.text.isEmpty {
-            StateManager.shared.draftMessage = (channelID, inputTextView.text)
-        }
+    
+        let draftMessage = DraftMessageModel(channelId: self.channelID, message: inputTextView.text)
+        StateManager.shared.saveDraftMessage(draftMessage)
     }
     
     //MARK: - UITextView

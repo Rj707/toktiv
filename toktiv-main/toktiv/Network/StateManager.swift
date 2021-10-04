@@ -56,25 +56,68 @@ class StateManager: NSObject {
         }
     }
     
-    var draftMessage:(String, String) {
+    var draftMessages:[DraftMessageModel] {
         set
         {
-            let draftMessage = ["channelId":newValue.0, "message":newValue.1]
             let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(draftMessage) {
-                UserDefaults.standard.set(encoded, forKey: "draftMessage")
+            if let encoded = try? encoder.encode(newValue) {
+                UserDefaults.standard.set(encoded, forKey: "draftMessages")
                 UserDefaults.standard.synchronize()
             }
         }
         get
         {
-            if let draftMessageData = UserDefaults.standard.object(forKey: "draftMessage") as? Data {
+            if let data = UserDefaults.standard.object(forKey: "draftMessages") as? Data {
                 let decoder = JSONDecoder()
-                if let dict = try? decoder.decode([String:String].self, from: draftMessageData) {
-                    return (dict["channelId"] as! String, dict["message"] as! String)
+                if let draftMessages = try? decoder.decode([DraftMessageModel].self, from: data) {
+                    return draftMessages
                 }
             }
-            return ("", "")
+            return [DraftMessageModel]()
         }
     }
+    
+    func getDraftMessage(_ channelId:String)->String {
+        for msg in draftMessages {
+            if msg.channelId == channelId {
+                return msg.message
+            }
+        }
+        return ""
+    }
+    
+    func saveDraftMessage(_ draftMessage: DraftMessageModel) {
+        if !draftMessage.message.isEmpty {
+            var isAlreadyExist = false
+            var draftMessages = self.draftMessages
+            for (index, value) in draftMessages.enumerated() {
+                if value.channelId == draftMessage.channelId {
+                    draftMessages[index].message = draftMessage.message
+                    isAlreadyExist = true
+                }
+            }
+            
+            if !isAlreadyExist {
+                draftMessages.append(draftMessage)
+            }
+            
+            self.draftMessages = draftMessages
+        }
+        else {
+            var draftMessages = self.draftMessages
+            var selectedIndex = -1
+            var isAlreadyExist = false
+            for (index, value) in draftMessages.enumerated() {
+                if value.channelId == draftMessage.channelId {
+                    selectedIndex = index
+                    isAlreadyExist = true
+                }
+            }
+            if isAlreadyExist {
+                draftMessages.remove(at: selectedIndex)
+                self.draftMessages = draftMessages
+            }
+        }
+    }
+    
 }
