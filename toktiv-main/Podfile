@@ -20,5 +20,6 @@ pod 'MBProgressHUD', '~> 1.2.0'
 pod 'TwilioChatClient', '~> 4.0'
 #pod 'NotificationBannerSwift'
 pod 'GrowingTextView', '0.7.2'
+pod 'CropViewController'
 
 end

@@ -38,8 +38,9 @@ class ContactListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let contactListData = UserDefaults.standard.data(forKey: AppConstants.CONTACT_LIST) {
+        let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
+
+        if let contactListData = defaults?.data(forKey: AppConstants.CONTACT_LIST) {
             if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData) {
                 self.contactsList = list
                 self.contactsList = self.contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode }
@@ -49,8 +50,11 @@ class ContactListViewController: UIViewController {
                 
             }
         }
+        else
+        {
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+        }
 
-        MBProgressHUD.showAdded(to: self.view, animated: true)
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
             MBProgressHUD.hide(for: self.view, animated: true)
             self.contactsList = response ?? []
@@ -188,7 +192,7 @@ extension ContactListViewController : UISearchBarDelegate
         }
         else
         {
-            self.filterArray = self.contactsList.filter{($0.providerCode)!.contains(input)}
+            self.filterArray = self.contactsList.filter{($0.providerName)!.contains(input)}
             
             self.tableView.reloadData()
         }

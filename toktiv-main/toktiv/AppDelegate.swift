@@ -527,12 +527,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void)
     {
         let userInfo = notification.request.content.userInfo
-        receivedNotification = userInfo
 
         print(userInfo)
         
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let messageType = userInfo["twi_message_type"] as? String ?? ""
+        if messageType == "twilio.channel.new_message"
+        {
+            receivedNotification = userInfo
+        }
         if var topController = keyWindow?.rootViewController
         {
             while let presentedViewController = topController.presentedViewController
@@ -707,7 +710,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         let userInfo = response.notification.request.content.userInfo
         
-        receivedNotification = userInfo
+        if userInfo["twi_message_type"] as? String ?? "" == "twilio.channel.new_message"
+        {
+            receivedNotification = userInfo
+        }
         
         let messageType:String = userInfo["twi_message_type"] as? String ?? ""
 

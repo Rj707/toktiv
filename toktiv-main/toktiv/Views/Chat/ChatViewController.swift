@@ -11,6 +11,7 @@ import MBProgressHUD
 import MobileCoreServices
 import NotificationBannerSwift
 import GrowingTextView
+import CropViewController
 
 enum ChatViewNavigation
 {
@@ -18,7 +19,7 @@ enum ChatViewNavigation
     case PUSH
 }
 
-class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextViewDelegate
+class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextViewDelegate, CropViewControllerDelegate
 {
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
@@ -85,11 +86,12 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         }
         else
         {
-            let deadlineTime = DispatchTime.now() + .seconds(1)
-            DispatchQueue.main.asyncAfter(deadline: deadlineTime)
-            {
-                self.loadChannelChatUponPush()
-            }
+//            let deadlineTime = DispatchTime.now() + .seconds(1)
+//            DispatchQueue.main.asyncAfter(deadline: deadlineTime)
+//            {
+//            }
+            
+            self.loadChannelChatUponPush()
         }
         
         configureInputTextView()
@@ -445,7 +447,7 @@ extension ChatViewController
         messages.removeAll()
         if channel.synchronizationStatus == .all
         {
-            channel.messages?.getLastWithCount(100)
+            channel.messages?.getLastWithCount(300)
             { (result, items) in
                 self.addMessages(newMessages: Set(items!))
                 
@@ -455,7 +457,8 @@ extension ChatViewController
                 }
             }
         }
-        else {
+        else
+        {
             DispatchQueue.main.async
             {
                 MBProgressHUD.hide(for: self.view, animated: true)
@@ -712,32 +715,47 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
             image   =   pickedImage
         }
         
+        picker.dismiss(animated: true, completion:
+        {
+            self.presentCropViewControllerWith(image: image!)
+        })
+    }
+    
+    func presentCropViewControllerWith(image:UIImage)
+    {
+        //      let image: UIImage = ... //Load an image
+        
+        let cropViewController = CropViewController(image: image)
+        cropViewController.delegate = self
+        present(cropViewController, animated: true, completion: nil)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int)
+    {
+        // 'image' is the newly cropped version of the original image
         DispatchQueue.main.async
         {
-            if image != nil
+            if let imageData = image.pngData()
             {
-                if let imageData = image!.pngData()
-                {
-                    self.attachmentName = "image.jpg"
-                    self.attachmentType = "image/jpg"
-                    
-                    self.attachmentData = imageData
-                    
-                    self.labelAttachmentName.text = "Image Attached"
-                    self.attachmentTypeImage.image = image
-                    self.viewAttachmentInfo.isHidden = false
-                    self.inputTextField.isEnabled = false
-                    self.inputTextView.isEditable = false
-                    self.sendButton.isSelected = true
-                    self.sendButton.backgroundColor = UIColor.systemGreen
-                    self.sendButton.isUserInteractionEnabled = true
-                    self.view.layoutIfNeeded()
-                }
+                self.attachmentName = "image.jpg"
+                self.attachmentType = "image/jpg"
+                
+                self.attachmentData = imageData
+                
+                self.labelAttachmentName.text = "Image Attached"
+                self.attachmentTypeImage.image = image
+                self.viewAttachmentInfo.isHidden = false
+                self.inputTextField.isEnabled = false
+                self.inputTextView.isEditable = false
+                self.sendButton.isSelected = true
+                self.sendButton.backgroundColor = UIColor.systemGreen
+                self.sendButton.isUserInteractionEnabled = true
+                self.view.layoutIfNeeded()
             }
+            cropViewController.dismiss(animated: true, completion: nil)
         }
-        
-        picker.dismiss(animated: true, completion: nil)
     }
+
     
     func openCamera()
     {
@@ -755,7 +773,7 @@ extension ChatViewController : UIImagePickerControllerDelegate, UINavigationCont
     func openGallery ()
     {
         let imagePicker = UIImagePickerController()
-        imagePicker.allowsEditing = true
+        imagePicker.allowsEditing = false
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         self.present(imagePicker, animated: true, completion: nil)
