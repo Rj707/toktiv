@@ -230,7 +230,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             
             controller.channelSID = channelSID
             
-            controller.toName = author
+            controller.toName = self.findUserNameFor(providerCode: author)
             
             let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
             
@@ -761,7 +761,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         if self.receivedNotification.count > 0
         {
             let userInfo = self.receivedNotification
-            self.openChatViewWith(channelSID: userInfo["channel_sid"] as? String ?? "", author: userInfo["authod"] as? String ?? "")
+            self.openChatViewWith(channelSID: userInfo["channel_sid"] as? String ?? "", author: userInfo["author"] as? String ?? "")
             self.receivedNotification = [AnyHashable : Any]()
         }
     }
@@ -901,6 +901,27 @@ extension AppDelegate {
                 defaults?.synchronize()
             }
         })
+    }
+    
+    func findUserNameFor(providerCode:String) -> String
+    {
+        let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
+
+        if let contactListData = defaults?.data(forKey: AppConstants.CONTACT_LIST)
+        {
+            if let list = try? JSONDecoder().decode([ChatUserModel].self, from: contactListData)
+            {
+                for contact in list
+                {
+                    if providerCode.trimmingCharacters(in: .whitespaces) == contact.providerCode
+                    {
+                        return contact.providerName ?? "No Name"
+                    }
+                }
+            }
+        }
+        
+        return providerCode
     }
 }
 

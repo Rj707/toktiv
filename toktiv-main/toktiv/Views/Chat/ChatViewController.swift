@@ -125,7 +125,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         tapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGestureRecognizer)
-        tableView.keyboardDismissMode = .onDrag
+        tableView.keyboardDismissMode = .interactive
 
         self.topLabel.text = toName
     }
@@ -508,12 +508,15 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
         {
             if let cell = self.tableView.dequeueReusableCell(withIdentifier: "ToChatTableViewCell") as? ToChatTableViewCell
             {
-                if message.body?.contains("https://provider.drcurves.com") ?? false
+                if message.body?.contains("https://provider.drcurves.com") ?? false && self.isMultimedia(message: message.body?.lowercased() ?? "")
                 {
                     cell.messageLabel.text = "View Attachment"
+                    cell.messageTextView.text = "View Attachment"
+
                     cell.mediaImageView.isHidden = false
                     cell.messageLabel.isHidden = true
-                    
+                    cell.messageTextView.isHidden = true
+
                     if message.body?.contains(".doc") ?? false || message.body?.contains(".docx") ?? false
                     {
                         cell.mediaImageView.image =  #imageLiteral(resourceName: "word")
@@ -530,7 +533,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     cell.messageLabel.text = message.body ?? ""
+                    cell.messageTextView.text = message.body ?? ""
                     cell.messageLabel.isHidden = false
+                    cell.messageTextView.isHidden = false
                     cell.mediaImageView.isHidden = true
                 }
                 cell.timeLabel.text = timestamp
@@ -542,12 +547,15 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
         {
             if let cell = self.tableView.dequeueReusableCell(withIdentifier: "FromChatTableViewCell") as? FromChatTableViewCell
             {
-                if message.body?.contains("https://provider.drcurves.com") ?? false
+                if message.body?.contains("https://provider.drcurves.com") ?? false && self.isMultimedia(message: message.body?.lowercased() ?? "")
                 {
                     cell.messageLabel.text = "View Attachment"
+                    cell.messageTextView.text = "View Attachment"
+
                     cell.mediaImageView.isHidden = false
                     cell.messageLabel.isHidden = true
-                    
+                    cell.messageTextView.isHidden = true
+
                     if message.body?.contains(".doc") ?? false || message.body?.contains(".docx") ?? false
                     {
                         cell.mediaImageView.image =  #imageLiteral(resourceName: "word")
@@ -564,7 +572,9 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
                 else
                 {
                     cell.messageLabel.text = message.body ?? ""
+                    cell.messageTextView.text = message.body ?? ""
                     cell.messageLabel.isHidden = false
+                    cell.messageTextView.isHidden = false
                     cell.mediaImageView.isHidden = true
                 }
                 cell.timeLabel.text = timestamp
@@ -576,17 +586,46 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource
         return UITableViewCell()
     }
     
+    func isMultimedia(message:String) -> Bool
+    {
+        if message.contains("doc")
+        {
+            return true
+        }
+        if message.contains("docx")
+        {
+            return true
+        }
+        if message.contains("png")
+        {
+            return true
+        }
+        if message.contains("jpg")
+        {
+            return true
+        }
+        if message.contains("jpeg")
+        {
+            return true
+        }
+        if message.contains("pdf")
+        {
+            return true
+        }
+        return false
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        if sortedMessages[indexPath.row].body?.contains("https://provider.drcurves.com") ?? false
+        if sortedMessages[indexPath.row].body?.contains("https://provider.drcurves.com") ?? false  && self.isMultimedia(message: sortedMessages[indexPath.row].body?.lowercased() ?? "")
         {
             return 171 + 50 + 21
         }
         else
         {
             let string = sortedMessages[indexPath.row].body ?? ""
-            let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 100 - 10 - 36, font: UIFont.systemFont(ofSize: 15))
-            return height + 50 + 21
+            let height = string.height(withConstrainedWidth: self.tableView.bounds.width - 100 - 10 - 36 - 8, font: UIFont.systemFont(ofSize: 15))
+            return height + 50 + 21 + 8
         }
     }
     

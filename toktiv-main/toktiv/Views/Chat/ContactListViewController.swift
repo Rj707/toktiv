@@ -192,7 +192,7 @@ extension ContactListViewController : UISearchBarDelegate
         }
         else
         {
-            self.filterArray = self.contactsList.filter{($0.providerName)!.contains(input)}
+            self.filterArray = self.contactsList.filter{($0.providerName)!.localizedCaseInsensitiveContains(input)}
             
             self.tableView.reloadData()
         }

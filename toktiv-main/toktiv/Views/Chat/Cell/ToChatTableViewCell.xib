@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -37,21 +38,39 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fYB-Mg-y61">
                                         <rect key="frame" x="0.0" y="174" width="229" height="71"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBn-20-DUm">
+                                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBn-20-DUm">
                                                 <rect key="frame" x="8" y="8" width="213" height="55"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="GAt-z7-Dw4">
+                                                <rect key="frame" x="8" y="8" width="213" height="55"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                <color key="textColor" systemColor="labelColor"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                                        <rect key="value" x="4" y="4" width="4" height="4"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </textView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="kBn-20-DUm" firstAttribute="height" secondItem="fYB-Mg-y61" secondAttribute="height" constant="-16" id="7fD-7T-Evd"/>
                                             <constraint firstAttribute="trailing" secondItem="kBn-20-DUm" secondAttribute="trailing" constant="8" id="BYR-6c-2Lf"/>
+                                            <constraint firstItem="GAt-z7-Dw4" firstAttribute="top" secondItem="kBn-20-DUm" secondAttribute="top" id="FUa-2M-js3"/>
                                             <constraint firstAttribute="bottom" secondItem="kBn-20-DUm" secondAttribute="bottom" constant="8" id="YKr-F9-T4g"/>
                                             <constraint firstItem="kBn-20-DUm" firstAttribute="top" secondItem="fYB-Mg-y61" secondAttribute="top" constant="8" id="b8N-2U-dkL"/>
                                             <constraint firstItem="kBn-20-DUm" firstAttribute="leading" secondItem="fYB-Mg-y61" secondAttribute="leading" constant="8" id="bLx-3z-gFf"/>
+                                            <constraint firstItem="GAt-z7-Dw4" firstAttribute="bottom" secondItem="kBn-20-DUm" secondAttribute="bottom" id="cBq-HY-2ms"/>
+                                            <constraint firstItem="GAt-z7-Dw4" firstAttribute="leading" secondItem="kBn-20-DUm" secondAttribute="leading" id="exn-SX-ile"/>
+                                            <constraint firstItem="GAt-z7-Dw4" firstAttribute="trailing" secondItem="kBn-20-DUm" secondAttribute="trailing" id="o0a-cc-FKR"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zew-s3-sMK">
@@ -91,6 +110,7 @@
             <connections>
                 <outlet property="mediaImageView" destination="Kol-rD-e9w" id="UQZ-17-vNj"/>
                 <outlet property="messageLabel" destination="kBn-20-DUm" id="qsR-Ee-PbE"/>
+                <outlet property="messageTextView" destination="GAt-z7-Dw4" id="kif-7c-MoQ"/>
                 <outlet property="timeLabel" destination="zew-s3-sMK" id="jCd-dn-LOB"/>
             </connections>
             <point key="canvasLocation" x="164.49275362318841" y="126.89732142857142"/>
@@ -98,5 +118,8 @@
     </objects>
     <resources>
         <image name="picture" width="128" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

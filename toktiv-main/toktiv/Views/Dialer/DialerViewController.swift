@@ -55,7 +55,7 @@ class DialerViewController: UIViewController {
             return
         }
         let numberToBeAdded = sender.tag
-        
+        AudioServicesPlaySystemSound(1105)
         callNumberLabel.text?.append("\(numberToBeAdded)")
     }
     
@@ -93,6 +93,8 @@ class DialerViewController: UIViewController {
         guard let validText = self.callNumberLabel.text else {
             return
         }
+        
+        AudioServicesPlaySystemSound(1105)
         
         if sender.currentTitle == "+" && !(validText.contains("+")) && validText == "" {
             callNumberLabel.text?.append("+")
