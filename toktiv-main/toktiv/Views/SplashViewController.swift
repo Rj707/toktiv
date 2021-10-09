@@ -36,10 +36,18 @@ class SplashViewController: UIViewController
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
 
             self.connectTwilioChatClient()
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(onCompletedChannelsList(_:)), name: NSNotification.Name.init("kChannelsListCompleted"), object: nil)
+        }
+        else
+        {
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.5
+                , execute:
+            {
+                self.animate()
+            })
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(onCompletedChannelsList(_:)), name: NSNotification.Name.init("kChannelsListCompleted"), object: nil)
-       
     }
     
     @objc func onCompletedChannelsList(_ notification: Notification)
