@@ -23,15 +23,32 @@ class MessagingManager: NSObject
     
     // MARK: User and session management
     
-    func logout()
+    func logout(completion : @escaping (Bool, String?) -> ())
     {
         SessionManager.logout()
-        DispatchQueue.global(qos: .userInitiated).async
+        
+        DispatchQueue.main.async
         {
-            self.chatClient?.shutdown()
-            self.chatClient = nil
+            if let chatClient = self.chatClient, chatClient.user != nil
+            {
+                self.deregisterChatClientWith(deviceToken: (UIApplication.shared.delegate as! AppDelegate).updatedPushToken ?? Data.init())
+                { (success, errorMessage) in
+                    if success
+                    {
+                        self.chatClient?.shutdown()
+                        self.chatClient = nil
+                        self.delegate = nil
+                        self.connected = false
+                        completion(success, nil)
+                    }
+                    else
+                    {
+                        completion(false, errorMessage)
+                    }
+                }
+            }
+            
         }
-        self.connected = false
     }
     
     // MARK: Twilio Client
@@ -40,7 +57,10 @@ class MessagingManager: NSObject
     {
         if (chatClient != nil)
         {
-            logout()
+            logout
+            { (success, errorMessage) in
+                
+            }
         }
         
         self.requestTokenWithCompletion
@@ -112,6 +132,30 @@ class MessagingManager: NSObject
         if let chatClient = self.chatClient, chatClient.user != nil
         {
             chatClient.register(withNotificationToken: deviceToken)
+            { (result) in
+                
+                if (!result.isSuccessful())
+                {
+                    // try registration again or verify token
+                    completion(false,result.error?.localizedDescription)
+                }
+                else
+                {
+                    completion(true,nil)
+                }
+            }
+        }
+        else
+        {
+            completion(false,"TwilioChatClient is nil")
+        }
+    }
+    
+    func deregisterChatClientWith(deviceToken: Data, completion : @escaping (Bool, String?) -> ())
+    {
+        if let chatClient = self.chatClient, chatClient.user != nil
+        {
+            chatClient.deregister(withNotificationToken: deviceToken)
             { (result) in
                 
                 if (!result.isSuccessful())

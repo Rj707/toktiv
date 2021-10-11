@@ -11,6 +11,7 @@ import TwilioVoice
 import NotificationBannerSwift
 import MBProgressHUD
 import SafariServices
+import TwilioChatClient
 
 class DashbaordViewController: UIViewController, UIPopoverPresentationControllerDelegate, UISearchBarDelegate {
     
@@ -384,21 +385,36 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
         let alertController = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             
-            if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.observer.loginViewModel.userProfile?.twillioToken {
+            if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.observer.loginViewModel.userProfile?.twillioToken
+            {
                 MBProgressHUD.showAdded(to: self.view, animated: true)
-                TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData) { (error) in
+                
+                let myGroup = DispatchGroup()
+
+                myGroup.enter() //for `checkSpeed`
+                myGroup.enter() //for `doAnotherAsync`
+                
+                TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
+                { (error) in
+                    NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
+                    myGroup.leave()
+                }
+                
+                MessagingManager.sharedManager().logout
+                { (success, errorMessage) in
+                    NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
+                    myGroup.leave()
+                }
+                
+                myGroup.notify(queue: DispatchQueue.main)
+                {
                     MBProgressHUD.hide(for: self.view, animated: true)
-//                    if let error = error {
-//                        NotificationBanner(title: nil, subtitle: "Failed to Logout. \(error.localizedDescription)", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
-//                    } else {
-                        UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
-                        UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
-                        UserDefaults.standard.removeObject(forKey: "currentStatus")
-                        UserDefaults.standard.synchronize()
-                        self.navigationController?.popToRootViewController(animated: true)
-                        NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
-                        
-//                    }
+
+                    UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
+                    UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
+                    UserDefaults.standard.removeObject(forKey: "currentStatus")
+                    UserDefaults.standard.synchronize()
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }))
