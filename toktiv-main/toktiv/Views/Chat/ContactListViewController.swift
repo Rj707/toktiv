@@ -115,6 +115,10 @@ extension ContactListViewController: UITableViewDelegate, UITableViewDataSource 
                 cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "35BF31")) // Green // #35BF31
                 cell.twilioStatusImage.setImageTintColor(UIColor.green) // green
                 break
+            case "Online":
+                cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "35BF31")) // Green // #35BF31
+                cell.twilioStatusImage.setImageTintColor(UIColor.green) // green
+                break
             case "Busy":
                 cell.twilioStatusImage.setImageTintColor(UIColor.hexStringToUIColor(hex: "FF0101")) // Red // #FF0101
                 cell.twilioStatusImage.setImageTintColor(UIColor.orange) // orange

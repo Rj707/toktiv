@@ -213,7 +213,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         
         DispatchQueue.main.async
         {
-            InterfaceManager.shared.hideLoader()
+            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+
             self.moveToDashbnoard(animated: true)
         }
     }
