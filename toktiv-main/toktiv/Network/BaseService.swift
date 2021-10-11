@@ -108,7 +108,13 @@ class BaseService: NSObject {
                     })
                     
                     if response.response?.statusCode == 401 && filteredSchemes.isEmpty {
-                        
+                        if let delegate = UIApplication.shared.delegate as? AppDelegate
+                        {
+                            delegate.getAcesstokenRefreshed
+                            {
+                                makeRequest(with: urlString, method: .get, query: query, headers: headers, body: body, completionHandler: completionHandler)
+                            }
+                        }
                     }
                     
                     if let httpResponse = response.response{

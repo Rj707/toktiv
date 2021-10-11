@@ -351,7 +351,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    @objc func getAcesstokenRefreshed()
+    @objc func getAcesstokenRefreshed(handler: @escaping (()->Void))
     {
         if let validExpDate = self.expiryDate
         {
@@ -385,6 +385,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                                 StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
                             }
                         }
+                        
+                        handler()
                     }
                     
                 }

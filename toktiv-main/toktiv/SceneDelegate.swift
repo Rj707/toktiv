@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
         
         if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
-            appdelegate.getAcesstokenRefreshed()
+            appdelegate.getAcesstokenRefreshed(handler: {})
             appdelegate.callManager.appComesInForeground()
         }
     }

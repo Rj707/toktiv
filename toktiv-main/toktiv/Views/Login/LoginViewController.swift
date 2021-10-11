@@ -187,17 +187,34 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                     self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
                 }
                 
-                self.connectTwilioChatClient()
+                DispatchQueue.main.async
+                {
+                    MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true).label.text = "Syncing Data..."
+                }
                 
+                NotificationCenter.default.addObserver(self, selector: #selector(self.onCompletedChannelsList(_:)), name: NSNotification.Name.init("kChannelsListCompleted"), object: nil)
+                                
                 self.stateManager.setupWorkerStatus(validResponse.twilioClientStatus ?? "")
                 self.stateManager.loginViewModel.userProfile = validResponse
                 self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
-                self.moveToDashbnoard(animated: true)
+                
+                self.connectTwilioChatClient()
             }
             else
             {
                 NotificationBanner(title: nil, subtitle: "Unable to login, Please try again", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
             }
+        }
+    }
+    
+    @objc func onCompletedChannelsList(_ notification: Notification)
+    {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.init("kChannelsListCompleted"), object: nil)
+        
+        DispatchQueue.main.async
+        {
+            InterfaceManager.shared.hideLoader()
+            self.moveToDashbnoard(animated: true)
         }
     }
 

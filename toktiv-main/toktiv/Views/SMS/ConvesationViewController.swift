@@ -86,7 +86,7 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         tapGestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapGestureRecognizer)
-        tableView.keyboardDismissMode = .onDrag
+        tableView.keyboardDismissMode = .interactive
     }
     
     func configureInputTextView()

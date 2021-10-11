@@ -1981,7 +1981,7 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xoc-oZ-KYf">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="718"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="715"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <connections>
                                             <outlet property="dataSource" destination="rCj-Di-w5U" id="J12-I8-N70"/>
@@ -1989,10 +1989,10 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdQ-4O-4xk">
-                                        <rect key="frame" x="0.0" y="718" width="414" height="50"/>
+                                        <rect key="frame" x="0.0" y="715" width="414" height="53"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Av6-di-gTZ" customClass="GrowingTextView" customModule="GrowingTextView">
-                                                <rect key="frame" x="16" y="10" width="325" height="30"/>
+                                                <rect key="frame" x="16" y="10" width="325" height="33"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <color key="textColor" systemColor="labelColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2008,7 +2008,7 @@
                                                 </connections>
                                             </textView>
                                             <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YVg-kp-pl9">
-                                                <rect key="frame" x="351" y="-3" width="53" height="53"/>
+                                                <rect key="frame" x="351" y="0.0" width="53" height="53"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="YVg-kp-pl9" secondAttribute="height" id="YcA-05-oLU"/>
                                                     <constraint firstAttribute="height" constant="53" id="abk-qf-pmI"/>
@@ -2184,10 +2184,10 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1G2-60-bur">
-                                <rect key="frame" x="0.0" y="812" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="809" width="414" height="53"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gTZ-mB-FL1" customClass="GrowingTextView" customModule="GrowingTextView">
-                                        <rect key="frame" x="16" y="10" width="325" height="30"/>
+                                        <rect key="frame" x="16" y="10" width="325" height="33"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2203,7 +2203,7 @@
                                         </connections>
                                     </textView>
                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5c-ge-Izm">
-                                        <rect key="frame" x="351" y="-3" width="53" height="53"/>
+                                        <rect key="frame" x="351" y="0.0" width="53" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="g5c-ge-Izm" secondAttribute="height" id="611-zQ-3hC"/>
                                             <constraint firstAttribute="height" constant="53" id="Qe2-lM-Zlb"/>
@@ -2895,12 +2895,48 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lf9-CZ-l3L">
+                                        <rect key="frame" x="344" y="545" width="100" height="50"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="w08-Hn-Vax">
+                                                <rect key="frame" x="16" y="10" width="30" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="HzN-8y-yaa"/>
+                                                    <constraint firstAttribute="width" constant="30" id="yBj-wn-cvO"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="w08-Hn-Vax" firstAttribute="leading" secondItem="lf9-CZ-l3L" secondAttribute="leading" constant="16" id="0ol-Yg-UXT"/>
+                                            <constraint firstAttribute="height" constant="50" id="Nxf-bF-eLa"/>
+                                            <constraint firstAttribute="width" constant="100" id="aBf-Jy-LJC"/>
+                                            <constraint firstItem="w08-Hn-Vax" firstAttribute="centerY" secondItem="lf9-CZ-l3L" secondAttribute="centerY" id="cHX-bA-dZN"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="12"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" systemColor="systemGray5Color"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="fv8-XN-DZ2" appends="YES" id="Z6C-V2-Qy5"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="8cT-fs-nS6" firstAttribute="leading" secondItem="raZ-bS-Cvo" secondAttribute="leading" id="IYe-81-inQ"/>
                                     <constraint firstAttribute="trailing" secondItem="8cT-fs-nS6" secondAttribute="trailing" id="M6V-0G-kqo"/>
+                                    <constraint firstAttribute="trailing" secondItem="lf9-CZ-l3L" secondAttribute="trailing" constant="-30" id="NTY-Wd-neK"/>
                                     <constraint firstAttribute="trailing" secondItem="ocn-gK-Jc5" secondAttribute="trailing" id="ZUL-tB-3cf"/>
+                                    <constraint firstItem="8cT-fs-nS6" firstAttribute="top" secondItem="lf9-CZ-l3L" secondAttribute="bottom" constant="64" id="iwP-dR-gHI"/>
                                     <constraint firstItem="ocn-gK-Jc5" firstAttribute="leading" secondItem="raZ-bS-Cvo" secondAttribute="leading" id="nQ9-bT-FTf"/>
                                     <constraint firstItem="8cT-fs-nS6" firstAttribute="top" secondItem="ocn-gK-Jc5" secondAttribute="bottom" id="pUJ-NL-WJU"/>
                                     <constraint firstAttribute="bottom" secondItem="8cT-fs-nS6" secondAttribute="bottom" id="wKd-o6-Ql9"/>
@@ -2937,6 +2973,7 @@
                         <outlet property="inputTextField" destination="jG4-Mc-mtF" id="Wpm-7I-2v7"/>
                         <outlet property="inputTextView" destination="a16-Um-XDD" id="EYw-J6-CYD"/>
                         <outlet property="labelAttachmentName" destination="OxT-eY-pQy" id="LCg-FK-iGY"/>
+                        <outlet property="scrollToBottomIndicator" destination="lf9-CZ-l3L" id="4uA-de-8Ch"/>
                         <outlet property="sendButton" destination="ej0-vV-ZsO" id="I0O-qJ-2gu"/>
                         <outlet property="tableView" destination="ocn-gK-Jc5" id="fmY-we-hbj"/>
                         <outlet property="topLabel" destination="afX-Q3-xbV" id="kK4-GZ-u23"/>
@@ -2944,6 +2981,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JFE-Mb-pua" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="fv8-XN-DZ2">
+                    <connections>
+                        <action selector="scrollTableViewToBottomWithSender:" destination="cMH-KK-bhe" id="bRm-Pm-Yxb"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3851" y="64"/>
         </scene>
@@ -3063,6 +3105,7 @@
         <image name="a" width="32" height="32"/>
         <image name="attachment" width="32" height="32"/>
         <image name="back" width="29" height="29"/>
+        <image name="bottom" width="32" height="32"/>
         <image name="cancel" width="28" height="28"/>
         <image name="chevron.down.circle.fill" catalog="system" width="128" height="121"/>
         <image name="delete" width="50" height="50"/>
@@ -3089,6 +3132,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

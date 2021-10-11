@@ -19,7 +19,7 @@ enum ChatViewNavigation
     case PUSH
 }
 
-class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextViewDelegate, CropViewControllerDelegate
+class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextViewDelegate, CropViewControllerDelegate, UIScrollViewDelegate
 {
     @IBOutlet weak var topLabel:UILabel!
     @IBOutlet weak var sendButton:UIButton!
@@ -33,6 +33,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     @IBOutlet weak var attachmentTypeImage: UIImageView!
 
     @IBOutlet weak var inputTextView:GrowingTextView!
+    
+    @IBOutlet weak var scrollToBottomIndicator:UIView!
 
     var navigation : ChatViewNavigation = .Contacts
     
@@ -95,6 +97,28 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         }
         
         configureInputTextView()
+    }
+    
+    @IBAction func scrollTableViewToBottom(sender: UITapGestureRecognizer)
+    {
+        self.scrollToBottom()
+        scrollToBottomIndicator.isHidden = true
+    }
+    
+    func showHideScrollToBottomIndicator(_ scrollView: UIScrollView)
+    {
+        let height = scrollView.frame.size.height
+        let contentYoffset = scrollView.contentOffset.y
+        let distanceFromBottom = scrollView.contentSize.height - contentYoffset
+        if distanceFromBottom <= height + height
+        {
+            print(" you reached end of the table")
+            scrollToBottomIndicator.isHidden = true
+        }
+        else
+        {
+            scrollToBottomIndicator.isHidden = false
+        }
     }
     
     func configureInputTextView()
@@ -200,6 +224,11 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     
         let draftMessage = DraftMessageModel(channelId: self.channelID, message: inputTextView.text)
         StateManager.shared.saveDraftMessage(draftMessage)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        showHideScrollToBottomIndicator(scrollView)
     }
     
     //MARK: - UITextView
