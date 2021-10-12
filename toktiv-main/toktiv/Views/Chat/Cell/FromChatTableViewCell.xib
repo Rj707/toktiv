@@ -98,12 +98,19 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V0I-9g-4Yc">
+                        <rect key="frame" x="220" y="0.0" width="100" height="274"/>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="V0I-9g-4Yc" firstAttribute="leading" secondItem="VSD-th-2vQ" secondAttribute="trailing" id="1Kq-eB-rhu"/>
                     <constraint firstItem="VSD-th-2vQ" firstAttribute="leading" secondItem="OOI-A6-RW3" secondAttribute="leading" constant="10" id="8RI-pX-xT0"/>
+                    <constraint firstAttribute="trailing" secondItem="V0I-9g-4Yc" secondAttribute="trailing" id="CUO-QA-f4c"/>
                     <constraint firstItem="VSD-th-2vQ" firstAttribute="top" secondItem="OOI-A6-RW3" secondAttribute="top" constant="10" id="Dpm-1P-dms"/>
                     <constraint firstAttribute="bottom" secondItem="VSD-th-2vQ" secondAttribute="bottom" constant="10" id="Oim-k2-tIY"/>
+                    <constraint firstAttribute="bottom" secondItem="V0I-9g-4Yc" secondAttribute="bottom" id="Rf3-V0-dp2"/>
                     <constraint firstAttribute="trailing" secondItem="VSD-th-2vQ" secondAttribute="trailing" constant="100" id="Wde-AJ-alz"/>
+                    <constraint firstItem="V0I-9g-4Yc" firstAttribute="top" secondItem="OOI-A6-RW3" secondAttribute="top" id="voW-vQ-7bR"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="tZC-4o-BZ0"/>

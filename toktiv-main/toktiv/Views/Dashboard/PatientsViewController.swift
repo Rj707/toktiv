@@ -41,7 +41,7 @@ class PatientsViewController: UIViewController {
     @objc func callButtonPressed(sender:UIButton) {
         let patient = self.currentSearchedPatients[sender.tag]
         guard let phone = patient.cellNumber, !phone.isEmpty else {
-            NotificationBanner(title: nil, subtitle: "Patient phone number is not valid", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "Patient phone number is not valid", style: .warning).show()
             return
         }
         self.deletgate?.patientDidSelected(patient, isCall: true)
@@ -51,7 +51,7 @@ class PatientsViewController: UIViewController {
     @objc func smsButtonPressed(sender:UIButton) {
         let patient = self.currentSearchedPatients[sender.tag]
         guard let phone = patient.cellNumber, !phone.isEmpty else {
-            NotificationBanner(title: nil, subtitle: "Patient phone number is not valid", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "Patient phone number is not valid", style: .warning).show()
             return
         }
         self.dismiss(animated: true) {

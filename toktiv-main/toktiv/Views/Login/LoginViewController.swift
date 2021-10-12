@@ -123,13 +123,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         guard let username = self.usernameTextField.text, username.count > 1
         else
         {
-            NotificationBanner(title: nil, subtitle: "Please enter valid Username.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "Please enter valid Username.", style: .warning).show()
             return
         }
         guard let password = self.passwordTextField.text, password.count > 1
         else
         {
-            NotificationBanner(title: nil, subtitle: "Please enter valid Password.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "Please enter valid Password.", style: .warning).show()
             return
         }
         
@@ -159,7 +159,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 {
                     MBProgressHUD.hide(for: self.view, animated: true)
                     // error
-                    NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger).show()
                 }
             }
         }
@@ -202,7 +202,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "Unable to login, Please try again", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "Unable to login, Please try again", style: .danger).show()
             }
         }
     }
@@ -248,7 +248,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", style: .danger).show()
             }
         }
     }

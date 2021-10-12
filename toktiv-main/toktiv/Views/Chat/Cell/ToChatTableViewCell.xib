@@ -98,12 +98,19 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tR4-BP-IES">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="299"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="seU-sV-elJ" firstAttribute="leading" secondItem="IDo-ij-oFq" secondAttribute="leading" constant="100" id="R3l-1J-bvS"/>
+                    <constraint firstItem="tR4-BP-IES" firstAttribute="leading" secondItem="IDo-ij-oFq" secondAttribute="leading" id="RIc-BK-qAg"/>
                     <constraint firstItem="seU-sV-elJ" firstAttribute="top" secondItem="IDo-ij-oFq" secondAttribute="top" constant="10" id="cJC-Od-gkk"/>
+                    <constraint firstItem="seU-sV-elJ" firstAttribute="leading" secondItem="tR4-BP-IES" secondAttribute="trailing" id="eK4-iA-KzE"/>
+                    <constraint firstAttribute="bottom" secondItem="tR4-BP-IES" secondAttribute="bottom" id="hH9-IA-MKR"/>
                     <constraint firstAttribute="trailing" secondItem="seU-sV-elJ" secondAttribute="trailing" constant="10" id="hRH-J3-fsC"/>
                     <constraint firstAttribute="bottom" secondItem="seU-sV-elJ" secondAttribute="bottom" constant="10" id="hgQ-7l-Vgg"/>
+                    <constraint firstItem="tR4-BP-IES" firstAttribute="top" secondItem="IDo-ij-oFq" secondAttribute="top" id="k6L-ia-sXK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="Gys-NR-fCD"/>
@@ -113,7 +120,7 @@
                 <outlet property="messageTextView" destination="GAt-z7-Dw4" id="kif-7c-MoQ"/>
                 <outlet property="timeLabel" destination="zew-s3-sMK" id="jCd-dn-LOB"/>
             </connections>
-            <point key="canvasLocation" x="164.49275362318841" y="126.89732142857142"/>
+            <point key="canvasLocation" x="163.04347826086959" y="126.89732142857142"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -97,7 +97,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 MBProgressHUD.hide(for: self.view, animated: false)
                 
                 guard let tasks = activeNumbers else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get User's numbers, Please try again", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Unable to get User's numbers, Please try again", style: .danger).show()
                     return
                 }
                 
@@ -154,11 +154,11 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 self.present(vc, animated: true, completion: nil)
             }
             else {
-                NotificationBanner(title: "Unable to open URL", subtitle: "\(url)", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+                NotificationBanner(title: "Unable to open URL", subtitle: "\(url)", style: .warning).show()
             }
         }
         else {
-            NotificationBanner(title: "Response data is invalid or empty", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: "Response data is invalid or empty", style: .warning).show()
         }
     }
     
@@ -169,7 +169,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 MBProgressHUD.hide(for: self.view, animated: false)
                 
                 guard let tasks = activeTasks else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get Task list, Please try again", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Unable to get Task list, Please try again", style: .danger).show()
                     return
                 }
                 
@@ -182,12 +182,12 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                     
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "No active tasks found", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "No active tasks found", style: .warning).show()
                 }
             }
         }
         else {
-            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning).show()
         }
     }
     
@@ -202,7 +202,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 
                 if let validResponse = respone, let res = validResponse.res {
                     if res == 1 {
-                        NotificationBanner(title: nil, subtitle: "Successfully \(value)", leftView: nil, rightView: nil, style: .success, colors: nil).show()
+                        NotificationBanner(title: nil, subtitle: "Successfully \(value)", style: .success).show()
                         
                         if value == "hold" {
                             self.patientHoldUnholdButton.setImage(UIImage(systemName: "iphone.slash"), for: .normal)
@@ -214,19 +214,19 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                         }
                     }
                     else if let message = validResponse.data {
-                        NotificationBanner(title: nil, subtitle: message, leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                        NotificationBanner(title: nil, subtitle: message, style: .danger).show()
                     }
                     else {
-                        NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                        NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger).show()
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger).show()
                 }
             }
         }
         else {
-            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning).show()
         }
     }
     
@@ -240,7 +240,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
             self.observer.loginViewModel.searchPatient(text) { (searchResponse, error) in
                 MBProgressHUD.hide(for: self.view, animated: true)
                 if let validError = error {
-                    NotificationBanner(title: nil, subtitle: "Error Occured \(validError.description)", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Error Occured \(validError.description)", style: .danger).show()
                 }
                 else if let validResponse = searchResponse {
                     if let patients = validResponse.data, patients.count > 0 {
@@ -251,11 +251,11 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                         }
                     }
                     else {
-                        NotificationBanner(title: nil, subtitle: "No matched result found.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+                        NotificationBanner(title: nil, subtitle: "No matched result found.", style: .warning).show()
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Error Occured", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Error Occured", style: .danger).show()
                 }
             }
         }
@@ -342,7 +342,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     
     func showStatusActionSheet() {
         guard self.observer.inCall == false else {
-            NotificationBanner(title: nil, subtitle: "You can't change status during call.", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+            NotificationBanner(title: nil, subtitle: "You can't change status during call.", style: .warning).show()
             return
         }
         let alertController = UIAlertController(title: "Change Status", message: nil, preferredStyle: .actionSheet)
@@ -376,7 +376,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 }
             }
             else {
-                NotificationBanner(title: nil, subtitle: "Failed to set worker status.", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "Failed to set worker status.", style: .danger).show()
             }
         }
     }
@@ -454,20 +454,20 @@ extension DashbaordViewController: ActiveTasksSelectionProtocol {
             MBProgressHUD.hide(for: self.view, animated: true)
             if let validResponse = response, let res = validResponse.res {
                 if res == 1 {
-                    NotificationBanner(title: nil, subtitle: "Successfully added", leftView: nil, rightView: nil, style: .success, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Successfully added", style: .success).show()
                     self.patientHoldUnholdButton.isHidden = false
                     self.patientHoldUnholdButton.setImage(UIImage(systemName: "iphone.slash"), for: .normal)
                     self.patientHoldUnholdButton.tag = 2
                 }
                 else if let message = validResponse.data {
-                    NotificationBanner(title: nil, subtitle: message, leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: message, style: .danger).show()
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger).show()
                 }
             }
             else {
-                NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", leftView: nil, rightView: nil, style: .danger, colors: nil).show()
+                NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger).show()
             }
         }
         
@@ -528,7 +528,7 @@ extension DashbaordViewController: IncomingCallProgressProtocol {
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get Patient details", leftView: nil, rightView: nil, style: .warning, colors: nil).show()
+                    NotificationBanner(title: nil, subtitle: "Unable to get Patient details", style: .warning).show()
                 }
             }
         }

@@ -305,8 +305,24 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
 
     func addObservers()
     {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        // Subscribe to Keyboard Will Show notifications
+                NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(keyboardWillShow(_:)),
+                    name: UIResponder.keyboardWillShowNotification,
+                    object: nil
+                )
+
+                // Subscribe to Keyboard Will Hide notifications
+                NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(keyboardWillHide(_:)),
+                    name: UIResponder.keyboardWillHideNotification,
+                    object: nil
+                )
     }
     
     func getConverstaion()
@@ -370,35 +386,54 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     
     //MARK: - Keyboard Observers
     
-    @objc func keyboardDidAppear(notification: NSNotification)
+//    @objc func keyboardDidAppear(notification: NSNotification)
+//    {
+//        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+//        let height = min(keyboardSize.height, keyboardSize.width)
+//        UIView.animate(withDuration: 0.3)
+//        {
+//            DispatchQueue.main.async
+//            {
+//                var value = 0
+//                if let window = UIApplication.shared.windows.first
+//                {
+//                    value = Int(window.safeAreaInsets.bottom)
+//                }
+//                self.bottomMarginConstraint.constant = height - CGFloat(value)
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(notification: NSNotification)
+//    {
+//        print("Keyboard hidden")
+//        UIView.animate(withDuration: 0.3)
+//        {
+//            DispatchQueue.main.async
+//            {
+//                self.bottomMarginConstraint.constant = 0
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//    }
+    
+    @objc dynamic func keyboardWillShow(_ notification: NSNotification)
     {
-        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
-        let height = min(keyboardSize.height, keyboardSize.width)
-        UIView.animate(withDuration: 0.3)
-        {
-            DispatchQueue.main.async
-            {
-                var value = 0
-                if let window = UIApplication.shared.windows.first
-                {
-                    value = Int(window.safeAreaInsets.bottom)
-                }
-                self.bottomMarginConstraint.constant = height - CGFloat(value)
-                self.view.layoutIfNeeded()
-            }
+        animateWithKeyboard(notification: notification)
+        { (keyboardFrame) in
+            
+            let constant = keyboardFrame.height
+            self.bottomMarginConstraint?.constant = constant
         }
     }
-
-    @objc func keyboardWillHide(notification: NSNotification)
+        
+    @objc dynamic func keyboardWillHide(_ notification: NSNotification)
     {
-        print("Keyboard hidden")
-        UIView.animate(withDuration: 0.3)
-        {
-            DispatchQueue.main.async
-            {
-                self.bottomMarginConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }
+        animateWithKeyboard(notification: notification)
+        { (keyboardFrame) in
+            
+            self.bottomMarginConstraint?.constant = 0
         }
     }
     
@@ -478,7 +513,11 @@ extension ChatViewController
         {
             channel.messages?.getLastWithCount(300)
             { (result, items) in
-                self.addMessages(newMessages: Set(items!))
+                
+                if result.isSuccessful()
+                {
+                    self.addMessages(newMessages: Set(items!))
+                }
                 
                 DispatchQueue.main.async
                 {
