@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             {
                 let differenceInSeconds = Int(endDate.timeIntervalSince(Date()))
                 print("Setting Timmer for :\(differenceInSeconds)")
-                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(differenceInSeconds), target: self, selector: #selector(getAcesstokenRefreshed), userInfo: nil, repeats: false)
+                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(differenceInSeconds), target: self, selector: #selector(getAcessTokensRefreshed), userInfo: nil, repeats: false)
             }
         }
     }
@@ -351,50 +351,139 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    @objc func getAcesstokenRefreshed(handler: @escaping (()->Void))
+    @objc func getAcessTokensRefreshed(checkExpiryDate :Bool, handler: @escaping (()->Void))
     {
-        if let validExpDate = self.expiryDate
+        if checkExpiryDate
         {
-            let expDate = validExpDate.toLocalTime()
-            let currentDate = Date().toLocalTime()
-            
-            if expDate <= currentDate
+            if let validExpDate = self.expiryDate
             {
-                handleProgressView(true)
+                let expDate = validExpDate.toLocalTime()
+                let currentDate = Date().toLocalTime()
                 
-                let providerCode = self.stateManager.loginViewModel.userProfile?.providerCode ?? ""
-                self.stateManager.loginViewModel.getTwilioAccessToken(providerCode) { (respose, error) in
-                    if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
+                if expDate <= currentDate
+                {
+                    handleTokensRefresh
                     {
-                        print("Valid Refresh Token: \(validAccessToken)")
-                        
-                        TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
-                        { (error) in
-                            
-                            StateManager.shared.accessToken =  validAccessToken
-                            
-                            self.handleProgressView(false)
-                            if let error = error
-                            {
-                                NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
-                            }
-                            else
-                            {
-                                NSLog("LOGIN: Successfully registered for VoIP push notifications.")
-                                self.expiryDate = Date().addingTimeInterval(60*60*24)
-                                StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
-                            }
-                        }
-                        
                         handler()
                     }
-                    
                 }
+            }
+        }
+        else
+        {
+            handleTokensRefresh
+            {
+                handler()
             }
         }
     }
     
-    func refreshAccessTokenOnSilentPush()
+    func handleTokensRefresh(handler: @escaping (()->Void))
+    {
+        handleProgressView(true)
+        
+        let myGroup = DispatchGroup()
+
+        myGroup.enter() //for `checkSpeed`
+        myGroup.enter() //for `doAnotherAsync`
+        
+        self.getTwilioAccessToken
+        { (success) in
+            if success
+            {
+                myGroup.leave()
+            }
+        }
+        
+        self.getAuthToken
+        { (success) in
+            if success
+            {
+                myGroup.leave()
+            }
+        }
+        
+        myGroup.notify(queue: DispatchQueue.global(qos: .background))
+        {
+            DispatchQueue.main.async
+            {
+                self.handleProgressView(false)
+            }
+
+            handler()
+        }
+    }
+    
+    func getTwilioAccessToken(completion: @escaping ((Bool)->Void))
+    {
+        let providerCode = self.stateManager.loginViewModel.userProfile?.providerCode ?? ""
+
+        self.stateManager.loginViewModel.getTwilioAccessToken(providerCode)
+        { (respose, error) in
+    
+            if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
+            {
+                print("Valid Refresh Token: \(validAccessToken)")
+                
+                TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
+                { (error) in
+                    
+                    StateManager.shared.accessToken =  validAccessToken
+                                                
+                    if let error = error
+                    {
+                        NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
+                    }
+                    else
+                    {
+                        NSLog("LOGIN: Successfully registered for VoIP push notifications.")
+                        self.expiryDate = Date().addingTimeInterval(60*60*24)
+                        StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                    }
+                }
+            }
+            if error != nil
+            {
+                completion(false)
+            }
+            else
+            {
+                completion(true)
+            }
+        }
+    }
+    
+    func getAuthToken(completion: @escaping ((Bool)->Void))
+    {
+        self.stateManager.loginViewModel.getAuthToken(with: self.stateManager.userName, password: self.stateManager.password)
+        { (response, error) in
+            
+            DispatchQueue.main.async
+            {
+                if let validResponse = response, let validToken = validResponse.accessToken, let dataObject = try? JSONEncoder().encode(validResponse)
+                {
+                    UserDefaults.standard.setValue(dataObject, forKey: AppConstants.USER_ACCESS_TOKEN)
+                    UserDefaults.standard.synchronize()
+                }
+                else
+                {
+                    // error
+                    NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger).show()
+                }
+            }
+            
+            if error != nil
+            {
+                completion(false)
+            }
+            else
+            {
+                completion(true)
+            }
+        }
+    }
+    
+    func refreshTwilioAccessTokenOnSilentPush()
     {
         DispatchQueue.main.async
         {
@@ -438,6 +527,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                     }
                 }
+            }
+        }
+    }
+    
+    func logoutUser()
+    {
+        if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.stateManager.loginViewModel.userProfile?.twillioToken
+        {
+            handleProgressView(true)
+            let myGroup = DispatchGroup()
+
+            myGroup.enter() //for `checkSpeed`
+            myGroup.enter() //for `doAnotherAsync`
+            
+            TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
+            { (error) in
+                NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
+                myGroup.leave()
+            }
+            
+            MessagingManager.sharedManager().logout
+            { (success, errorMessage) in
+                NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
+                myGroup.leave()
+            }
+            
+            myGroup.notify(queue: DispatchQueue.main)
+            {
+                self.handleProgressView(false)
+
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
+                UserDefaults.standard.removeObject(forKey: "currentStatus")
+                UserDefaults.standard.synchronize()
+                
+                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                let rootVC = storyboard.instantiateInitialViewController()
+                let window = UIApplication.shared.windows.first
+
+                window?.rootViewController = rootVC
             }
         }
     }
@@ -647,7 +776,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                 }
                 
-                self.refreshAccessTokenOnSilentPush()
+                self.refreshTwilioAccessTokenOnSilentPush()
             }
         }
         

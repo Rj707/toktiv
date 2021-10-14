@@ -27,6 +27,32 @@ class StateManager: NSObject {
             UserDefaults.standard.set(newValue.rawValue , forKey: "currentStatus")
         }
     }
+    
+    var userName:String
+    {
+        get
+        {
+            return UserDefaults.standard.value(forKey: "kUserName") as? String ?? ""
+        }
+        set
+        {
+            UserDefaults.standard.set(newValue , forKey: "kUserName")
+        }
+    }
+    
+    var password:String
+    {
+        get
+        {
+            return UserDefaults.standard.value(forKey: "kPassword") as? String ?? ""
+        }
+        set
+        {
+            UserDefaults.standard.set(newValue , forKey: "kPassword")
+        }
+    }
+    
+    
     var inCall:Bool = false
     
     var loginViewModel = LoginViewModel()

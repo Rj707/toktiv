@@ -37,7 +37,7 @@ class LoginViewModel: NSObject {
     }
     
     
-    func getAccessToken(with username:String, password:String, completion: @escaping GetUserAccessToken) {
+    func getAuthToken(with username:String, password:String, completion: @escaping GetUserAccessToken) {
         let bodyData = "username=\(username)&password=\(password)&grant_type=password".data(using: .utf8)
         BaseService.post(NetworkURLs.GET_TOKEN_URL, query: nil, headers: nil, body: bodyData) { (dictionary, error, data) in
             guard let responseData = data else {

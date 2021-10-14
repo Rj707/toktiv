@@ -107,13 +107,13 @@ class BaseService: NSObject {
                         urlString.contains(scheme)
                     })
                     
-                    if response.response?.statusCode == 401 && filteredSchemes.isEmpty {
+                    if response.response?.statusCode == 401 && filteredSchemes.isEmpty
+                    {
+                        completionHandler(nil, nil, nil)
+
                         if let delegate = UIApplication.shared.delegate as? AppDelegate
                         {
-                            delegate.getAcesstokenRefreshed
-                            {
-                                makeRequest(with: urlString, method: .get, query: query, headers: headers, body: body, completionHandler: completionHandler)
-                            }
+                            delegate.logoutUser()
                         }
                     }
                     

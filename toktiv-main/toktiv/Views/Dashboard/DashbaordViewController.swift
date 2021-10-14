@@ -383,43 +383,49 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     
     func showLogoutAlert() {
         let alertController = UIAlertController(title: "Logout", message: "Are you sure to logout?", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+        alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler:
+        { (action) in
             
-            if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.observer.loginViewModel.userProfile?.twillioToken
-            {
-                MBProgressHUD.showAdded(to: self.view, animated: true)
-                
-                let myGroup = DispatchGroup()
-
-                myGroup.enter() //for `checkSpeed`
-                myGroup.enter() //for `doAnotherAsync`
-                
-                TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
-                { (error) in
-                    NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
-                    myGroup.leave()
-                }
-                
-                MessagingManager.sharedManager().logout
-                { (success, errorMessage) in
-                    NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
-                    myGroup.leave()
-                }
-                
-                myGroup.notify(queue: DispatchQueue.main)
-                {
-                    MBProgressHUD.hide(for: self.view, animated: true)
-
-                    UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
-                    UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
-                    UserDefaults.standard.removeObject(forKey: "currentStatus")
-                    UserDefaults.standard.synchronize()
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
-            }
+            self.logoutUser()
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .destructive, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func logoutUser()
+    {
+        if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.observer.loginViewModel.userProfile?.twillioToken
+        {
+            MBProgressHUD.showAdded(to: self.view, animated: true)
+            
+            let myGroup = DispatchGroup()
+
+            myGroup.enter() //for `checkSpeed`
+            myGroup.enter() //for `doAnotherAsync`
+            
+            TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
+            { (error) in
+                NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
+                myGroup.leave()
+            }
+            
+            MessagingManager.sharedManager().logout
+            { (success, errorMessage) in
+                NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
+                myGroup.leave()
+            }
+            
+            myGroup.notify(queue: DispatchQueue.main)
+            {
+                MBProgressHUD.hide(for: self.view, animated: true)
+
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
+                UserDefaults.standard.removeObject(forKey: "currentStatus")
+                UserDefaults.standard.synchronize()
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
     }
     
     func showSMSHistoryView() {

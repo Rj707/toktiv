@@ -31,8 +31,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         setupFlow()
         
         #if DEBUG
-        usernameTextField.text = "Sameer"
-        passwordTextField.text = "apss2021"
+        usernameTextField.text = "zeeqa"
+        passwordTextField.text = "apss@2021"
         passwordTextField.isSecureTextEntry = false
         #endif
     }
@@ -142,7 +142,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     func loginUserWith(username: String, password: String)
     {
-        stateManager.loginViewModel.getAccessToken(with: username, password: password)
+        stateManager.loginViewModel.getAuthToken(with: username, password: password)
         { (response, error) in
             
             DispatchQueue.main.async
@@ -199,6 +199,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
                 
                 self.connectTwilioChatClient()
+                
+                self.stateManager.userName = username
+                self.stateManager.password = password
             }
             else
             {
