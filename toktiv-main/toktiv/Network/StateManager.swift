@@ -39,8 +39,7 @@ class StateManager: NSObject {
         }
         get
         {
-            return UserDefaults.standard.value(forKey: "accessToken") as! String
-
+            return UserDefaults.standard.value(forKey: "accessToken") as? String ?? ""
         }
     }
 
