@@ -169,8 +169,23 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
     }
     
     func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidAppear(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        // Subscribe to Keyboard Will Hide notifications
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     func getConverstaion() {
@@ -198,31 +213,54 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
     
     //MARK: - Keyboard Observers
     
-    @objc func keyboardDidAppear(notification: NSNotification) {
-        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
-        let height = min(keyboardSize.height, keyboardSize.width)
-        UIView.animate(withDuration: 0.3) {
-            DispatchQueue.main.async {
-                var value = 0
-                if let window = UIApplication.shared.windows.first {
-                    value = Int(window.safeAreaInsets.bottom)
-                }
-                self.bottomMarginConstraint.constant = height - CGFloat(value)
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
-
-    @objc func keyboardWillHide(notification: NSNotification) {
-        print("Keyboard hidden")
-        UIView.animate(withDuration: 0.3) {
-            DispatchQueue.main.async {
-                self.bottomMarginConstraint.constant = 0
-                self.view.layoutIfNeeded()
-            }
-        }
-    }
+//    @objc func keyboardDidAppear(notification: NSNotification) {
+//        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
+//        let height = min(keyboardSize.height, keyboardSize.width)
+//        UIView.animate(withDuration: 0.3) {
+//            DispatchQueue.main.async {
+//                var value = 0
+//                if let window = UIApplication.shared.windows.first {
+//                    value = Int(window.safeAreaInsets.bottom)
+//                }
+//                self.bottomMarginConstraint.constant = height - CGFloat(value)
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//    }
+//
+//    @objc func keyboardWillHide(notification: NSNotification) {
+//        print("Keyboard hidden")
+//        UIView.animate(withDuration: 0.3) {
+//            DispatchQueue.main.async {
+//                self.bottomMarginConstraint.constant = 0
+//                self.view.layoutIfNeeded()
+//            }
+//        }
+//    }
     
+    @objc dynamic func keyboardWillShow(_ notification: NSNotification)
+    {
+        animateWithKeyboard(notification: notification)
+        { (keyboardFrame) in
+            
+            let constant = keyboardFrame.height
+            var value = 0
+            if let window = UIApplication.shared.windows.first
+            {
+                value = Int(window.safeAreaInsets.bottom)
+            }
+            self.bottomMarginConstraint?.constant = constant - CGFloat(value)
+        }
+    }
+        
+    @objc dynamic func keyboardWillHide(_ notification: NSNotification)
+    {
+        animateWithKeyboard(notification: notification)
+        { (keyboardFrame) in
+            
+            self.bottomMarginConstraint?.constant = 0
+        }
+    }
     
     @objc func closeKeyboard()
     {
