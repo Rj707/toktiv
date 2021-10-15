@@ -109,12 +109,22 @@ class BaseService: NSObject {
                     
                     if response.response?.statusCode == 401 && filteredSchemes.isEmpty
                     {
-                        completionHandler(nil, nil, nil)
-
                         if let delegate = UIApplication.shared.delegate as? AppDelegate
                         {
-                            delegate.logoutUser()
+                            // Either logout the User or Refresh the Token(s)
+//                            delegate.logoutUser()
+//                            {
+//                                InterfaceManager.shared.hideLoader()
+//                            }
+                            delegate.getAcessTokensRefreshed(checkExpiryDate: false)
+                            {
+                                InterfaceManager.shared.showAlertWithTitle(title: "Oops!", message: "Something went wrong, please try again")
+                                {
+                                    InterfaceManager.shared.hideLoader()
+                                }
+                            }
                         }
+                        return
                     }
                     
                     if let httpResponse = response.response{

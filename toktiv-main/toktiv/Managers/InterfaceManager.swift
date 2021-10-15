@@ -19,7 +19,8 @@ class InterfaceManager: NSObject
     {
         if !isHudAlreadyAdded
         {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async
+            {
                 MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
             }
             isHudAlreadyAdded = true
@@ -30,10 +31,26 @@ class InterfaceManager: NSObject
     {
         if isHudAlreadyAdded
         {
-            DispatchQueue.main.async {
-                MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
-            }
             isHudAlreadyAdded = false
+        }
+        DispatchQueue.main.async
+        {
+            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+        }
+    }
+    
+    func showAlertWithTitle(title:String?, message:String?,completionHandler handler: @escaping () -> Void)
+    {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default)
+        { _ in
+            
+            handler()
+        })
+        DispatchQueue.main.async
+        {
+            UIApplication.shared.topMostViewController()?.present(alert, animated: true){}
         }
     }
 }

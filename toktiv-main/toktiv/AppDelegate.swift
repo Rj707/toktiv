@@ -83,20 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         Messaging.messaging().delegate = self
         
-        //get application instance ID
-//        InstanceID.instanceID().instanceID
-//        { (result, error) in
-//
-//            if let error = error
-//            {
-//                print("Error fetching remote instance ID: \(error)")
-//            }
-//            else if let result = result
-//            {
-//                print("Remote instance ID token: \(result.token)")
-//            }
-//        }
-        
         application.registerForRemoteNotifications()
         
         if UserDefaults.standard.integer(forKey: AppConstants.WAIT_TIME_IN_SECONDS) == 0
@@ -172,12 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             
             if value
             {
-//                MBProgressHUD.showAdded(to: topController.view, animated: true)
                 InterfaceManager.shared.showLoader()
             }
             else
             {
-//                MBProgressHUD.hide(for: topController.view, animated: true)
                 InterfaceManager.shared.hideLoader()
             }
         }
@@ -208,22 +192,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     func openChatViewWith(channelSID: String, author:String)
     {
-        if let chatClient = MessagingManager.sharedManager().chatClient, chatClient.user != nil
-        {
-            if ChannelManager.sharedManager.channelsList != nil
-            {
-                
-            }
-            else
-            {
-                print("chat channel list is nil, wait for synchronizationStatusUpdated")
-            }
-        }
-        else
-        {
-            print("chat client is not initialized, go for initializeClientWithToken")
-        }
-
         if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController
         {
             controller.navigation = .PUSH
@@ -285,9 +253,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     @objc func showAlertOfNewMessage(_ userInfo:[AnyHashable: Any])
     {
-        //        let messageTitle:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["title"] as? String) ?? ""
-        //        let messageBody:String = (((userInfo["aps"] as? NSDictionary)?["alert"] as? NSDictionary)?["body"] as? String) ?? ""
-        
         let tonumber:String = userInfo["tonumber"] as? String ?? ""
         let fromnumber:String = userInfo["fromnumber"] as? String ?? ""
         let module:String = userInfo["module"] as? String ?? "ch"
@@ -336,7 +301,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
-    func logoutUser()
+    func logoutUser(handler: @escaping (()->Void))
     {
         if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.stateManager.loginViewModel.userProfile?.twillioToken
         {
@@ -372,6 +337,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 let window = UIApplication.shared.windows.first
 
                 window?.rootViewController = rootVC
+                handler()
             }
         }
     }
@@ -767,11 +733,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         if module == "su"
         {
+            // Status Update
+            
             self.syncUserStatusWithWebLoggedInUser(staus: userInfo["status"] as? String ?? "")
         }
         
         if module == "TU" || module == "tu"
         {
+            // Token Update
+            
             DispatchQueue.global().async
             {
                 // Request the task assertion and save the ID.
@@ -789,6 +759,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         if module == "cusu" || module == "cusu".capitalized
         {
+            // Chat User Status Update
+            
             var contactList = [ChatUserModel]()
             let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
 
@@ -821,6 +793,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         guard module == "c" else
         {
+            // Conversations
+            
             return
         }
         
