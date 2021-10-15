@@ -336,7 +336,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
+    func logoutUser()
+    {
+        if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.stateManager.loginViewModel.userProfile?.twillioToken
+        {
+            handleProgressView(true)
+            let myGroup = DispatchGroup()
+
+            myGroup.enter() //for `checkSpeed`
+            myGroup.enter() //for `doAnotherAsync`
+            
+            TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
+            { (error) in
+                NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
+                myGroup.leave()
+            }
+            
+            MessagingManager.sharedManager().logout
+            { (success, errorMessage) in
+                NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
+                myGroup.leave()
+            }
+            
+            myGroup.notify(queue: DispatchQueue.main)
+            {
+                self.handleProgressView(false)
+
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
+                UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
+                UserDefaults.standard.removeObject(forKey: "currentStatus")
+                UserDefaults.standard.synchronize()
+                
+                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
+                let rootVC = storyboard.instantiateInitialViewController()
+                let window = UIApplication.shared.windows.first
+
+                window?.rootViewController = rootVC
+            }
+        }
+    }
+    
     // MARK:- Access Token
+    
+    /// Refreshes the twilio access token
+    /// and server auth token.
+    /// - Parameters:
+    ///     - checkExpiryDate: should check for expiry date or not.
+    ///     - handler: the completion block.
     
     @objc func getAcessTokensRefreshed(checkExpiryDate :Bool, handler: @escaping (()->Void))
     {
@@ -364,6 +410,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
         }
     }
+    
+    /// Handles the tokens refresh using DispatchGroup
+    /// - Parameters:
+    ///     - handler: the completion block.
     
     func handleTokensRefresh(handler: @escaping (()->Void))
     {
@@ -400,6 +450,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             handler()
         }
     }
+    
+    /// Fetches the new twilio access token from server
+    /// - Parameters:
+    ///     - completion: the completion block.
     
     func getTwilioAccessToken(completion: @escaping ((Bool)->Void))
     {
@@ -440,6 +494,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         }
     }
     
+    /// Fetches the new auth token from server
+    /// - Parameters:
+    ///     - completion: the completion block.
+    
     func getAuthToken(completion: @escaping ((Bool)->Void))
     {
         self.stateManager.loginViewModel.getAuthToken(with: self.stateManager.userName, password: self.stateManager.password)
@@ -469,6 +527,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             }
         }
     }
+    
+    /// Refreshes the twilio access token upon receiving a silent push
     
     func refreshTwilioAccessTokenOnSilentPush()
     {
@@ -514,46 +574,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                     }
                 }
-            }
-        }
-    }
-    
-    func logoutUser()
-    {
-        if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.stateManager.loginViewModel.userProfile?.twillioToken
-        {
-            handleProgressView(true)
-            let myGroup = DispatchGroup()
-
-            myGroup.enter() //for `checkSpeed`
-            myGroup.enter() //for `doAnotherAsync`
-            
-            TwilioVoice.unregister(accessToken: validAccessToken, deviceToken: validDeviceData)
-            { (error) in
-                NSLog("LOGOUT: Successfully unregister for VoIP push notifications.")
-                myGroup.leave()
-            }
-            
-            MessagingManager.sharedManager().logout
-            { (success, errorMessage) in
-                NSLog("LOGOUT: Successfully unregister for Chat push notifications.")
-                myGroup.leave()
-            }
-            
-            myGroup.notify(queue: DispatchQueue.main)
-            {
-                self.handleProgressView(false)
-
-                UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
-                UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
-                UserDefaults.standard.removeObject(forKey: "currentStatus")
-                UserDefaults.standard.synchronize()
-                
-                let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-                let rootVC = storyboard.instantiateInitialViewController()
-                let window = UIApplication.shared.windows.first
-
-                window?.rootViewController = rootVC
             }
         }
     }
@@ -949,58 +969,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             completion()
         }
     }
-    
-//        // For iOS 10 and later; do not forget to set up a delegate for UNUserNotificationCenter
-//        func userNotificationCenter(_ center: UNUserNotificationCenter,
-//                                    didReceive response: UNNotificationResponse,
-//                                    withCompletionHandler completionHandler:
-//                                        @escaping () -> Void)
-//        {
-//            let userInfo = response.notification.request.content.userInfo
-//
-//            if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
-//            {
-//                // If your reference to the Chat client exists and is initialized, send the notification to it
-//                chatClient.handleNotification(userInfo)
-//                { (result) in
-//
-//                    if (!result.isSuccessful())
-//                    {
-//                        // Handling of notification was not successful, retry?
-//                    }
-//                }
-//            }
-//            else
-//            {
-//                // Store the notification for later handling
-//                receivedNotification = userInfo
-//            }
-//        }
-//
-//        // For iOS versions before 10
-//        func application(_ application: UIApplication,
-//                         didReceiveRemoteNotification userInfo: [AnyHashable : Any],
-//                         fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void)
-//        {
-//            // If your application supports multiple types of push notifications, you may wish to limit which ones you send to the TwilioChatClient here
-//
-//            if let chatClient = MessagingManager.sharedManager().client, chatClient.user != nil
-//            {
-//                // If your reference to the Chat client exists and is initialized, send the notification to it
-//                chatClient.handleNotification(userInfo)
-//                { (result) in
-//                    if (!result.isSuccessful())
-//                    {
-//                        // Handling of notification was not successful, retry?
-//                    }
-//                }
-//            }
-//            else
-//            {
-//                // Store the notification for later handling
-//                receivedNotification = userInfo
-//            }
-//        }
     
 }
 
