@@ -55,7 +55,7 @@ class LoginViewModel: NSObject {
         }
     }
     
-    func getUserProfile(with accessToken:String, username:String, password:String, completion: @escaping GetUserProfile) {
+    func getUserProfileAndTwilioAccessToken(withAuthToken authToken:String, username:String, password:String, completion: @escaping GetUserProfile) {
         var deviceToken:String = ""
         if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
             deviceToken = appdelegate.deviceIDFCM
@@ -63,7 +63,7 @@ class LoginViewModel: NSObject {
         
         let bodyParams = ["UserName":username, "Password":password, "DeviceID":deviceToken]
         let bodyData = try? JSONSerialization.data(withJSONObject: bodyParams, options: .fragmentsAllowed)
-        let requestHeaders = ["Authorization": "bearer \(accessToken)", "Content-Type":"application/json"]
+        let requestHeaders = ["Authorization": "bearer \(authToken)", "Content-Type":"application/json"]
 
         BaseService.post(NetworkURLs.GET_USER_PROFILE, query: nil, headers: requestHeaders, body: bodyData) { (dictionary, error, data) in
             guard let responseData = data else {

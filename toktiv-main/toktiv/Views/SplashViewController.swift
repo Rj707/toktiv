@@ -26,8 +26,6 @@ class SplashViewController: UIViewController
         {
             if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = userProfileModel.twillioToken
             {
-//                self.handleAccessTokenExpiry(validAccessToken)
-
                 self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
             }
 

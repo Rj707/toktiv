@@ -338,19 +338,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     
     // MARK:- Access Token
     
-    func handleAccessTokenExpiry(_ accessToken:String)
-    {
-        let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
-        if let exp = jwtDictionary["exp"] as? Double
-        {
-            if let delegate = UIApplication.shared.delegate as? AppDelegate
-            {
-                delegate.expiryDate = Date(timeIntervalSince1970: exp)
-                //                 delegate.expiryDate =  Date().addingTimeInterval(60*5)
-            }
-        }
-    }
-    
     @objc func getAcessTokensRefreshed(checkExpiryDate :Bool, handler: @escaping (()->Void))
     {
         if checkExpiryDate

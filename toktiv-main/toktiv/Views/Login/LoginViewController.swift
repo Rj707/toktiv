@@ -50,7 +50,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         {
             if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = userProfileModel.twillioToken
             {
-                self.handleAccessTokenExpiry(validAccessToken)
+                self.handleTwilioAccessTokenExpiry(validAccessToken)
                 
 //                self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
             }
@@ -66,7 +66,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         }
     }
     
-    func handleAccessTokenExpiry(_ accessToken:String)
+    func handleTwilioAccessTokenExpiry(_ accessToken:String)
     {
         let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
         if let exp = jwtDictionary["exp"] as? Double
@@ -167,7 +167,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     func getUserProfileAgainstAccessToken(validToken: String, username: String, password: String)
     {
-        self.stateManager.loginViewModel.getUserProfile(with: validToken, username: username, password: password)
+        self.stateManager.loginViewModel.getUserProfileAndTwilioAccessToken(withAuthToken: validToken, username: username, password: password)
         { (response, error) in
             
             MBProgressHUD.hide(for: self.view, animated: true)
@@ -182,7 +182,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 
                 if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = validResponse.twillioToken
                 {
-                    self.handleAccessTokenExpiry(validAccessToken)
+                    self.handleTwilioAccessTokenExpiry(validAccessToken)
                     
                     self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
                 }
