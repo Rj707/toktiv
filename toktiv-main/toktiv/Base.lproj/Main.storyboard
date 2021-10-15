@@ -2717,7 +2717,7 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-gK-Jc5">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="658"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="659"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <connections>
                                             <outlet property="dataSource" destination="cMH-KK-bhe" id="UOb-f0-dEg"/>
@@ -2725,7 +2725,7 @@
                                         </connections>
                                     </tableView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="8cT-fs-nS6">
-                                        <rect key="frame" x="0.0" y="658" width="414" height="110"/>
+                                        <rect key="frame" x="0.0" y="659" width="414" height="109"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ikr-do-ISc">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="51"/>
@@ -2797,10 +2797,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i3N-Yp-Q3r">
-                                                <rect key="frame" x="0.0" y="56" width="414" height="54"/>
+                                                <rect key="frame" x="0.0" y="56" width="414" height="53"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhu-7A-MNb">
-                                                        <rect key="frame" x="12" y="5.5" width="44" height="44"/>
+                                                        <rect key="frame" x="12" y="4.5" width="44" height="44"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="6qc-CB-Pl5"/>
                                                             <constraint firstAttribute="width" constant="44" id="avy-OS-bEk"/>
@@ -2817,7 +2817,7 @@
                                                         </connections>
                                                     </button>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter message here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jG4-Mc-mtF">
-                                                        <rect key="frame" x="66" y="10" width="282" height="34"/>
+                                                        <rect key="frame" x="66" y="10" width="282" height="33"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="alphabet"/>
@@ -2826,7 +2826,7 @@
                                                         </connections>
                                                     </textField>
                                                     <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ej0-vV-ZsO">
-                                                        <rect key="frame" x="358" y="5.5" width="44" height="44"/>
+                                                        <rect key="frame" x="358" y="4.5" width="44" height="44"/>
                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="44" id="Q0F-gi-cKb"/>
@@ -2856,7 +2856,7 @@
                                                         </connections>
                                                     </button>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="a16-Um-XDD" customClass="GrowingTextView" customModule="GrowingTextView">
-                                                        <rect key="frame" x="66" y="10" width="282" height="34"/>
+                                                        <rect key="frame" x="66" y="10" width="282" height="33"/>
                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                         <color key="textColor" systemColor="labelColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -2896,7 +2896,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </stackView>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lf9-CZ-l3L">
-                                        <rect key="frame" x="344" y="544" width="100" height="50"/>
+                                        <rect key="frame" x="344" y="545" width="100" height="50"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="w08-Hn-Vax">
                                                 <rect key="frame" x="16" y="10" width="30" height="30"/>
@@ -2915,14 +2915,14 @@
                                             <constraint firstItem="w08-Hn-Vax" firstAttribute="centerY" secondItem="lf9-CZ-l3L" secondAttribute="centerY" id="cHX-bA-dZN"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" systemColor="systemGray5Color"/>
+                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                 <real key="value" value="12"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" systemColor="systemGray5Color"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>

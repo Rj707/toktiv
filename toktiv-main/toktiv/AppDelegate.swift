@@ -1019,13 +1019,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
 
 
 // MARK:- Get Contact List API
-extension AppDelegate {
+extension AppDelegate
+{
     
-    func getContactList() {
-        ChatViewModel.shared.getChatUserList( completion: { (response, error) in
+    func getContactList()
+    {
+        ChatViewModel.shared.getChatUserList( completion:
+        { (response, error) in
             var contactsList = response ?? []
             contactsList = contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode}
-            if let contactsListData = try? JSONEncoder().encode(contactsList) {
+            if let contactsListData = try? JSONEncoder().encode(contactsList)
+            {
                 let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
 
                 defaults?.set(contactsListData, forKey: AppConstants.CONTACT_LIST)

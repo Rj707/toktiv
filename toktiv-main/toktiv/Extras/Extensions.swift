@@ -37,7 +37,11 @@ extension Date {
 
 }
 
-extension String {
+public extension String {
+    func isNumber() -> Bool {
+        return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil && self.rangeOfCharacter(from: CharacterSet.letters) == nil
+    }
+    
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
@@ -50,12 +54,6 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
 
         return ceil(boundingBox.width)
-    }
-}
-
-public extension String {
-    func isNumber() -> Bool {
-        return !self.isEmpty && self.rangeOfCharacter(from: CharacterSet.decimalDigits) != nil && self.rangeOfCharacter(from: CharacterSet.letters) == nil
     }
 }
 
@@ -244,5 +242,28 @@ extension UIViewController
         
         // Start the animation
         animator.startAnimation()
+    }
+}
+
+extension UITableView
+{
+    func scrollToBottom()
+    {
+        DispatchQueue.main.async
+        {
+            let indexPath = IndexPath(
+                row: self.numberOfRows(inSection:  self.numberOfSections-1) - 1,
+                section: self.numberOfSections - 1)
+            
+            if self.hasRowAtIndexPath(indexPath: indexPath)
+            {
+                self.scrollToRow(at: indexPath, at: .bottom, animated: true)
+            }
+        }
+    }
+    
+    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool
+    {
+        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
     }
 }

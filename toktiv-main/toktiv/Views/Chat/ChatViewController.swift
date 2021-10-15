@@ -386,45 +386,19 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     
     //MARK: - Keyboard Observers
     
-//    @objc func keyboardDidAppear(notification: NSNotification)
-//    {
-//        let keyboardSize:CGSize = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size
-//        let height = min(keyboardSize.height, keyboardSize.width)
-//        UIView.animate(withDuration: 0.3)
-//        {
-//            DispatchQueue.main.async
-//            {
-//                var value = 0
-//                if let window = UIApplication.shared.windows.first
-//                {
-//                    value = Int(window.safeAreaInsets.bottom)
-//                }
-//                self.bottomMarginConstraint.constant = height - CGFloat(value)
-//                self.view.layoutIfNeeded()
-//            }
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(notification: NSNotification)
-//    {
-//        print("Keyboard hidden")
-//        UIView.animate(withDuration: 0.3)
-//        {
-//            DispatchQueue.main.async
-//            {
-//                self.bottomMarginConstraint.constant = 0
-//                self.view.layoutIfNeeded()
-//            }
-//        }
-//    }
-    
     @objc dynamic func keyboardWillShow(_ notification: NSNotification)
     {
         animateWithKeyboard(notification: notification)
         { (keyboardFrame) in
             
             let constant = keyboardFrame.height
-            self.bottomMarginConstraint?.constant = constant
+            var value = 0
+            if let window = UIApplication.shared.windows.first
+            {
+                value = Int(window.safeAreaInsets.bottom)
+            }
+            self.bottomMarginConstraint?.constant = constant - CGFloat(value)
+            self.tableView.scrollToBottom()
         }
     }
         

@@ -250,6 +250,7 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
                 value = Int(window.safeAreaInsets.bottom)
             }
             self.bottomMarginConstraint?.constant = constant - CGFloat(value)
+            self.tableView.scrollToBottom()
         }
     }
         
