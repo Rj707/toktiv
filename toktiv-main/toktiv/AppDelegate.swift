@@ -366,6 +366,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         handler()
                     }
                 }
+                else
+                {
+                    handler()
+                }
+            }
+            else
+            {
+                handler()
             }
         }
         else
