@@ -62,12 +62,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     {
         didSet
         {
-            if let endDate = self.expiryDate
-            {
-                let differenceInSeconds = Int(endDate.timeIntervalSince(Date()))
-                print("Setting Timmer for :\(differenceInSeconds)")
-                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(differenceInSeconds), target: self, selector: #selector(getAcessTokensRefreshed), userInfo: nil, repeats: false)
-            }
+//            if let endDate = self.expiryDate
+//            {
+//                let differenceInSeconds = Int(endDate.timeIntervalSince(Date()))
+//                print("Setting Timmer for :\(differenceInSeconds)")
+//                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(differenceInSeconds), target: self, selector: #selector(getAcessTokensRefreshed), userInfo: nil, repeats: false)
+//            }
         }
     }
     
@@ -741,14 +741,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         if module == "su"
         {
-            // Status Update
+            // Status Update with Silent PUSH
             
             self.syncUserStatusWithWebLoggedInUser(staus: userInfo["status"] as? String ?? "")
         }
         
         if module == "TU" || module == "tu"
         {
-            // Token Update
+            // Token Update with Silent PUSH
             
             DispatchQueue.global().async
             {
@@ -760,14 +760,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
                     self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                 }
-                
+                // TODO: Remove API Call, instead use the token from payload. 
                 self.refreshTwilioAccessTokenOnSilentPush()
             }
         }
         
         if module == "cusu" || module == "cusu".capitalized
         {
-            // Chat User Status Update
+            // Chat User Status Update with Silent PUSH
             
             var contactList = [ChatUserModel]()
             let defaults = UserDefaults(suiteName: "group.com.drcurves.toktiv")
