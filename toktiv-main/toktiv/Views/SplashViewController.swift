@@ -118,7 +118,10 @@ class SplashViewController: UIViewController
             }
             else
             {
-                NotificationBanner(title: "", subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", style: .danger).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: "", subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", style: .danger)
+                    notificationBanner.show()
+                }
             }
         }
     }

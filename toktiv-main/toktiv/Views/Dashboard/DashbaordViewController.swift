@@ -91,13 +91,16 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
             self.showUserPhones(phones, sender: sender)
         }
         else {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             let providerCode = self.observer.loginViewModel.userProfile?.providerCode ?? ""
             self.observer.loginViewModel.getUserFromNumbers(providerCode) { (activeNumbers, error) in
-                MBProgressHUD.hide(for: self.view, animated: false)
+                InterfaceManager.shared.hideLoader()
                 
                 guard let tasks = activeNumbers else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get User's numbers, Please try again", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Unable to get User's numbers, Please try again", style: .danger)
+                        notificationBanner.show()
+                    }
                     return
                 }
                 
@@ -154,22 +157,31 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 self.present(vc, animated: true, completion: nil)
             }
             else {
-                NotificationBanner(title: "Unable to open URL", subtitle: "\(url)", style: .warning).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: "Unable to open URL", subtitle: "\(url)", style: .warning)
+                    notificationBanner.show()
+                }
             }
         }
         else {
-            NotificationBanner(title: "Response data is invalid or empty", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: "Response data is invalid or empty", style: .warning)
+                notificationBanner.show()
+            }
         }
     }
     
     @IBAction func showMembersList(_ sender:UIButton) {
         if self.callConManager.activeCall != nil {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             self.observer.loginViewModel.getListOfActiveTasks { (activeTasks, error) in
-                MBProgressHUD.hide(for: self.view, animated: false)
+                InterfaceManager.shared.hideLoader()
                 
                 guard let tasks = activeTasks else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get Task list, Please try again", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Unable to get Task list, Please try again", style: .danger)
+                        notificationBanner.show()
+                    }
                     return
                 }
                 
@@ -182,27 +194,36 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                     
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "No active tasks found", style: .warning).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "No active tasks found", style: .warning)
+                        notificationBanner.show()
+                    }
                 }
             }
         }
         else {
-            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning)
+                notificationBanner.show()
+            }
         }
     }
     
     @IBAction func patientHoldUnholdButtonPressed(_ sender:UIButton) {
         if let validCall = self.callConManager.activeCall {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             
             let value = sender.tag == 1 ? "hold" : "resume"
             
             self.observer.loginViewModel.changePatientCallStatus(with: value, callSID: validCall.sid, direction: self.callConManager.currentCallDirection ?? "") { (respone, error) in
-                MBProgressHUD.hide(for: self.view, animated: false)
+                InterfaceManager.shared.hideLoader()
                 
                 if let validResponse = respone, let res = validResponse.res {
                     if res == 1 {
-                        NotificationBanner(title: nil, subtitle: "Successfully \(value)", style: .success).show()
+                        DispatchQueue.main.async {
+                            let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully \(value)", style: .success)
+                            notificationBanner.show()
+                        }
                         
                         if value == "hold" {
                             self.patientHoldUnholdButton.setImage(UIImage(systemName: "iphone.slash"), for: .normal)
@@ -214,19 +235,31 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                         }
                     }
                     else if let message = validResponse.data {
-                        NotificationBanner(title: nil, subtitle: message, style: .danger).show()
+                        DispatchQueue.main.async {
+                            let notificationBanner = NotificationBanner(title: nil, subtitle: message, style: .danger)
+                            notificationBanner.show()
+                        }
                     }
                     else {
-                        NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger).show()
+                        DispatchQueue.main.async {
+                            let notificationBanner = NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger)
+                            notificationBanner.show()
+                        }
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
             }
         }
         else {
-            NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "You can only add people during Active call.", style: .warning)
+                notificationBanner.show()
+            }
         }
     }
     
@@ -236,11 +269,14 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let text = searchBar.text, text.trimmingCharacters(in: CharacterSet.whitespaces).count > 0 {
             searchBar.resignFirstResponder()
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             self.observer.loginViewModel.searchPatient(text) { (searchResponse, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 if let validError = error {
-                    NotificationBanner(title: nil, subtitle: "Error Occured \(validError.description)", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Error Occured \(validError.description)", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
                 else if let validResponse = searchResponse {
                     if let patients = validResponse.data, patients.count > 0 {
@@ -251,11 +287,17 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                         }
                     }
                     else {
-                        NotificationBanner(title: nil, subtitle: "No matched result found.", style: .warning).show()
+                        DispatchQueue.main.async {
+                            let notificationBanner = NotificationBanner(title: nil, subtitle: "No matched result found.", style: .warning)
+                            notificationBanner.show()
+                        }
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Error Occured", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Error Occured", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
             }
         }
@@ -342,7 +384,10 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     
     func showStatusActionSheet() {
         guard self.observer.inCall == false else {
-            NotificationBanner(title: nil, subtitle: "You can't change status during call.", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "You can't change status during call.", style: .warning)
+                notificationBanner.show()
+            }
             return
         }
         let alertController = UIAlertController(title: "Change Status", message: nil, preferredStyle: .actionSheet)
@@ -360,10 +405,10 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     }
     
     func updateStatus(_ status:String) {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        InterfaceManager.shared.showLoader()
         let workerSID = self.observer.loginViewModel.userProfile?.workerSid ?? ""
         self.observer.loginViewModel.setNewWorkerStatus(workerSID, status: status) { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             if let responseStatus = response?.activityName {
                 if responseStatus.lowercased().contains("offline") {
                     self.observer.currentStatus = .offline
@@ -376,7 +421,10 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
                 }
             }
             else {
-                NotificationBanner(title: nil, subtitle: "Failed to set worker status.", style: .danger).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: nil, subtitle: "Failed to set worker status.", style: .danger)
+                    notificationBanner.show()
+                }
             }
         }
     }
@@ -396,7 +444,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
     {
         if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = self.observer.loginViewModel.userProfile?.twillioToken
         {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             
             let myGroup = DispatchGroup()
 
@@ -417,7 +465,7 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
             
             myGroup.notify(queue: DispatchQueue.main)
             {
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
 
                 UserDefaults.standard.removeObject(forKey: AppConstants.USER_ACCESS_TOKEN)
                 UserDefaults.standard.removeObject(forKey: AppConstants.USER_PROFILE_MODEL)
@@ -454,26 +502,38 @@ extension DashbaordViewController: ActiveTasksSelectionProtocol {
         
         let otherParam = self.getDirectionAndCustomer()
         
-        let progress = MBProgressHUD.showAdded(to: self.view, animated: true)
+        let progress = MBProgressHUD.showAdded(to: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
         progress.label.text = "Adding \(memner.taskGroupName ?? "Task") to Call..."
         self.observer.loginViewModel.addToCall(memner, callSID: activeCall.sid, toNumber: otherParam.customer, callDirection: otherParam.direction) { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             if let validResponse = response, let res = validResponse.res {
                 if res == 1 {
-                    NotificationBanner(title: nil, subtitle: "Successfully added", style: .success).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully added", style: .success)
+                        notificationBanner.show()
+                    }
                     self.patientHoldUnholdButton.isHidden = false
                     self.patientHoldUnholdButton.setImage(UIImage(systemName: "iphone.slash"), for: .normal)
                     self.patientHoldUnholdButton.tag = 2
                 }
                 else if let message = validResponse.data {
-                    NotificationBanner(title: nil, subtitle: message, style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: message, style: .danger)
+                        notificationBanner.show()
+                    }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Reponse object is not valid or empty", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
             }
             else {
-                NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: nil, subtitle: "\(error ?? "Something went wrong")", style: .danger)
+                    notificationBanner.show()
+                }
             }
         }
         
@@ -534,7 +594,10 @@ extension DashbaordViewController: IncomingCallProgressProtocol {
                     }
                 }
                 else {
-                    NotificationBanner(title: nil, subtitle: "Unable to get Patient details", style: .warning).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Unable to get Patient details", style: .warning)
+                        notificationBanner.show()
+                    }
                 }
             }
         }

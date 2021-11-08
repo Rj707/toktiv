@@ -258,7 +258,11 @@ extension CallConnectivityManager: CallDelegate {
         NSLog("Call failed to connect: \(error.localizedDescription)")
         let description = "\(error)"
         if UIApplication.shared.applicationState == .active {
-            NotificationBanner(title: nil, subtitle: description, style: .danger).show()
+            
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: description, style: .danger)
+                notificationBanner.show()
+            }
         }
         
         if let completion = callKitCompletionCallback {

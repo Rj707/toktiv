@@ -46,7 +46,7 @@ class CallHistoryViewController: UIViewController {
     //MARK: - Helper
     @objc func refresh(_ sender: AnyObject) {
         observer.userHistoryViewModel.getUserCallHistory(providerCode: self.observer.loginViewModel.userProfile?.providerCode ?? "", accessToken: observer.loginViewModel.userAccessToken) { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             self.observer.userHistoryViewModel.currentCalls.removeAll()
             self.observer.userHistoryViewModel.currentCalls = response ?? []
             self.refreshControl.endRefreshing()

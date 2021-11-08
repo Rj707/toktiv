@@ -52,11 +52,11 @@ class ContactListViewController: UIViewController {
         }
         else
         {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
         }
 
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             self.contactsList = response ?? []
             self.contactsList = self.contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode }
             self.filterArray = self.contactsList
@@ -79,9 +79,9 @@ class ContactListViewController: UIViewController {
     }
     
     @objc func refresh(_ sender: AnyObject) {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        InterfaceManager.shared.showLoader()
         ChatViewModel.shared.getChatUserList( completion: { (response, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             self.contactsList = response ?? []
             self.contactsList = self.contactsList.filter{ $0.providerCode != StateManager.shared.loginViewModel.userProfile?.providerCode }
             self.refreshControl.endRefreshing()

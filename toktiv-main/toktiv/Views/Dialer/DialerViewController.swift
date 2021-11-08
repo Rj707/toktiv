@@ -130,7 +130,11 @@ class DialerViewController: UIViewController {
     @IBAction func mainButtonPressed(_ sender: Any) {
         
         if let number = self.callNumberLabel.text, number.count == 0 && self.callConManager.activeCall == nil {
-            NotificationBanner(title: nil, subtitle: "Please enter valid Number", style: .warning).show()
+            
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "Please enter valid Number", style: .warning)
+                notificationBanner.show()
+            }
             return
         }
         

@@ -487,7 +487,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 else
                 {
                     // error
-                    NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
             }
             

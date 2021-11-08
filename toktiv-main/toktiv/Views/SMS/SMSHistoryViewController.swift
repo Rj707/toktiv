@@ -34,9 +34,9 @@ class SMSHistoryViewController: UIViewController, NewMessageConversationDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let providerCode = self.observer.loginViewModel.userProfile?.providerCode {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             observer.userHistoryViewModel.getUserSMSHistory(providerCode: providerCode, from: "", to: "", type: "smshistory") { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 self.observer.userHistoryViewModel.currenSMSs = response ?? []
                 self.tableView.reloadData()
             }
@@ -58,7 +58,7 @@ class SMSHistoryViewController: UIViewController, NewMessageConversationDelegate
     @objc func refresh(_ sender: AnyObject) {
         if let providerCode = self.observer.loginViewModel.userProfile?.providerCode {
             observer.userHistoryViewModel.getUserSMSHistory(providerCode: providerCode, from: "", to: "", type: "smshistory") { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 self.observer.userHistoryViewModel.currenSMSs.removeAll()
                 self.observer.userHistoryViewModel.currenSMSs = response ?? []
                 self.refreshControl.endRefreshing()

@@ -123,17 +123,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         guard let username = self.usernameTextField.text, username.count > 1
         else
         {
-            NotificationBanner(title: nil, subtitle: "Please enter valid Username.", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "Please enter valid Username.", style: .warning)
+                notificationBanner.show()
+            }
             return
         }
         guard let password = self.passwordTextField.text, password.count > 1
         else
         {
-            NotificationBanner(title: nil, subtitle: "Please enter valid Password.", style: .warning).show()
+            DispatchQueue.main.async {
+                let notificationBanner = NotificationBanner(title: nil, subtitle: "Please enter valid Password.", style: .warning)
+                notificationBanner.show()
+            }
             return
         }
         
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        InterfaceManager.shared.showLoader()
         
         self.loginUserWith(username: username, password: password)
     }
@@ -157,9 +163,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 }
                 else
                 {
-                    MBProgressHUD.hide(for: self.view, animated: true)
+                    InterfaceManager.shared.hideLoader()
                     // error
-                    NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger).show()
+                    DispatchQueue.main.async {
+                        let notificationBanner = NotificationBanner(title: nil, subtitle: "Login Failed: \(response?.error ?? "Something went wrong")", style: .danger)
+                        notificationBanner.show()
+                    }
                 }
             }
         }
@@ -170,7 +179,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         self.stateManager.loginViewModel.getUserProfileAndTwilioAccessToken(withAuthToken: validToken, username: username, password: password)
         { (response, error) in
             
-            MBProgressHUD.hide(for: self.view, animated: true)
+            InterfaceManager.shared.hideLoader()
             
             if let validResponse = response
             {
@@ -205,7 +214,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "Unable to login, Please try again", style: .danger).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: nil, subtitle: "Unable to login, Please try again", style: .danger)
+                    notificationBanner.show()
+                }
             }
         }
     }
@@ -216,7 +228,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         
         DispatchQueue.main.async
         {
-            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+            InterfaceManager.shared.hideLoader()
 
             self.moveToDashbnoard(animated: true)
         }
@@ -251,7 +263,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             }
             else
             {
-                NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", style: .danger).show()
+                DispatchQueue.main.async {
+                    let notificationBanner = NotificationBanner(title: nil, subtitle: "LoginViewController: An error occurred at connectClientWithCompletionethod: \(error?.localizedDescription ?? "")", style: .danger)
+                    notificationBanner.show()
+                }
             }
         }
     }

@@ -63,9 +63,9 @@ class NewMessageViewController: UIViewController, GrowingTextViewDelegate {
             let from = self.observer.loginViewModel.defaultPhoneNumber
             let to = self.numberField.text ?? ""
             self.view.endEditing(true)
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             self.observer.userHistoryViewModel.sendMessage(accessToken, message: message, from: from, to: to) { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 
                 if let res = response?.res, res == 1 {
                     self.inputTextView.text = ""

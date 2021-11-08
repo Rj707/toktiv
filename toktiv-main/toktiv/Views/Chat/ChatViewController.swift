@@ -174,7 +174,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                     {
                         let banner = NotificationBanner(title: "Error", subtitle: error?.localizedDescription, style: .danger)
                         banner.show()
-                        MBProgressHUD.hide(for: self.view, animated: true)
+                        InterfaceManager.shared.hideLoader()
                     }
                 }
             }
@@ -208,7 +208,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
                     {
                         let banner = NotificationBanner(title: "Error", subtitle: error?.localizedDescription, style: .danger)
                         banner.show()
-                        MBProgressHUD.hide(for: self.view, animated: true)
+                        InterfaceManager.shared.hideLoader()
                     }
                 }
             }
@@ -342,7 +342,7 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
         {
             DispatchQueue.main.async
             {
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
             }
         }
         
@@ -495,7 +495,7 @@ extension ChatViewController
                 
                 DispatchQueue.main.async
                 {
-                    MBProgressHUD.hide(for: self.view, animated: true)
+                    InterfaceManager.shared.hideLoader()
                 }
             }
         }
@@ -503,7 +503,7 @@ extension ChatViewController
         {
             DispatchQueue.main.async
             {
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
             }
         }
     }

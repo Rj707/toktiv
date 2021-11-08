@@ -111,7 +111,7 @@ class MessagingManager: NSObject
                 return
             }
             
-//            MBProgressHUD.hide(for: UIApplication.shared.topMostViewController()?.view ?? UIView.init(), animated: true)
+//            InterfaceManager.shared.hideLoader()
 
             self?.connected = true
             self?.chatClient = chatClient

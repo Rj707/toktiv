@@ -17,7 +17,7 @@ class AttachmentViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+        InterfaceManager.shared.showLoader()
         
         let url = URL(string: webViewURL)!
         let urlRequest = URLRequest(url: url)
@@ -36,7 +36,7 @@ class AttachmentViewController: UIViewController, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        MBProgressHUD.hide(for: self.view, animated: true)
+        InterfaceManager.shared.hideLoader()
     }
     
     /*

@@ -130,9 +130,9 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
             let from = self.observer.loginViewModel.defaultPhoneNumber
             let to = self.toNumber
             self.view.endEditing(true)
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             self.observer.userHistoryViewModel.sendMessage(accessToken, message: message, from: from, to: to) { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 
                 if let res = response?.res, res == 1 {
                     self.inputTextView.text = ""
@@ -152,7 +152,7 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
         
         if let validTo = self.selectedChat?.to, let validFrom = self.selectedChat?.from, let providerCode = self.observer.loginViewModel.userProfile?.providerCode {
             observer.userHistoryViewModel.getUserSMSHistory(providerCode: providerCode, from: validFrom , to: validTo, type: "conversation") { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 self.currentMessages.removeAll()
                 self.currentMessages = response ?? []
                 
@@ -190,9 +190,9 @@ class ConvesationViewController: UIViewController, GrowingTextViewDelegate {
     
     func getConverstaion() {
         if let validTo = self.selectedChat?.to, let validFrom = self.selectedChat?.from, let providerCode = self.observer.loginViewModel.userProfile?.providerCode {
-            MBProgressHUD.showAdded(to: self.view, animated: true)
+            InterfaceManager.shared.showLoader()
             observer.userHistoryViewModel.getUserSMSHistory(providerCode: providerCode, from: validFrom , to: validTo, type: "conversation") { (response, error) in
-                MBProgressHUD.hide(for: self.view, animated: true)
+                InterfaceManager.shared.hideLoader()
                 self.currentMessages.removeAll()
                 self.currentMessages = response ?? []
                 self.tableView.reloadData()
