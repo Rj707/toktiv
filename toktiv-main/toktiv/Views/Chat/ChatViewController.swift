@@ -71,6 +71,8 @@ class ChatViewController: UIViewController, UITextFieldDelegate, GrowingTextView
     var attachmentType = ""
     var attachmentData:Data!
     
+    var backgroundTaskID : UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+    
     //MARK: - Implementation
 
     
@@ -485,6 +487,18 @@ extension ChatViewController
         messages.removeAll()
         if channel.synchronizationStatus == .all
         {
+            DispatchQueue.global().async
+            {
+                // Request the task assertion and save the ID.
+                
+                self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks")
+                {
+                    // End the task if time expires.
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                    self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                }
+            }
+            
             channel.messages?.getLastWithCount(300)
             { (result, items) in
                 
@@ -497,6 +511,9 @@ extension ChatViewController
                 {
                     InterfaceManager.shared.hideLoader()
                 }
+                
+                UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
             }
         }
         else
