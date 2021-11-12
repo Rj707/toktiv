@@ -48,64 +48,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     {
         if let dataToken = UserDefaults.standard.data(forKey: AppConstants.USER_ACCESS_TOKEN), let _ = try? JSONDecoder().decode(LoginTokenModel.self, from: dataToken),  let dataProfile = UserDefaults.standard.data(forKey: AppConstants.USER_PROFILE_MODEL), let userProfileModel = try? JSONDecoder().decode(LoginUserModel.self, from: dataProfile)
         {
-            if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = userProfileModel.twillioToken
-            {
-                self.handleTwilioAccessTokenExpiry(validAccessToken)
-                
-//                self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
-            }
-            
             self.stateManager.loginViewModel.userProfile = userProfileModel
             
             self.stateManager.loginViewModel.defaultPhoneNumber = self.stateManager.loginViewModel.userProfile?.twilioNum ?? ""
-            
-//            self.connectTwilioChatClient()
-            
+                        
             // Navigate to Dashboard
             self.moveToDashbnoard(animated: false)
         }
     }
     
-    func handleTwilioAccessTokenExpiry(_ accessToken:String)
-    {
-        let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
-        if let exp = jwtDictionary["exp"] as? Double
-        {
-            if let delegate = UIApplication.shared.delegate as? AppDelegate
-            {
-                delegate.expiryDate = Date(timeIntervalSince1970: exp)
-            }
-        }
-    }
+//    func handleTwilioAccessTokenExpiry(_ accessToken:String)
+//    {
+//        let jwtDictionary = JWTDecoder.decode(jwtToken: accessToken)
+//        if let exp = jwtDictionary["exp"] as? Double
+//        {
+//            if let delegate = UIApplication.shared.delegate as? AppDelegate
+//            {
+//                delegate.expiryDate = Date(timeIntervalSince1970: exp)
+//            }
+//        }
+//    }
     
     @objc func refreshToken()
     {
         print("refreshToken")
-    }
-    
-    @objc func updateCounting()
-    {
-        if let validExpDate = self.expDate
-        {
-            let expDate = validExpDate.toLocalTime()
-            let currentDate = Date().toLocalTime()
-            
-            if expDate <= currentDate
-            {
-                let providerCode = self.stateManager.loginViewModel.userProfile?.providerCode ?? ""
-                
-                self.stateManager.loginViewModel.getTwilioAccessToken(providerCode)
-                { (respose, error) in
-                    
-                    if let validAccessToken = respose?.token, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
-                    {
-                        print("Valid Refresh Token: \(validAccessToken)")
-                        
-                        self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
-                    }
-                }
-            }
-        }
     }
     
     func moveToDashbnoard(animated:Bool)
@@ -191,8 +157,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 
                 if let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken), let validAccessToken = validResponse.twillioToken
                 {
-                    self.handleTwilioAccessTokenExpiry(validAccessToken)
-                    
                     self.registerAtTwilioVoiceWith(accessToken: validAccessToken, andDeviceToken: validDeviceData)
                 }
                 

@@ -59,17 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
     var localNotificationRequest : UNNotificationRequest?
     
     var expiryDate:Date?
-    {
-        didSet
-        {
-//            if let endDate = self.expiryDate
-//            {
-//                let differenceInSeconds = Int(endDate.timeIntervalSince(Date()))
-//                print("Setting Timmer for :\(differenceInSeconds)")
-//                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(differenceInSeconds), target: self, selector: #selector(getAcessTokensRefreshed), userInfo: nil, repeats: false)
-//            }
-        }
-    }
     
     // MARK:- Implementation
     
@@ -764,7 +753,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                 }
                 // TODO: Remove API Call, instead use the token from payload. 
-                self.refreshTwilioAccessTokenOnSilentPush()
+//                self.refreshTwilioAccessTokenOnSilentPush()
+                
+                if let validAccessToken = userInfo["token"] as? String, validAccessToken.count > 0, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
+                {
+                    print("Valid Refresh Token: \(validAccessToken)")
+                    
+                    TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
+                    { (error) in
+                        
+                        // End the task assertion.
+                        
+                        StateManager.shared.accessToken =  validAccessToken
+                        
+                        DispatchQueue.main.async
+                        {
+                            self.handleProgressView(false)
+                        }
+                        if let error = error
+                        {
+                            NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
+                            DispatchQueue.main.async
+                            {
+                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Token Update: An error occurred while registering for VoIP push notifications: \(error.localizedDescription)", style: .danger)
+                                notificationBanner.show()
+                            }
+                        }
+                        else
+                        {
+                            NSLog("LOGIN: Successfully registered for VoIP push notifications.")
+                            self.expiryDate = Date().addingTimeInterval(60*60*24)
+                            StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                            DispatchQueue.main.async
+                            {
+                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully registered for VoIP push notifications after Token Update", style: .danger)
+                                notificationBanner.show()
+                            }
+                        }
+                        
+                        UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                        self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+                    }
+                }
             }
         }
         
