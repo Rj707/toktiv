@@ -34,6 +34,12 @@ extension Date {
         let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
         return Date(timeInterval: seconds, since: self)
     }
+    
+    func asString() -> String {
+      let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YY, MMM d, HH:mm:ss"
+      return dateFormatter.string(from: self)
+    }
 
 }
 

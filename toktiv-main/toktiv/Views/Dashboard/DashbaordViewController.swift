@@ -33,7 +33,8 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
             self.searchBar.delegate = self
         }
     }
-    
+    @IBOutlet weak var tokenLabel:UILabel!
+
     var currentSelectedIndex:Int = 0
     var observer = StateManager.shared
     var patientDetails:PatientDetails?
@@ -81,6 +82,15 @@ class DashbaordViewController: UIViewController, UIPopoverPresentationController
         NotificationCenter.default.addObserver(self, selector: #selector(self.callDidEnd), name: NSNotification.Name("CALLDIDEND"), object: nil)
         self.patientHoldUnholdButton.isHidden = true
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if (AppConstants.USER_DEFAULTS?.value(forKey: "kAccessTokenRefreshed")) != nil
+        {
+            tokenLabel.text = AppConstants.USER_DEFAULTS?.value(forKey: "kAccessTokenRefreshed") as? String 
+        }
     }
     
     //MARK: - IBActions
