@@ -633,7 +633,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         let userInfo = notification.request.content.userInfo
 
         print(userInfo)
-        
+        let module:String = userInfo["module"] as? String ?? ""
+        if module == "TU" || module == "tu"
+        {
+            completionHandler([])
+            return
+        }
         let keyWindow = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let messageType = userInfo["twi_message_type"] as? String ?? ""
         if messageType == "twilio.channel.new_message"
@@ -688,6 +693,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         let module:String = userInfo["module"] as? String ?? "ch"
         let messageType:String = userInfo["twi_message_type"] as? String ?? ""
 
+        if module == "TU" || module == "tu"
+        {
+            testUpdateToken(userInfo: userInfo)
+            return
+        }
+        
         if messageType == "twilio.channel.new_message"
         {
             let channelSID =  userInfo["channel_sid"] as? String ?? ""
@@ -773,22 +784,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         if let error = error
                         {
                             NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
-                            DispatchQueue.main.async
-                            {
-                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Token Update: An error occurred while registering for VoIP push notifications: \(error.localizedDescription)", style: .danger)
-                                notificationBanner.show()
-                            }
+//                            DispatchQueue.main.async
+//                            {
+//                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Token Update: An error occurred while registering for VoIP push notifications: \(error.localizedDescription)", style: .danger)
+//                                notificationBanner.show()
+//                            }
                         }
                         else
                         {
+                            self.sendNotification()
                             NSLog("LOGIN: Successfully registered for VoIP push notifications.")
                             self.expiryDate = Date().addingTimeInterval(60*60*24)
                             StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
-                            DispatchQueue.main.async
-                            {
-                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully registered for VoIP push notifications after Token Update", style: .danger)
-                                notificationBanner.show()
-                            }
+//                            DispatchQueue.main.async
+//                            {
+//                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully registered for VoIP push notifications after Token Update", style: .danger)
+//                                notificationBanner.show()
+//                            }
                         }
                         
                         UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
@@ -916,6 +928,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
             let userInfo = self.receivedNotification
             self.openChatViewWith(channelSID: userInfo["channel_sid"] as? String ?? "", author: userInfo["author"] as? String ?? "")
             self.receivedNotification = [AnyHashable : Any]()
+        }
+    }
+    
+    func testUpdateToken(userInfo:[AnyHashable : Any])
+    {
+        // Request the task assertion and save the ID.
+        
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "Finish Network Tasks")
+        {
+            // End the task if time expires.
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+        }
+        
+        if let validAccessToken = userInfo["token"] as? String, validAccessToken.count > 0, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
+        {
+            print("Valid Refresh Token: \(validAccessToken)")
+            
+            TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
+            { (error) in
+                
+                // End the task assertion.
+                
+                StateManager.shared.accessToken =  validAccessToken
+                
+                if let error = error
+                {
+                    
+                }
+                else
+                {
+//                    self.sendNotification()
+                    StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
+                }
+                
+                UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
+                self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+            }
+        }
+    }
+    
+    func sendNotification()
+    {
+        let notificationContent = UNMutableNotificationContent()
+        notificationContent.title = "Token Update"
+        notificationContent.body = "Token Updated Successfully"
+        notificationContent.badge = NSNumber(value: 1)
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2,
+                                                        repeats: false)
+        let request = UNNotificationRequest(identifier: "TUNotification\(Date().asString())",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        let userNotificationCenter = UNUserNotificationCenter.current()
+
+        userNotificationCenter.add(request)
+        { (error) in
+            if let error = error
+            {
+                print("Token Update Notification Error: ", error)
+            }
         }
     }
     
