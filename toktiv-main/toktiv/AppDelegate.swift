@@ -763,13 +763,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                     UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
                     self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
                 }
-                // TODO: Remove API Call, instead use the token from payload. 
-//                self.refreshTwilioAccessTokenOnSilentPush()
                 
                 if let validAccessToken = userInfo["token"] as? String, validAccessToken.count > 0, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
                 {
-                    print("Valid Refresh Token: \(validAccessToken)")
-                    
                     TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
                     { (error) in
                         
@@ -784,23 +780,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                         if let error = error
                         {
                             NSLog("LOGIN: An error occurred while registering: \(error.localizedDescription)")
-//                            DispatchQueue.main.async
-//                            {
-//                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Token Update: An error occurred while registering for VoIP push notifications: \(error.localizedDescription)", style: .danger)
-//                                notificationBanner.show()
-//                            }
                         }
                         else
                         {
-                            self.sendNotification()
                             NSLog("LOGIN: Successfully registered for VoIP push notifications.")
-                            self.expiryDate = Date().addingTimeInterval(60*60*24)
                             StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
-//                            DispatchQueue.main.async
-//                            {
-//                                let notificationBanner = NotificationBanner(title: nil, subtitle: "Successfully registered for VoIP push notifications after Token Update", style: .danger)
-//                                notificationBanner.show()
-//                            }
                         }
                         
                         UIApplication.shared.endBackgroundTask(self.backgroundTaskID)
@@ -944,8 +928,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
         
         if let validAccessToken = userInfo["token"] as? String, validAccessToken.count > 0, let validDeviceData = UserDefaults.standard.data(forKey: kCachedDeviceToken)
         {
-            print("Valid Refresh Token: \(validAccessToken)")
-            
             TwilioVoice.register(accessToken: validAccessToken, deviceToken: validDeviceData)
             { (error) in
                 
@@ -959,7 +941,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PKPushRegistryDelegate, U
                 }
                 else
                 {
-//                    self.sendNotification()
                     StateManager.shared.loginViewModel.userProfile?.twillioToken = validAccessToken
                 }
                 
